@@ -1,0 +1,50 @@
+{
+  "base_model": "Qwen/Qwen3-8B-Base",
+  "base_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "baselines": [
+    "constant_0_5",
+    "market_probability",
+    "preperiod_base_rate_if_available"
+  ],
+  "checkpoint_selection": false,
+  "cost_metrics": [
+    "model_calls",
+    "input_tokens",
+    "output_tokens",
+    "wall_seconds",
+    "peak_allocated_bytes"
+  ],
+  "default_promotion": false,
+  "ece_bins": 10,
+  "independence_unit": "event_group_id",
+  "log_loss_epsilon": 1e-15,
+  "max_context_tokens": 2048,
+  "max_new_tokens": 384,
+  "max_repairs": 1,
+  "minimum_event_groups": 20,
+  "model_arms": {
+    "base": [],
+    "research_tool_v3": [
+      "research_tool_lora"
+    ]
+  },
+  "output_protocol": "grounded_json_v3",
+  "primary_comparison": "matched_common_coverage_within_each_model_arm",
+  "prompt_tuning": false,
+  "purpose": "heldout_replay",
+  "required_platforms": [
+    "foretellmesh_historical_polymarket",
+    "foretellmesh_historical_kalshi"
+  ],
+  "response_transport": "single_json_fence",
+  "reward_tuning": false,
+  "schema_version": "1",
+  "seed": 20260922,
+  "split_policy": "chronological_and_event_group_disjoint; freeze_before_generation",
+  "training": false,
+  "workflows": [
+    "single_forecast",
+    "research_forecast",
+    "reviewed_forecast"
+  ]
+}

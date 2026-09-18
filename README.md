@@ -12,7 +12,7 @@
 
 已准备 **432 条合成 SFT 预热样本，共 216 个事件组**，中英文表达共享事件，按组划分为 288 / 72 / 72 条；固定 Qwen tokenizer 检查通过，最长 815 token。仅用于格式、证据引用和明确概率任务，见 [SFT 数据说明](docs/sft_warmup.md)。
 
-真实数据路线以**已结算预测市场的历史回放**为主：已归档 **Polymarket 10 个合约 + Kalshi 22 个合约**，在两次 FOMC 会议前 7 天、前 1 天构建 **64 条观察**；结果与官方声明交叉核验，事前证据、历史报价与结果账本分离。精确结算标签已补齐至 **64/64**，Polymarket 规则更新核验已完成；Kalshi 历史规则、基准关联事件审核及教师答案仍待补齐，尚无可直接微调的真实 SFT 样本，见 [最新链上补证](docs/polygon_settlement_proofs.md) 与 [历史数据方案](docs/historical_prediction_markets.md)。
+真实数据路线以**已结算预测市场的历史回放**为主：已归档 **Polymarket 10 个合约 + Kalshi 22 个合约**，在两次 FOMC 会议前 7 天、前 1 天构建 **64 条观察**；结果与官方声明交叉核验，事前证据、历史报价与结果账本分离。精确结算标签已补齐至 **64/64**，Polymarket 规则更新核验已完成；现有样本的基准用途审核已完成，20 条 Polymarket 观察通过逐条回放检查；Kalshi 历史规则及教师答案仍待补齐，尚无可直接微调的真实 SFT 样本，见 [最新链上补证](docs/polygon_settlement_proofs.md) 与 [历史数据方案](docs/historical_prediction_markets.md)。
 
 另保留 Kalshi 42 个合约和 Polymarket 14 个合约的未结算前瞻快照、独立结算轮询和质量审计，用于未来检验，见 [前瞻采集说明](docs/prediction_market_dataset.md)。Prophet 核验流程保留，ForecastBench 继续仅供评估。
 
@@ -38,7 +38,9 @@
 
 已增加可选的 **Quant 缺参一致性校验**，只使用输入范围和工具事实提供一次修正机会。新 8 个数值组、128 次 GPU 对照中，两组首次输出均 **64/64 正确**、原始输出完全一致，没有触发修正，尚未测出校验的额外收益；峰值分配显存 15.80 GiB。校验默认关闭，详情见 [新情景对照报告](docs/tool_consistency_validation.md)。
 
-历史数据支持**用途分开的准入预检**和可离线重建的链上补证。10 个 Polymarket 合约已核对 UMA 报告→NegRisk 映射→最终 CTF 赔付，结算时间取最终赔付区块；规则历史核验明确记录区块浏览器和公开 RPC 的信任范围。缺教师答案只阻塞 SFT；跨基准关联事件、Kalshi 规则、独立事件数量等要求继续保留，64 条历史候选正式评分准入仍为 0。三条 Agent 流程的真实对照策略已版本化，见 [历史准入策略](docs/historical_replay_admission.md) 与 [本次补证报告](docs/polygon_settlement_proofs.md)。
+历史数据支持**用途分开的准入预检**和可离线重建的链上补证。10 个 Polymarket 合约已核对 UMA 报告→NegRisk 映射→最终 CTF 赔付，结算时间取最终赔付区块；规则历史核验明确记录区块浏览器和公开 RPC 的信任范围。缺教师答案只阻塞 SFT；现有 64 条已保留为评测用途，禁止训练与调参；Kalshi 规则、事件组覆盖等要求继续保留，正式评分准入仍为 0。三条 Agent 流程的真实对照策略已版本化，见 [历史准入策略](docs/historical_replay_admission.md) 与 [本次补证报告](docs/polygon_settlement_proofs.md)。
+
+真实评测扩充范围现已固定为 **24 次宏观发布**（FOMC / CPI / 美国失业率），归档 **192 个 Polymarket + 236 个 Kalshi 合约**。基准重合整组排除和异常旧合约隔离后，留下 **22 个事件组、408 个合约待补证**，不是已合格评测数据。目录保留缺失月份和日期冲突，见 [范围审核与候选目录](docs/macro_evaluation_scope.md)。
 
 ## 快速运行
 

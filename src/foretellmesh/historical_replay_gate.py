@@ -18,10 +18,11 @@ ARTIFACTS = {'candidates.jsonl', 'outcomes.jsonl', 'review_inputs.jsonl', 'evide
 
 
 def blockers(candidate, purpose):
-    if purpose not in ('sft', 'development_replay'):raise ValidationError('unsupported admission purpose')
+    if purpose not in ('sft', 'development_replay', 'heldout_replay'):raise ValidationError('unsupported admission purpose')
     record = parse_record(candidate['record'])
     reasons = set(candidate['blockers'])
-    if purpose == 'development_replay':reasons.discard('historical_teacher_target_missing')
+    if purpose in ('development_replay', 'heldout_replay'):reasons.discard('historical_teacher_target_missing')
+    if purpose == 'heldout_replay':reasons.discard('evaluation_only_reserved')
     # Re-derive critical checks even if a caller tampers with a ready flag.
     if record.label is None:reasons.add('exact_settlement_proof_missing')
     if record.forecast_input.market is None:reasons.add('historical_price_unusable')
@@ -48,20 +49,27 @@ def verify_staging(staging, capture, heldout_index):
     return report, [strict_json(s) for s in (staging/'candidates.jsonl').read_text().splitlines()]
 
 
-def preflight(staging, capture, heldout_index, config_path, chain_bundle=None):
+def preflight(staging, capture, heldout_index, config_path, chain_bundle=None, benchmark_review=None):
     config = strict_json(config_path.read_text())
-    if (config.get('schema_version') != '1' or config.get('purpose') != 'development_replay'
+    if (config.get('schema_version') != '1' or config.get('purpose') not in ('development_replay', 'heldout_replay')
             or type(config.get('minimum_event_groups')) is not int or config['minimum_event_groups'] < 2
             or config.get('training') is not False or config.get('default_promotion') is not False):
         raise ValidationError('invalid admission policy')
+    if config['purpose'] == 'heldout_replay' and (benchmark_review is None or any(
+            config.get(k) is not False for k in ('prompt_tuning', 'reward_tuning', 'checkpoint_selection'))):
+        raise ValidationError('heldout replay requires frozen review and no tuning policy')
     report, candidates = verify_staging(staging, capture, heldout_index)
     chain_audit = None
     if chain_bundle is not None:
         from .historical_chain_supplement import apply_bundle
         candidates, chain_audit = apply_bundle(staging, capture, candidates, chain_bundle)
+    semantic_audit = None
+    if benchmark_review is not None:
+        from .benchmark_review import apply_review
+        candidates, semantic_audit = apply_review(candidates, capture, heldout_index, benchmark_review)
     decisions = [{'sample_id': c['record']['sample_id'], 'event_group_id': c['record']['event_group_id'],
                   'platform': c['record']['dataset_source'],
-                  'replay_blockers': blockers(c, 'development_replay'), 'sft_blockers': blockers(c, 'sft')}
+                  'replay_blockers': blockers(c, config['purpose']), 'sft_blockers': blockers(c, 'sft')}
                  for c in candidates]
     eligible = [d for d in decisions if not d['replay_blockers']]
     groups = {d['event_group_id'] for d in eligible}; platforms = {d['platform'] for d in eligible}
@@ -72,8 +80,9 @@ def preflight(staging, capture, heldout_index, config_path, chain_bundle=None):
     cohort_blockers.append('chronological_split_and_checkpoint_manifest_not_frozen')
     return {'schema_version': '1', 'kind': 'historical_replay_admission', 'status': 'not_admitted',
             'staging_report_sha256': sha256_file(staging/'report.json'),
-            'dataset_version': chain_audit['dataset_version'] if chain_audit else report['dataset_version'],
+            'dataset_version': semantic_audit['dataset_version'] if semantic_audit else chain_audit['dataset_version'] if chain_audit else report['dataset_version'],
             'chain_supplement': chain_audit,
+            'benchmark_review': semantic_audit,
             'exact_settled_rows': sum(c['record']['label'] is not None for c in candidates),
             'evaluation_policy': config, 'policy_sha256': sha256_file(config_path),
             'candidate_rows': len(candidates), 'candidate_event_groups': len({d['event_group_id'] for d in decisions}),
@@ -92,9 +101,10 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     for name in ('staging', 'capture', 'heldout-index', 'config', 'output'):p.add_argument('--'+name, type=Path, required=True)
     p.add_argument('--chain-bundle', type=Path)
+    p.add_argument('--benchmark-review', type=Path)
     a = p.parse_args()
     if a.output.exists():raise ValidationError('admission report exists')
-    r = preflight(a.staging, a.capture, a.heldout_index, a.config, a.chain_bundle)
+    r = preflight(a.staging, a.capture, a.heldout_index, a.config, a.chain_bundle, a.benchmark_review)
     a.output.parent.mkdir(parents=True, exist_ok=True); a.output.write_text(json_text(r))
     print(json_text({k: r[k] for k in ('status', 'candidate_rows', 'eligible_replay_rows', 'eligible_sft_rows', 'cohort_blockers')}))
 

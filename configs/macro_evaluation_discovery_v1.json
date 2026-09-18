@@ -1,0 +1,438 @@
+{
+  "checkpoint_selection": false,
+  "groups": [
+    {
+      "calendar_reference_time": "2026-01-09T13:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2025-12",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2025-12",
+      "polymarket_event_ids": [
+        "106812"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-01-13T13:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2025-12",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-25DEC"
+      ],
+      "period": "2025-12",
+      "polymarket_event_ids": [
+        "97909"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-01-28T19:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-01",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26JAN"
+      ],
+      "period": "2026-01",
+      "polymarket_event_ids": [
+        "45883"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    },
+    {
+      "calendar_reference_time": "2026-02-11T13:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-01",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-01",
+      "polymarket_event_ids": [
+        "153669"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-02-13T13:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-01",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26JAN"
+      ],
+      "period": "2026-01",
+      "polymarket_event_ids": [
+        "111050",
+        "164580"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-03-06T13:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-02",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-02",
+      "polymarket_event_ids": [],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-03-11T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-02",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26FEB"
+      ],
+      "period": "2026-02",
+      "polymarket_event_ids": [],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-03-18T18:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-03",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26MAR"
+      ],
+      "period": "2026-03",
+      "polymarket_event_ids": [
+        "67284"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    },
+    {
+      "calendar_reference_time": "2026-04-03T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-03",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-03",
+      "polymarket_event_ids": [
+        "208207"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-04-10T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-03",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26MAR"
+      ],
+      "period": "2026-03",
+      "polymarket_event_ids": [
+        "208170",
+        "261155"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-04-29T18:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-04",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26APR"
+      ],
+      "period": "2026-04",
+      "polymarket_event_ids": [
+        "75478"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    },
+    {
+      "calendar_reference_time": "2026-05-08T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-04",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-04",
+      "polymarket_event_ids": [
+        "339954"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-05-12T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-04",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26APR"
+      ],
+      "period": "2026-04",
+      "polymarket_event_ids": [
+        "364599"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-06-05T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-05",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-05",
+      "polymarket_event_ids": [
+        "462423"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-06-10T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-05",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26MAY"
+      ],
+      "period": "2026-05",
+      "polymarket_event_ids": [
+        "477999"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-06-17T18:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-06",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26JUN"
+      ],
+      "period": "2026-06",
+      "polymarket_event_ids": [
+        "101772"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    },
+    {
+      "calendar_reference_time": "2026-07-02T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-06",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-06",
+      "polymarket_event_ids": [
+        "562383"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-07-14T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-06",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26JUN"
+      ],
+      "period": "2026-06",
+      "polymarket_event_ids": [
+        "580294"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-07-29T18:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-07",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26JUL"
+      ],
+      "period": "2026-07",
+      "polymarket_event_ids": [
+        "287395"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    },
+    {
+      "calendar_reference_time": "2026-08-07T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-07",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-07",
+      "polymarket_event_ids": [
+        "660461"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-08-12T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-07",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26JUL"
+      ],
+      "period": "2026-07",
+      "polymarket_event_ids": [
+        "703573"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-09-04T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:unemployment_u3:2026-08",
+      "family": "unemployment_u3",
+      "kalshi_event_tickers": [],
+      "period": "2026-08",
+      "polymarket_event_ids": [
+        "811515"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-09-11T12:30:00Z",
+      "calendar_source_url": "https://www.bls.gov/schedule/2026/home.htm",
+      "event_group_id": "macro:us:cpi_yoy:2026-08",
+      "family": "cpi_yoy",
+      "kalshi_event_tickers": [
+        "KXCPIYOY-26AUG"
+      ],
+      "period": "2026-08",
+      "polymarket_event_ids": [
+        "838710"
+      ],
+      "scope_rationale": "All releases in this family within the fixed January-September 2026 calendar window. All discovered bracket events for the same period share this group."
+    },
+    {
+      "calendar_reference_time": "2026-09-16T18:00:00Z",
+      "calendar_source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "event_group_id": "macro:us:fomc:2026-09",
+      "family": "fomc",
+      "kalshi_event_tickers": [
+        "KXFED-26SEP"
+      ],
+      "period": "2026-09",
+      "polymarket_event_ids": [
+        "432066",
+        "481717"
+      ],
+      "scope_rationale": "All scheduled FOMC decisions within the fixed January-September 2026 window. Duplicate event listings retained for quarantine, never counted as separate releases."
+    }
+  ],
+  "observation_days_before": [
+    7,
+    1
+  ],
+  "prompt_tuning": false,
+  "purpose": "evaluation_discovery",
+  "reward_tuning": false,
+  "schema_version": "1",
+  "scope_cutoff": "2026-09-19T00:00:00Z",
+  "scope_id": "us_macro_2026_jan_sep_evaluation_discovery_v1",
+  "search_limitations": [
+    "Gamma public-search closed filter returned future/open events; this scope uses explicit reviewed identities.",
+    "Unemployment search pages had differing filter parameters and do not establish exhaustive pagination.",
+    "February 2026 CPI and US unemployment Polymarket events were not found in bounded queries; missing slots retained.",
+    "Kalshi KXUE is international unemployment, not a verified US U-3 mapping. No speculative US ticker admitted.",
+    "Current official calendar is discovery context, not historical availability proof. Dated first-release evidence is required before any evaluation."
+  ],
+  "selection_policy": "Fixed release calendar before any model generation; historical market availability and quality are reported, never selected by model scores or winning outcomes.",
+  "source_refs": [
+    {
+      "capture_method": "web_tool_extracted_text",
+      "path": "data/raw/bls_calendar_text_20260919_v1/calendar.json",
+      "sha256": "fe6df26821a56161cd656d307818f5fdfd62e4afc7375f1873bd46001f208140",
+      "url": "https://www.bls.gov/schedule/2026/home.htm",
+      "use": "discovery_calendar_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v1/000.bin",
+      "retrieved_at": "2026-09-18T16:44:16.686586+00:00",
+      "sha256": "c3ba416623602dfdc0f9bafe484f7682d1c198dc0c8e07e720686483ed84ffa9",
+      "url": "https://gamma-api.polymarket.com/public-search?q=Fed+decision&events_status=closed&limit_per_type=50&page=1&keep_closed_markets=1&search_profiles=false&search_tags=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v1/001.bin",
+      "retrieved_at": "2026-09-18T16:44:20.045585+00:00",
+      "sha256": "9eb512b9cbc27220b99ccade64a69c4c3f44c8cbbd043a765a434dd1f63128aa",
+      "url": "https://gamma-api.polymarket.com/public-search?q=inflation&events_status=closed&limit_per_type=50&page=1&keep_closed_markets=1&search_profiles=false&search_tags=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v1/002.bin",
+      "retrieved_at": "2026-09-18T16:44:22.590372+00:00",
+      "sha256": "a95acf5ba7c0661051e335bd9a8a5bdbdda70817fc7d9d3a281f077b7dd11a3a",
+      "url": "https://gamma-api.polymarket.com/public-search?q=unemployment&events_status=closed&limit_per_type=50&page=1&keep_closed_markets=1&search_profiles=false&search_tags=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v1/004.bin",
+      "retrieved_at": "2026-09-18T16:44:23.807150+00:00",
+      "sha256": "b2892227e096de20c03f2083324dd75489227ddc607b7a7cd200946eeda62fc1",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v2/000.bin",
+      "retrieved_at": "2026-09-18T16:46:18.515875+00:00",
+      "sha256": "8d8860c8ed6f60b95cd01618a48e309dcddf4ced13dccbebc6c1d6d279fb56f3",
+      "url": "https://gamma-api.polymarket.com/public-search?q=Inflation+US+-+Annual&limit_per_type=50&page=1&keep_closed_markets=1&search_profiles=false&search_tags=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_discovery_probe_20260919_v2/001.bin",
+      "retrieved_at": "2026-09-18T16:46:21.947367+00:00",
+      "sha256": "b54f69f8e6bbf569a1efecdd9b58efd18d6b79fb5885dc94ae60f956394beabb",
+      "url": "https://gamma-api.polymarket.com/public-search?q=unemployment&limit_per_type=50&page=2&keep_closed_markets=1&search_profiles=false&search_tags=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_conflict_probe_20260919_v1/003.bin",
+      "retrieved_at": "2026-09-18T16:48:38.122927+00:00",
+      "sha256": "009f83d632fd210cd3e09c3d65f4f8d012a0e14e15a10129d4bccc7a78f716b6",
+      "url": "https://gamma-api.polymarket.com/public-search?q=February+Inflation+US+Annual&limit_per_type=50&page=1&keep_closed_markets=1",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/macro_conflict_probe_20260919_v1/004.bin",
+      "retrieved_at": "2026-09-18T16:48:39.383716+00:00",
+      "sha256": "f577a9374a4df579bff72c3c98c3ee4bfa44c71740162f554ac358215a1f73f0",
+      "url": "https://gamma-api.polymarket.com/public-search?q=February+Unemployment+Rate&limit_per_type=50&page=1&keep_closed_markets=1",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/kalshi_macro_discovery_20260919_v1/000.bin",
+      "retrieved_at": "2026-09-18T16:49:39.347885+00:00",
+      "sha256": "8a61874c5bf94382a771a0c6b5451941af13629ad4cf87b7c5114dc42fd0dab2",
+      "url": "https://external-api.kalshi.com/trade-api/v2/events?series_ticker=KXFED&limit=200&with_nested_markets=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/kalshi_macro_discovery_20260919_v1/001.bin",
+      "retrieved_at": "2026-09-18T16:49:41.075429+00:00",
+      "sha256": "c798c47fcf90229a76f44a776e6b357fdc83f108abb446b2916044e3057b2426",
+      "url": "https://external-api.kalshi.com/trade-api/v2/events?series_ticker=KXCPIYOY&limit=200&with_nested_markets=false",
+      "use": "bounded_search_only"
+    },
+    {
+      "capture_method": "http_raw",
+      "path": "data/raw/kalshi_macro_discovery_20260919_v1/002.bin",
+      "retrieved_at": "2026-09-18T16:49:42.592978+00:00",
+      "sha256": "c6112d8979230b813fa87470728906431c329a9904a47944d7b9f52b63575594",
+      "url": "https://external-api.kalshi.com/trade-api/v2/events?series_ticker=KXUE&limit=200&with_nested_markets=false",
+      "use": "bounded_search_only"
+    }
+  ],
+  "training": false
+}
