@@ -245,6 +245,9 @@ def build_research_tool_data(raw_dataset: Path, split_config: Path, config_path:
 
 def read_research_tool_data(path: Path) -> tuple[dict, dict, dict]:
     manifest = strict_json((path / 'manifest.json').read_text())
+    if manifest.get('dataset_version') == 'synthetic_research_tool_v3':
+        from .research_tool_counterfactual import read_counterfactual_data
+        return read_counterfactual_data(path)
     if manifest.get('dataset_version') == 'synthetic_research_tool_v2':
         from .research_tool_augmentation import read_augmented_data
         return read_augmented_data(path)

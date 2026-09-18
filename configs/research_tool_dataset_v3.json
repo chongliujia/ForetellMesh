@@ -1,0 +1,14 @@
+{
+  "schema_version": "1",
+  "dataset_version": "synthetic_research_tool_v3",
+  "output_protocol": "grounded_json_v3",
+  "seed": 20260921,
+  "groups_per_family": {"train": 8, "validation": 3, "test": 3},
+  "observation_times": {"train": "2024-01-15T00:00:00Z", "validation": "2024-02-15T00:00:00Z", "test": "2024-03-15T00:00:00Z"},
+  "languages": ["en", "zh"],
+  "roles": ["research", "risk"],
+  "scopes": ["calculation", "forecast"],
+  "formats": ["field_names", "aliases"],
+  "evaluation_selection": "unchanged_legacy_v1_role_cohort",
+  "synthetic_only": true
+}
