@@ -1,0 +1,90 @@
+{
+  "schema_version": "1",
+  "sources": {
+    "prophet_arena": {
+      "revision": "c94b6f450d7fe3b03688799cce1c8b29838b5d96",
+      "revision_kind": "dataset",
+      "role": "train_eval",
+      "homepage": "https://huggingface.co/datasets/prophetarena/Prophet-Arena-Subset-1200",
+      "license": "MIT (dataset card declaration)",
+      "artifacts": {
+        "subset_data_1200.csv": {
+          "url": "https://huggingface.co/datasets/prophetarena/Prophet-Arena-Subset-1200/resolve/c94b6f450d7fe3b03688799cce1c8b29838b5d96/subset_data_1200.csv",
+          "sha256": "1e34a5970e515cd06a2e57a955074561308cb8734c8c5712adb1452b977b3984",
+          "max_bytes": 12000000,
+          "purpose": "data"
+        },
+        "README.md": {
+          "url": "https://huggingface.co/datasets/prophetarena/Prophet-Arena-Subset-1200/resolve/c94b6f450d7fe3b03688799cce1c8b29838b5d96/README.md",
+          "sha256": "0d4466405999daebfa7c7c6256234141afb939512c83287e600f8ca7044cb4ef",
+          "max_bytes": 1000000,
+          "purpose": "dataset_card"
+        }
+      },
+      "notes": [
+        "No per-evidence publication timestamps or reliable label resolution/availability timestamps in the CSV.",
+        "Use original title and per-market contract; augmented titles and summaries remain outside model inputs."
+      ]
+    },
+    "forecastbench": {
+      "revision": "a11ac3a9ba8812cdedab2b79ab3181a9c0825d62",
+      "revision_kind": "dataset",
+      "role": "eval_only",
+      "homepage": "https://www.forecastbench.org/datasets/",
+      "license": "CC-BY-SA-4.0",
+      "question_set": "2026-01-04-llm.json",
+      "artifacts": {
+        "2026-01-04-llm.json": {
+          "url": "https://huggingface.co/datasets/forecastingresearch/forecastbench-datasets/resolve/a11ac3a9ba8812cdedab2b79ab3181a9c0825d62/datasets/question_sets/2026-01-04-llm.json",
+          "sha256": "6e2a23bdb27d3449e80752e82db4d37ae74680145c188033ff5ae9b1a02de5e1",
+          "max_bytes": 4000000,
+          "purpose": "questions"
+        },
+        "2026-01-04_resolution_set.json": {
+          "url": "https://huggingface.co/datasets/forecastingresearch/forecastbench-datasets/resolve/a11ac3a9ba8812cdedab2b79ab3181a9c0825d62/datasets/resolution_sets/2026-01-04_resolution_set.json",
+          "sha256": "6a2f0466af6e95f4d66d93e9f890531c6fbabcf8c94c9e2de80b6b0e050762d6",
+          "max_bytes": 1000000,
+          "purpose": "resolutions"
+        },
+        "LICENSE": {
+          "url": "https://huggingface.co/datasets/forecastingresearch/forecastbench-datasets/resolve/a11ac3a9ba8812cdedab2b79ab3181a9c0825d62/LICENSE",
+          "sha256": "7e144fefee688a9c67f7764629391127fe5955aee969135ef811df7cd9fd18ba",
+          "max_bytes": 1000000,
+          "purpose": "license"
+        }
+      },
+      "notes": [
+        "Question/resolution identifiers must be joined using source, id, and horizon.",
+        "resolved=false values are reference forecasts, not outcome labels.",
+        "Date-only resolution fields do not establish exact label availability."
+      ]
+    },
+    "prediction_market_analysis": {
+      "revision": "2276382cb616107db8c8647803bffa4a0d7091f8",
+      "revision_kind": "code_and_schema_only",
+      "role": "train_eval",
+      "homepage": "https://github.com/Jon-Becker/prediction-market-analysis",
+      "license": "MIT (upstream repository)",
+      "data_status": "full archive not downloaded; local Kalshi metadata Parquet shard supported",
+      "artifacts": {
+        "SCHEMAS.md": {
+          "url": "https://raw.githubusercontent.com/Jon-Becker/prediction-market-analysis/2276382cb616107db8c8647803bffa4a0d7091f8/docs/SCHEMAS.md",
+          "sha256": "5e2746fe38c0e2e871fe0806bb5ac49af409cb4387fb5f09e2e12fd07ec6547a",
+          "max_bytes": 1000000,
+          "purpose": "schema"
+        },
+        "LICENSE": {
+          "url": "https://raw.githubusercontent.com/Jon-Becker/prediction-market-analysis/2276382cb616107db8c8647803bffa4a0d7091f8/LICENSE",
+          "sha256": "a69ab694cc5a08793bc36673976a4bd97ef37a26786cd94a14072268550338f5",
+          "max_bytes": 1000000,
+          "purpose": "license"
+        }
+      },
+      "notes": [
+        "The upstream code commit is not a version of the independently hosted data archive.",
+        "Local Parquet dataset versions are content SHA-256 hashes.",
+        "No Polymarket token/block reconstruction or autonomous trading execution."
+      ]
+    }
+  }
+}

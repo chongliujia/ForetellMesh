@@ -1,0 +1,10 @@
+{
+  "schema_version": "1",
+  "dataset_version": "synthetic_research_tool_v2",
+  "output_protocol": "grounded_json_v3",
+  "math_groups_per_family": {"train": 4, "validation": 2, "test": 2},
+  "parameter_audit_groups_per_family": {"train": 2, "validation": 1, "test": 1},
+  "selection": "lexicographically_first_source_groups_with_inherited_splits",
+  "evaluation_selection": "unchanged_legacy_v1_role_cohort",
+  "synthetic_only": true
+}

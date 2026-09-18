@@ -1,0 +1,18 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3-8b_base_agent_behavior_validation_v2",
+  "source_partition": "validation",
+  "groups_per_family": 1,
+  "workflows": ["single_forecast", "research_forecast", "reviewed_forecast"],
+  "tool_families": ["mixture", "bayes_signal"],
+  "max_context_tokens": 2048,
+  "max_new_tokens": 384,
+  "seed": 20260918,
+  "probability_tolerance": 0.000001,
+  "ece_bins": 5,
+  "log_loss_epsilon": 1e-15,
+  "selection": "lexicographically_first_event_groups_per_family_both_languages",
+  "mode": "base",
+  "purpose": "synthetic_validation_diagnostic_not_real_forecasting_benchmark",
+  "output_protocol": "plain_json_v1"
+}

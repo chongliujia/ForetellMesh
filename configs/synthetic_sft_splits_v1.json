@@ -1,0 +1,12 @@
+{
+  "run_name": "synthetic_forecast_sft_warmup_v1",
+  "split_version": "synthetic_sft_time_group_v1",
+  "validation_start": "2024-02-01T00:00:00Z",
+  "test_start": "2024-03-01T00:00:00Z",
+  "evaluation_as_of": "2024-04-01T00:00:00Z",
+  "ece_bins": 5,
+  "log_loss_epsilon": 1e-15,
+  "sources": {
+    "synthetic_forecast_warmup": {"version": "synthetic_forecast_warmup_v1", "role": "train_eval", "synthetic": true}
+  }
+}

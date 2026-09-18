@@ -1,0 +1,91 @@
+{
+  "artifacts": {
+    "label_commit.json": {
+      "market_id": null,
+      "max_bytes": 100000,
+      "purpose": "label_commit",
+      "sha256": "4089bfe920ff7d7544d04c8a29ad1b8478d96eb28a63d42f46790e809e7b8f86",
+      "url": "https://huggingface.co/api/datasets/forecastingresearch/forecastbench-datasets/commits/a11ac3a9ba8812cdedab2b79ab3181a9c0825d62?limit=1"
+    },
+    "manifold_Lzdc89CSzq.json": {
+      "market_id": "Lzdc89CSzq",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "9dbcb399d09977ad4625e3911fb42ff0b7f75dc30b9640a771e0a1d1dd316060",
+      "url": "https://api.manifold.markets/v0/market/Lzdc89CSzq"
+    },
+    "manifold_QHFQmCmz8HplpN2QQnl2.json": {
+      "market_id": "QHFQmCmz8HplpN2QQnl2",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "f3240c7ce16ca9d79f1d049fa5ca7edeff89bc14d23cc6f9525d6077cfef7e4a",
+      "url": "https://api.manifold.markets/v0/market/QHFQmCmz8HplpN2QQnl2"
+    },
+    "manifold_f2i3zt28mm.json": {
+      "market_id": "f2i3zt28mm",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "c9b838c4dc1e4f9082e21bddeebec78275d485fb357252c7a5e3f0432817c45d",
+      "url": "https://api.manifold.markets/v0/market/f2i3zt28mm"
+    },
+    "manifold_lgxNmHNmrYvowjnSyQAM.json": {
+      "market_id": "lgxNmHNmrYvowjnSyQAM",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "49b50a1030c3b1760032a710d1cca26e5d11df7d17a5b14eeeafd99509bd4d93",
+      "url": "https://api.manifold.markets/v0/market/lgxNmHNmrYvowjnSyQAM"
+    },
+    "manifold_shjGGdUWayk0YI1n8Z7A.json": {
+      "market_id": "shjGGdUWayk0YI1n8Z7A",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "a7ccf1a5920a0f88d3735085016b5ab8dee1e1aaba5b7dcf301cd6c5d7bfc177",
+      "url": "https://api.manifold.markets/v0/market/shjGGdUWayk0YI1n8Z7A"
+    },
+    "manifold_tIylsIZu95.json": {
+      "market_id": "tIylsIZu95",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "e5b274ea3cd91497936e9102bdfeee895c196f807465af23f68ad2a77fe6ea20",
+      "url": "https://api.manifold.markets/v0/market/tIylsIZu95"
+    },
+    "manifold_yTCCaTUbAtJWWFo1dGzD.json": {
+      "market_id": "yTCCaTUbAtJWWFo1dGzD",
+      "max_bytes": 100000,
+      "purpose": "market_resolution",
+      "sha256": "320483ac989e1f7dda3bda2cd9e3977d3a78fb8f5bc9c328bbf6b61dab5a53e9",
+      "url": "https://api.manifold.markets/v0/market/yTCCaTUbAtJWWFo1dGzD"
+    },
+    "question_commit.json": {
+      "market_id": null,
+      "max_bytes": 100000,
+      "purpose": "question_commit",
+      "sha256": "a368c6bc35e8396f4790b064f3bb3e78e25848e7668752549fe08e79d58e5690",
+      "url": "https://huggingface.co/api/datasets/forecastingresearch/forecastbench-datasets/commits/f5dd46a24eb7a1e58c4d04715385aaf869088d0d?limit=1"
+    },
+    "question_release.json": {
+      "market_id": null,
+      "max_bytes": 2000000,
+      "purpose": "question_snapshot",
+      "sha256": "6e2a23bdb27d3449e80752e82db4d37ae74680145c188033ff5ae9b1a02de5e1",
+      "url": "https://huggingface.co/datasets/forecastingresearch/forecastbench-datasets/resolve/f5dd46a24eb7a1e58c4d04715385aaf869088d0d/datasets/question_sets/2026-01-04-llm.json"
+    }
+  },
+  "cohort": "all_manifold_questions_in_round",
+  "event_groups": {
+    "Lzdc89CSzq": "event:alex-honnold-taipei101-2026",
+    "QHFQmCmz8HplpN2QQnl2": "event:fifa-world-cup-2026",
+    "f2i3zt28mm": "event:us-two-negative-gdp-quarters-2025",
+    "lgxNmHNmrYvowjnSyQAM": "event:fifa-world-cup-2026",
+    "shjGGdUWayk0YI1n8Z7A": "event:monopoly-film-release-2026",
+    "tIylsIZu95": "event:elon-musk-trillionaire",
+    "yTCCaTUbAtJWWFo1dGzD": "event:fifa-world-cup-2026"
+  },
+  "grouping_notes": "All 74 Manifold questions form the audit cohort. All 7 binary resolved candidates receive platform checks before scores are calculated. England, Messi participation, and finalist-region contracts share the FIFA World Cup 2026 event group. Recession, Taipei 101 climb, Monopoly film, and Musk wealth questions form separate topic groups. This is a local cohort review, not global cross-dataset semantic deduplication. No record enters training.",
+  "label_publication_time": "2026-09-17T06:41:31Z",
+  "observation_time": "2026-01-04T23:59:59Z",
+  "question_publication_time": "2026-01-04T00:05:20Z",
+  "question_release_revision": "f5dd46a24eb7a1e58c4d04715385aaf869088d0d",
+  "schema_version": "1",
+  "source_revision": "a11ac3a9ba8812cdedab2b79ab3181a9c0825d62"
+}

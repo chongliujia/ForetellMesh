@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3-8b_research-tool-lora_validation_v1",
+  "capability": "research_tool_lora",
+  "partition": "validation",
+  "arms": ["base", "candidate"],
+  "role_evaluation": "one_response_per_frozen_task_including_feedback_variants",
+  "system_workflow": "reviewed_forecast",
+  "output_protocol": "plain_json_v1",
+  "response_transport": "single_json_fence",
+  "max_context_tokens": 2048,
+  "max_new_tokens": 384,
+  "seed": 20260919,
+  "default_promotion": false
+}

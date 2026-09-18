@@ -1,0 +1,21 @@
+{
+  "schema_version": "1",
+  "version": "macro_event_groups_20260918_v1",
+  "groups": [
+    {
+      "event_group_id": "macro:us:fomc:2026-10",
+      "native_event_groups": ["kalshi:KXFED-26OCT", "polymarket:606422"],
+      "rationale": "October 2026 FOMC decision: Kalshi interest-rate level and Polymarket rate change share the same underlying meeting. Keep in one split; preserve distinct contracts and outcomes."
+    },
+    {
+      "event_group_id": "macro:us:cpi:2026-09",
+      "native_event_groups": ["kalshi:KXCPIYOY-26SEP", "polymarket:1005014"],
+      "rationale": "US September 2026 CPI release: Kalshi year-over-year and Polymarket month-over-month measures share the same statistical release. They are correlated questions, not equivalent contracts."
+    },
+    {
+      "event_group_id": "macro:au:unemployment:2026-08",
+      "native_event_groups": ["kalshi:KXUE-AUS26AUG"],
+      "rationale": "Australia August 2026 unemployment release. Release-calendar timing still requires verification before admitting historical forecasts."
+    }
+  ]
+}

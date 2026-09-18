@@ -1,0 +1,18 @@
+{
+  "schema_version": "1",
+  "kind": "scripted_agent_test_only",
+  "input": {
+    "question": "Will this synthetic fair coin land heads?",
+    "observation_time": "2024-01-10T00:00:00Z",
+    "evidence": [
+      {"evidence_id": "setup", "text": "This is a synthetic task: the coin is fair and will be tossed after the observation time.", "source": "synthetic://fair-coin", "published_at": "2024-01-09T00:00:00Z", "available_at": "2024-01-09T00:00:00Z"}
+    ],
+    "market": null
+  },
+  "responses": {
+    "research": [{"evidence_ids": ["setup"], "counter_evidence_ids": [], "unknowns": ["The future toss result is unknown."], "observation_time": "2024-01-10T00:00:00Z"}],
+    "risk": [{"risks": [{"scenario": "A single fair toss remains uncertain.", "evidence_ids": ["setup"]}], "unknowns": ["The future toss result is unknown."], "observation_time": "2024-01-10T00:00:00Z"}],
+    "forecast": [{"event": "Will this synthetic fair coin land heads?", "probability": 0.5, "confidence": "high", "base_rate": 0.5, "key_evidence": ["setup"], "counter_evidence": [], "unknowns": ["The future toss result is unknown."], "observation_time": "2024-01-10T00:00:00Z"}],
+    "critic": [{"accept": true, "revised_probability": null, "rationale": "The declared fair-coin setup supports 0.5; no revision is justified.", "evidence_ids": ["setup"], "unknowns": [], "observation_time": "2024-01-10T00:00:00Z"}]
+  }
+}

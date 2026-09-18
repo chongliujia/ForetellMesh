@@ -1,0 +1,17 @@
+{
+  "run_name": "forecastbench_manifold_provenance_smoke_v1",
+  "split_version": "forecastbench_2026-01-04_manifold_verified_v1",
+  "validation_start": "2026-01-01T00:00:00Z",
+  "test_start": "2026-01-04T00:00:00Z",
+  "evaluation_as_of": "2026-09-17T06:41:31Z",
+  "ece_bins": 5,
+  "log_loss_epsilon": 1e-15,
+  "baselines": ["constant_0_5", "market"],
+  "sources": {
+    "forecastbench": {
+      "version": "a11ac3a9ba8812cdedab2b79ab3181a9c0825d62",
+      "role": "eval_only",
+      "synthetic": false
+    }
+  }
+}

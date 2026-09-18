@@ -1,0 +1,16 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3-8b_research-tool-lora_three-arm-validation_v3",
+  "capability": "research_tool_lora",
+  "partition": "validation",
+  "arms": ["base", "previous", "candidate"],
+  "role_evaluation": "one_response_per_frozen_task_including_feedback_variants",
+  "system_workflow": "reviewed_forecast",
+  "output_protocol": "grounded_json_v3",
+  "response_transport": "single_json_fence",
+  "uncertainty_protocols": ["grounded_json_v3"],
+  "max_context_tokens": 2048,
+  "max_new_tokens": 384,
+  "seed": 20260919,
+  "default_promotion": false
+}

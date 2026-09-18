@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "dataset_version": "synthetic_uncertainty_diagnostic_v1",
+  "partition": "validation",
+  "observation_time": "2024-02-20T00:00:00Z",
+  "languages": ["en", "zh"],
+  "roles": ["research", "risk"],
+  "mixture": {"high": 0.87, "low": 0.19, "weight": 0.63},
+  "bayes": {"prior": 0.27, "sensitivity": 0.82, "false_positive_rate": 0.14},
+  "complement": {"hit_probability": 0.34},
+  "sampling": {"successes": 17, "trials": 43, "population_probability": 0.41},
+  "synthetic_only": true
+}

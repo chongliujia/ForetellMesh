@@ -1,0 +1,47 @@
+{
+  "schema_version": "1",
+  "kind": "experiment_plan_not_training_run",
+  "base_model": "Qwen/Qwen3-8B-Base",
+  "base_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "capability_config": "configs/capability_agents_v1.json",
+  "training_policy": {
+    "train_one_adapter_at_a_time": true,
+    "freeze_base_and_other_adapters": true,
+    "real_event_sft_required": false,
+    "behavior_readiness_required_before_rl": true,
+    "raw_base_production_rl_allowed": false,
+    "initial_local_method": "bf16_lora",
+    "qlora_fallback_requires_new_resource_measurement": true,
+    "initial_max_sequence_length": 1024,
+    "initial_micro_batch_size": 1,
+    "rl_memory_feasibility": "unmeasured",
+    "market_probability_is_target": false,
+    "realized_outcome_is_sft_probability_target": false
+  },
+  "stages": [
+    {"name": "base_behavior_and_forecast_baseline", "train_adapter": null, "purpose": "Measure schema/tool validity and forecast quality before training."},
+    {"name": "research_tool_capability", "train_adapter": "research_tool_lora", "purpose": "Use verifiable tool tasks and reviewed temporal evidence tasks. Optional small behavior SFT if needed; source IDs alone do not prove factual correctness."},
+    {"name": "forecast_capability", "train_adapter": "forecast_lora", "purpose": "Start from a behavior-validated adapter; use held-in resolved event groups and binary_brier_v1 reward. Freeze upstream research/tool behavior during the first RL experiment."},
+    {"name": "critic_ablation", "train_adapter": null, "purpose": "Test whether the critic improves final scores before creating a risk or calibration adapter."}
+  ],
+  "ablations": [
+    {"name": "single_agent_base", "workflow": "single_forecast", "mode": "base"},
+    {"name": "multi_agent_base", "workflow": "research_forecast", "mode": "base"},
+    {"name": "single_agent_forecast_lora", "workflow": "single_forecast", "mode": "capability"},
+    {"name": "multi_agent_capability_loras", "workflow": "research_forecast", "mode": "capability"},
+    {"name": "multi_agent_capability_loras_with_critic", "workflow": "reviewed_forecast", "mode": "capability"}
+  ],
+  "evaluation_policy": {
+    "same_event_cohort_and_input_snapshots": true,
+    "time_and_cross_platform_event_group_split": true,
+    "forecastbench_training_allowed": false,
+    "final_holdout_used_for_tuning": false,
+    "primary_metrics": ["brier", "log_loss", "ece", "coverage"],
+    "behavior_metrics": ["format_validity", "tool_call_validity", "evidence_groundedness", "temporal_violations"],
+    "resource_metrics": ["total_model_calls", "input_tokens", "output_tokens", "latency", "peak_vram", "tokens_per_second"],
+    "baselines": ["constant_0_5", "training_base_rate", "market_at_observation", "previous_checkpoint"],
+    "comparisons": ["equal_per_request_budget", "matched_total_token_budget"],
+    "report_before_and_after_critic": true,
+    "historical_model_knowledge_contamination": "unresolved; retain prospective evaluation"
+  }
+}

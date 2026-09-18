@@ -1,0 +1,12 @@
+{
+  "schema_version": "1",
+  "dataset_version": "synthetic_research_tool_v1",
+  "seed": 20260919,
+  "output_protocol": "plain_json_v1",
+  "tool_families": ["mixture", "bayes_signal"],
+  "evidence_groups": {"train": 24, "validation": 6, "test": 6},
+  "observation_times": {"train": "2024-01-15T00:00:00Z", "validation": "2024-02-15T00:00:00Z", "test": "2024-03-15T00:00:00Z"},
+  "languages": ["en", "zh"],
+  "evaluation_groups_per_family": 2,
+  "synthetic_only": true
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1",
+  "dataset_name": "historical_fomc_pilot_v1",
+  "max_markets_per_platform_event": 40,
+  "max_price_pages": 3,
+  "price_window_hours": 6,
+  "max_price_age_seconds": 10800,
+  "polymarket_bucket_seconds": 1800,
+  "kalshi_period_minutes": 60,
+  "observation_days_before_release": [7, 1],
+  "cohort_policy": "All binary contracts returned in the two predeclared native event pairs; retain failures in audit. Development pilot only, not a representative benchmark.",
+  "events": [
+    {
+      "event_group_id": "macro:us:fomc:2026-07",
+      "polymarket_event_id": "287395",
+      "kalshi_event_ticker": "KXFED-26JUL",
+      "release_time": "2026-07-29T18:00:00Z",
+      "result_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm",
+      "evidence": [
+        {"url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617a.htm", "published_at": "2026-06-17T18:00:00Z"}
+      ]
+    },
+    {
+      "event_group_id": "macro:us:fomc:2026-09",
+      "polymarket_event_id": "481717",
+      "kalshi_event_ticker": "KXFED-26SEP",
+      "release_time": "2026-09-16T18:00:00Z",
+      "result_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "evidence": [
+        {"url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617a.htm", "published_at": "2026-06-17T18:00:00Z"},
+        {"url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm", "published_at": "2026-07-29T18:00:00Z"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": "synthetic_forecast_warmup_v1",
+  "seed": 20260918,
+  "groups_per_family": {"train": 24, "validation": 6, "test": 6},
+  "observation_times": {
+    "train": "2024-01-15T00:00:00Z",
+    "validation": "2024-02-15T00:00:00Z",
+    "test": "2024-03-15T00:00:00Z"
+  },
+  "languages": ["en", "zh"],
+  "families": ["complement", "at_least_one", "without_replacement", "mixture", "beta_binomial", "bayes_signal"]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "1",
+  "dataset_name": "foretellmesh_prediction_markets_v1",
+  "series_tickers": ["KXCPIYOY", "KXFED", "KXUE"],
+  "events_per_series": 1,
+  "max_markets": 100,
+  "horizon_days": 90,
+  "page_size": 100,
+  "max_pages_per_series": 4
+}

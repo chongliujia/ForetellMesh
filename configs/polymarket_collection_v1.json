@@ -1,0 +1,10 @@
+{
+  "schema_version": "1",
+  "dataset_name": "polymarket_macro_prospective_v1",
+  "event_ids": ["606422", "1005014"],
+  "max_markets": 40,
+  "max_quote_age_seconds": 120,
+  "max_snapshot_seconds": 180,
+  "max_spread": 0.10,
+  "min_best_size": 5
+}

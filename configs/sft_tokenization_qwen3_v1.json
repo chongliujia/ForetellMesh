@@ -1,0 +1,10 @@
+{
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "max_sequence_length": 2048,
+  "serialization": "forecast_json_sft_v1",
+  "add_special_tokens": false,
+  "append_eos": true,
+  "loss": "completion_only",
+  "truncation": false
+}
