@@ -34,14 +34,16 @@ flowchart LR
 
 `AgentRunner` 接受 `ForecastInput`，拒绝完整 `ForecastRecord`，并重新验证证据与报价时间。结果标签、结算时间和数据集身份不会进入模型输入；模型可见的是问题、观察时间、事前证据和可选市场快照。调用方仍须先完成来源真实性及历史规则审核，runner 不会把暂存样本自动升级为合格数据。
 
-首版支持 `single_forecast`、`research_forecast`、`reviewed_forecast`、`research`、`risk`、`calculate` 六种工作流程。`base` 模式明确禁用适配器，用于对照实验；`capability` 模式要求后端具备所请求的适配器，缺失时直接失败，不能悄悄退回基座。
+支持 `single_forecast`、`research_forecast`、`reviewed_forecast`、`research`、`risk`、`calculate`，以及确定性 Quant 辅助的 `quant_research`、`quant_risk` 八种工作流程。`base` 模式明确禁用适配器，用于对照实验；`capability` 模式要求后端具备所请求的适配器，缺失时直接失败，不能悄悄退回基座。
+
+新增 `LangGraphRunner` 使用同一角色执行与校验步骤，Research / Risk / Forecast / Critic 是独立图节点，失败条件边直接结束。模型节点串行使用共享 PEFT executor；原 `AgentRunner` 保留为回归参照，默认 CLI 行为不改变。安装、使用与验证见 [LangGraph 编排接入](langgraph_orchestration.md)。
 
 部分能力实验可以显式传入 `capability_scope={"research_tool_lora"}`：只有该能力对应的角色启用适配器，其余角色明确使用 Base。该参数仅用于 `capability` 模式；不传时保持原有全能力路由，范围内请求的适配器缺失仍会失败。首个候选评估用此方式让 Research / Risk 加载候选、Forecast / Critic 使用 Base，避免混入尚未训练的预测适配器。
 
 - Research 选择原始证据 ID，不重写证据正文。Forecast 接收选择后的证据和结构化研究/风险结果。Risk 与 Critic 仍能检查原始事前证据，避免 Research 的遗漏被整个系统隐藏。
 - Forecast 输出统一的概率 JSON。Critic 接受原预测时不得同时改概率；修正时必须提供理由和有效证据引用，原预测和批评记录保留供比较。代码不自动把概率拉向 0.5。
 - 校验失败最多修复一次，错误仍存在则返回明确失败和空预测。后端异常、输入超限、未知引用和缺失适配器不能产生默认 0.5。没有静默截断。
-- Quant 的首版工具只有 `bayes_binary` 与 `weighted_probability`，使用确定性分数运算；不执行模型给出的 Python、shell 或任意网络请求。工具结果正确不自动证明模型选择的参数有证据支持。
+- `calculate` 保留原来的模型选择 `bayes_binary` / `weighted_probability` 接口；新增的 Quant 辅助流程根据显式规格直接计算二元贝叶斯、混合概率、互补概率和样本频率，返回依赖及缺参状态。运算使用确定性分数；不执行模型给出的 Python、shell 或任意网络请求。工具结果正确不自动证明模型选择的参数有证据支持。
 - 结构化结果会限制字段、时间和引用；这些检查**不能证明自由文本结论真实、引用恰当或不存在隐性历史知识污染**。事实支持和任务效果仍需单独评估。
 
 本地 `SharedPeftExecutor` 对“选择适配器→完整推理→恢复”整体加锁，一次只启用一个适配器。基座对照使用 `disable_adapter()`，拒绝合并后的适配器和未经验证的叠加；成功或异常后均恢复原适配器并冻结参数。所有对同一 PEFT 模型的请求须经过同一个 executor。具体接口参考 [PEFT 官方模型接口](https://huggingface.co/docs/peft/package_reference/peft_model)。
@@ -128,4 +130,4 @@ CPU 回归测试共 165 项，其中 164 项通过、1 项可选 GPU 测试跳�
 
 第三版固定保留原有 288 条训练任务，加入 256 条成组反事实样本，共 544 条、两轮 68 次更新。588 项生成对照和原始输出重放完成：Base／第一版／第三版在新信息状态验证上为 23/128、21/128、127/128，旧诊断为 16/32、10/32、18/32；第三版旧工具、证据任务和完整流程保持第一版水平，概率分数没有新增收益。旧诊断中的混合概率、经验频率子项退步，另有三条无效角色输出，因此仍不晋级默认、不启动 RL。测试共 223 项，222 通过、1 项可选 GPU 检查跳过，之前 476 项历史生成指标重新核验无变化。完整限制、耗时、显存和下一项成对诊断见 [第三版报告](research_tool_lora_v3.md)。
 
-随后完成了 2×2×2 表达变化的 768 次成对诊断；不训练新权重，Base／第一版／第三版为 127/256、122/256、166/256。第三版对显式数学关系有明显响应，但在样本频率的可计算性上严重退步，且仅 9/32 条原题在全部表达中正确。96 个锚点输出与上一轮逐字一致，原始输出重放和此前 1,064 项历史指标复算通过；测试为 233 项，232 通过、1 项可选 GPU 检查跳过。下一步优先验证 Quant / 确定性工具返回计算结果及缺参状态的流程，再评价 Research / Risk 如何使用这些结果；该流程改动尚未实施，当前没有默认提示、checkpoint 或 RL 状态变化。详见 [成对诊断](paired_information_diagnostic_v1.md)。
+随后完成了 2×2×2 表达变化的 768 次成对诊断；不训练新权重，Base／第一版／第三版为 127/256、122/256、166/256。第三版对显式数学关系有明显响应，但在样本频率的可计算性上严重退步，且仅 9/32 条原题在全部表达中正确。96 个锚点输出与上一轮逐字一致，原始输出重放和此前 1,064 项历史指标复算通过；测试为 233 项，232 通过、1 项可选 GPU 检查跳过。下一步优先验证 Quant / 确定性工具返回计算结果及缺参状态的流程，再评价 Research / Risk 如何使用这些结果；后续实现和对照见 [Quant 辅助诊断](tool_assisted_diagnostic_v1.md)，编排层已接入 [LangGraph](langgraph_orchestration.md)。历史成对诊断见 [原报告](paired_information_diagnostic_v1.md)。

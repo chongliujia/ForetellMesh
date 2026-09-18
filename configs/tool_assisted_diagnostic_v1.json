@@ -1,0 +1,11 @@
+{
+  "schema_version": "1",
+  "dataset_version": "synthetic_tool_assisted_diagnostic_v1",
+  "partition": "validation",
+  "seed": 20260921,
+  "groups_per_family": 2,
+  "observation_time": "2024-02-25T00:00:00Z",
+  "candidate_bundle": "data/processed/research_tool_counterfactual_v3",
+  "original_raw": "data/processed/synthetic_sft_raw_v1",
+  "previous_probe_config": "configs/uncertainty_diagnostic_v1.json"
+}

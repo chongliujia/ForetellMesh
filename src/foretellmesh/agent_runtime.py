@@ -9,11 +9,12 @@ from types import SimpleNamespace
 import json
 import re
 import time
-from typing import Protocol
+from typing import Protocol, TypedDict
 
 from .capabilities import route_plan
 from .data import strict_json
 from .probability_tools import execute_probability_tool
+from .quant_state import build_quant_state
 from .schema import ForecastInput, ValidationError, fields, iso, nonempty, parse_record, probability, timestamp
 from .sft_data import INSTRUCTION, validate_response
 from .synthetic_sft import canonical_hash
@@ -171,6 +172,19 @@ def validate_agent_output(role: str, value: dict, context: ForecastInput) -> dic
     return deepcopy(value)
 
 
+class ExecutionState(TypedDict):
+    """Per-invocation state; contains model-visible inputs and validated results only."""
+    context: ForecastInput
+    current: ForecastInput
+    plan: dict
+    summaries: dict
+    trace: list[dict]
+    prediction: dict | None
+    quant_state: dict | None
+    tool_trace: list[dict]
+    result: dict | None
+
+
 class AgentRunner:
     def __init__(self, config: dict, backend: AgentBackend, *, output_protocol: str = "baseline_v1",
                  response_transport: str = "strict_json"):
@@ -184,6 +198,15 @@ class AgentRunner:
 
     def run(self, context: ForecastInput, *, workflow: str = "research_forecast", mode: str = "base",
             capability_scope: set[str] | None = None) -> dict:
+        state = self._initialize(context, workflow, mode, capability_scope)
+        self._execute_quant(state)
+        for step in state['plan']['steps']:
+            if state['result'] is not None:break
+            self._execute_step(state, step)
+        return self._finish(state)
+
+    def _initialize(self, context: ForecastInput, workflow: str, mode: str,
+                    capability_scope: set[str] | None) -> ExecutionState:
         context = validated_input(context)
         plan = route_plan(self.config, workflow, mode, capability_scope=capability_scope)
         missing = set(plan["requires_loaded_adapters"]) - set(self.backend.available_adapters)
@@ -192,72 +215,110 @@ class AgentRunner:
         limits = self.config["limits"]
         if plan["max_model_calls"] > limits["max_model_calls"]:
             raise ValidationError("workflow exceeds model-call budget")
-        summaries, trace, prediction = {}, [], None
-        current = context
-        for step in plan["steps"]:
-            role = step["agent"]
-            # Risk and critic inspect the original evidence, including evidence
-            # omitted by Research. Forecast sees only the selected union.
-            visible = current if role == "forecast" else context
-            upstream = {}
-            if role == "forecast":
-                upstream = {k: summaries[k] for k in ("research", "risk") if k in summaries}
-            elif role == "critic":
-                upstream = {"forecast": prediction}
-                if "risk" in summaries:
-                    upstream["risk"] = summaries["risk"]
-            request = {"agent": role, "adapter": step["adapter"], "instruction": agent_instruction(role, self.output_protocol),
-                       "input": visible.to_payload(), "upstream": upstream}
-            error = None
-            for attempt in range(limits["max_repairs"] + 1):
-                attempt_request = deepcopy(request)
-                if error:
-                    attempt_request["repair"] = repair_feedback(role, self.output_protocol, visible, error)
-                serialized = json.dumps(attempt_request, ensure_ascii=False, allow_nan=False)
-                if len(serialized) > limits["max_input_chars"]:
-                    return {"status": "failed", "stage": role, "error": "input_budget_exceeded", "prediction": None, "stages": deepcopy(summaries), "trace": trace}
-                started = time.perf_counter()
-                try:
-                    output = self.backend.generate(deepcopy(attempt_request))
-                except Exception as exc:
-                    trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt,
-                                  "seconds": time.perf_counter() - started, "status": "backend_error", "error_type": type(exc).__name__})
-                    return {"status": "failed", "stage": role, "error": "backend_error", "prediction": None, "stages": deepcopy(summaries), "trace": trace}
-                elapsed = time.perf_counter() - started
-                try:
-                    encoded = output if isinstance(output, str) else json.dumps(output, ensure_ascii=False, allow_nan=False)
-                    if len(encoded) > limits["max_output_chars"]:
-                        raise ValidationError("output_budget_exceeded")
-                    parsed, decoded_transport = decode_agent_response(encoded, self.response_transport)
-                    value = validate_agent_output(role, parsed, visible)
-                except (ValueError, TypeError, OverflowError) as exc:
-                    error = str(exc)
-                    trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt, "seconds": elapsed,
-                                  "status": "invalid_output", "validation_error": error,
-                                  "input_sha256": canonical_hash(attempt_request)})
-                    continue
+        return {'context': context, 'current': context, 'plan': plan, 'summaries': {}, 'trace': [],
+                'prediction': None, 'quant_state': None, 'tool_trace': [], 'result': None}
+
+    def _execute_quant(self, state: ExecutionState) -> None:
+        if state['plan'].get('deterministic_steps'):
+            started = time.perf_counter()
+            try:
+                quant_state = build_quant_state(state["context"])
+            except (ValueError, TypeError) as exc:
+                state['result'] = {'status': 'failed', 'stage': 'quant', 'error': 'invalid_tool_evidence',
+                        'prediction': None, 'stages': {}, 'trace': [], 'model_calls': 0,
+                        'tool_trace': [{'tool': 'probability_state_v1', 'status': 'failed',
+                                        'error': str(exc), 'seconds': time.perf_counter() - started}]}
+                return
+            state['quant_state'] = quant_state
+            state['tool_trace'].append({'tool': 'probability_state_v1', 'status': 'completed',
+                               'seconds': time.perf_counter() - started, 'output_sha256': canonical_hash(quant_state)})
+
+    def _fail(self, state: ExecutionState, role: str, error: str) -> None:
+        result = {"status": "failed", "stage": role, "error": error, "prediction": None,
+                  "stages": deepcopy(state['summaries']), "trace": state['trace']}
+        if state['quant_state'] is not None:
+            result.update(tool_result=state['quant_state'], tool_trace=state['tool_trace'], model_calls=len(state['trace']))
+        state['result'] = result
+
+    def _execute_step(self, state: ExecutionState, step: dict) -> None:
+        if state['result'] is not None:return
+        context, current = state['context'], state['current']
+        summaries, trace = state['summaries'], state['trace']
+        prediction, quant_state = state['prediction'], state['quant_state']
+        limits = self.config['limits']
+        role = step["agent"]
+        # Risk and critic inspect the original evidence, including evidence
+        # omitted by Research. Forecast sees only the selected union.
+        visible = current if role == "forecast" else context
+        upstream = {}
+        if quant_state is not None:
+            upstream['quant'] = quant_state
+        if role == "forecast":
+            upstream = {k: summaries[k] for k in ("research", "risk") if k in summaries}
+        elif role == "critic":
+            upstream = {"forecast": prediction}
+            if "risk" in summaries:
+                upstream["risk"] = summaries["risk"]
+        request = {"agent": role, "adapter": step["adapter"], "instruction": agent_instruction(role, self.output_protocol),
+                   "input": visible.to_payload(), "upstream": upstream}
+        error = None
+        for attempt in range(limits["max_repairs"] + 1):
+            attempt_request = deepcopy(request)
+            if error:
+                attempt_request["repair"] = repair_feedback(role, self.output_protocol, visible, error)
+            serialized = json.dumps(attempt_request, ensure_ascii=False, allow_nan=False)
+            if len(serialized) > limits["max_input_chars"]:
+                return self._fail(state, role, "input_budget_exceeded")
+            started = time.perf_counter()
+            try:
+                output = self.backend.generate(deepcopy(attempt_request))
+            except Exception as exc:
+                trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt,
+                              "seconds": time.perf_counter() - started, "status": "backend_error", "error_type": type(exc).__name__})
+                return self._fail(state, role, "backend_error")
+            elapsed = time.perf_counter() - started
+            try:
+                encoded = output if isinstance(output, str) else json.dumps(output, ensure_ascii=False, allow_nan=False)
+                if len(encoded) > limits["max_output_chars"]:
+                    raise ValidationError("output_budget_exceeded")
+                parsed, decoded_transport = decode_agent_response(encoded, self.response_transport)
+                value = validate_agent_output(role, parsed, visible)
+            except (ValueError, TypeError, OverflowError) as exc:
+                error = str(exc)
                 trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt, "seconds": elapsed,
-                              "status": "valid", "decoded_transport": decoded_transport,
-                              "input_sha256": canonical_hash(attempt_request), "output_sha256": canonical_hash(value)})
-                break
-            else:
-                return {"status": "failed", "stage": role, "error": "output_schema_failed", "prediction": None, "stages": deepcopy(summaries), "trace": trace}
-            summaries[role] = value
-            if role in ("research", "risk"):
-                selected = set(summaries.get("research", {}).get("evidence_ids", [])) | set(summaries.get("research", {}).get("counter_evidence_ids", []))
-                if "research" not in summaries:
-                    selected = {e.evidence_id for e in context.evidence}
-                for risk in summaries.get("risk", {}).get("risks", []):
-                    selected.update(risk["evidence_ids"])
-                current = ForecastInput(context.question, context.observation_time,
-                                        tuple(e for e in context.evidence if e.evidence_id in selected), context.market)
-            elif role == "forecast":
-                prediction = value
-            elif role == "critic" and not value["accept"]:
-                # Keep the original forecast and explicit critique separate; no
-                # synthetic evidence list is invented for the revised number.
-                prediction = {**prediction, "probability": value["revised_probability"],
-                              "unknowns": list(dict.fromkeys(prediction["unknowns"] + value["unknowns"]))}
-        return {"status": "completed", "workflow": workflow, "mode": mode, "prediction": prediction,
-                "stages": summaries, "tool_result": execute_probability_tool(summaries["quant"]) if "quant" in summaries else None,
+                              "status": "invalid_output", "validation_error": error,
+                              "input_sha256": canonical_hash(attempt_request)})
+                continue
+            trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt, "seconds": elapsed,
+                          "status": "valid", "decoded_transport": decoded_transport,
+                          "input_sha256": canonical_hash(attempt_request), "output_sha256": canonical_hash(value)})
+            break
+        else:
+            return self._fail(state, role, "output_schema_failed")
+        summaries[role] = value
+        if role in ("research", "risk"):
+            selected = set(summaries.get("research", {}).get("evidence_ids", [])) | set(summaries.get("research", {}).get("counter_evidence_ids", []))
+            if "research" not in summaries:
+                selected = {e.evidence_id for e in context.evidence}
+            for risk in summaries.get("risk", {}).get("risks", []):
+                selected.update(risk["evidence_ids"])
+            current = ForecastInput(context.question, context.observation_time,
+                                    tuple(e for e in context.evidence if e.evidence_id in selected), context.market)
+        elif role == "forecast":
+            prediction = value
+        elif role == "critic" and not value["accept"]:
+            # Keep the original forecast and explicit critique separate; no
+            # synthetic evidence list is invented for the revised number.
+            prediction = {**prediction, "probability": value["revised_probability"],
+                          "unknowns": list(dict.fromkeys(prediction["unknowns"] + value["unknowns"]))}
+        state.update(current=current, prediction=prediction)
+
+    def _finish(self, state: ExecutionState) -> dict:
+        if state['result'] is not None:return state['result']
+        summaries, trace = state['summaries'], state['trace']
+        prediction, quant_state = state['prediction'], state['quant_state']
+        result = {"status": "completed", "workflow": state["plan"]["workflow"], "mode": state["plan"]["mode"], "prediction": prediction,
+                "stages": summaries, "tool_result": quant_state if quant_state is not None else execute_probability_tool(summaries["quant"]) if "quant" in summaries else None,
                 "trace": trace, "model_calls": len(trace), "checkpoint_quality_verified": False}
+        if quant_state is not None:result['tool_trace'] = state['tool_trace']
+        return result

@@ -12,6 +12,7 @@ dependencies = []
 
 [project.optional-dependencies]
 parquet = ["pyarrow>=15"]
+graph = ["langgraph==1.2.11"]
 
 [project.scripts]
 foretellmesh = "foretellmesh.cli:main"

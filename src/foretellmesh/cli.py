@@ -95,6 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     agent_plan.add_argument("--mode", choices=("base", "capability"), default="base")
     agent_check.add_argument("--fixture", type=Path, default=Path("examples/agent_workflow_fixture_v1.json"))
     agent_check.add_argument("--output", type=Path, required=True)
+    agent_check.add_argument("--engine", choices=("serial", "langgraph"), default="serial")
     agent_cohort = subparsers.add_parser("prepare-agent-baseline", help="freeze synthetic validation inputs with separate judge artifacts")
     for name in ("raw-dataset", "split-config", "agent-config", "evaluation-config", "output"):
         agent_cohort.add_argument("--" + name, type=Path, required=True)
@@ -120,7 +121,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         if args.command == "check-agent-workflow":
             from .agent_check import check_agent_workflow
-            report = check_agent_workflow(args.config, args.fixture, args.output, args.workflow)
+            report = check_agent_workflow(args.config, args.fixture, args.output, args.workflow, engine=args.engine)
             print(json.dumps({"kind": report["kind"], "status": report["result"]["status"]}))
             return 0 if report["result"]["status"] == "completed" else 1
         if args.command in ("capture-historical-markets", "build-historical-markets"):

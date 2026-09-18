@@ -25,6 +25,22 @@ def execute_probability_tool(call: dict) -> dict:
         if sum(ws) != 1:
             raise ValidationError("mixture weights must sum to one")
         result = sum(p * w for p, w in zip(ps, ws))
+    elif call["name"] == "binary_mixture":
+        fields(args, {"high_rate", "low_rate", "weight"}, "binary mixture arguments")
+        high, low, weight = [Fraction(str(probability(args[k], k)))
+                             for k in ("high_rate", "low_rate", "weight")]
+        result = weight * high + (1 - weight) * low
+    elif call["name"] == "complement_probability":
+        fields(args, {"probability"}, "complement arguments")
+        result = 1 - Fraction(str(probability(args["probability"])))
+    elif call["name"] == "empirical_frequency":
+        fields(args, {"successes", "trials"}, "frequency arguments")
+        s, n = args["successes"], args["trials"]
+        if type(s) is not int or type(n) is not int or not 0 <= s <= n <= 10**12:
+            raise ValidationError("counts must be integers with 0 <= successes <= trials <= 1e12")
+        if n == 0:
+            raise ValidationError("empirical frequency is undefined for zero trials")
+        result = Fraction(s, n)
     else:
         raise ValidationError("unknown probability tool")
     return {"name": call["name"], "arguments": args, "result": float(result),

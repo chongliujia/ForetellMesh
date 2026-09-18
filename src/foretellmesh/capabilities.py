@@ -12,6 +12,8 @@ WORKFLOWS = {
     "research": ("research",),
     "risk": ("risk",),
     "calculate": ("quant",),
+    "quant_research": ("research",),
+    "quant_risk": ("risk",),
 }
 
 
@@ -71,8 +73,11 @@ def route_plan(config: dict, workflow: str, mode: str = "base", *, capability_sc
     steps = [{"agent": agent, "capability": config["agents"][agent],
               "adapter": None if mode == "base" or (capability_scope is not None and config["agents"][agent] not in capability_scope) else config["agents"][agent]}
              for agent in WORKFLOWS[workflow]]
-    return {"workflow": workflow, "mode": mode, "base_model": config["base_model"],
+    plan = {"workflow": workflow, "mode": mode, "base_model": config["base_model"],
             "base_revision": config["base_revision"], "steps": steps,
             "max_model_calls": len(steps) * (config["limits"]["max_repairs"] + 1),
             "requires_loaded_adapters": sorted({s["adapter"] for s in steps if s["adapter"]}),
             "checkpoint_quality_verified": False}
+    if workflow in ('quant_research', 'quant_risk'):
+        plan['deterministic_steps'] = ['probability_state_v1']
+    return plan
