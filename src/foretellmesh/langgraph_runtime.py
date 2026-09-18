@@ -41,7 +41,7 @@ class LangGraphRunner(AgentRunner):
         # Freeze config and scope for this compiled graph. Backend/model ownership
         # stays with the caller's existing shared executor.
         executor = AgentRunner(self.config, self.backend, output_protocol=self.output_protocol,
-                               response_transport=self.response_transport)
+                               response_transport=self.response_transport, tool_consistency=self.tool_consistency)
         scope = deepcopy(capability_scope)
         plan = route_plan(executor.config, workflow, mode, capability_scope=scope)
         graph = StateGraph(GraphState, input_schema=GraphInput, output_schema=GraphOutput)

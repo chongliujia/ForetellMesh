@@ -18,6 +18,7 @@ from .quant_state import build_quant_state
 from .schema import ForecastInput, ValidationError, fields, iso, nonempty, parse_record, probability, timestamp
 from .sft_data import INSTRUCTION, validate_response
 from .synthetic_sft import canonical_hash
+from .tool_consistency import VERSION as CONSISTENCY_VERSION, requested_fields, validate_consistency
 
 PROMPTS = {
     "research": "Select relevant supplied evidence. Return JSON with evidence_ids, counter_evidence_ids, unknowns, observation_time. ID arrays must be disjoint and refer to supplied evidence. Do not invent facts or fetch current information.",
@@ -187,7 +188,7 @@ class ExecutionState(TypedDict):
 
 class AgentRunner:
     def __init__(self, config: dict, backend: AgentBackend, *, output_protocol: str = "baseline_v1",
-                 response_transport: str = "strict_json"):
+                 response_transport: str = "strict_json", tool_consistency: str | None = None):
         if not isinstance(output_protocol, str) or output_protocol not in OUTPUT_PROTOCOLS:
             raise ValidationError("unknown output protocol")
         self.config, self.backend = deepcopy(config), backend
@@ -195,6 +196,9 @@ class AgentRunner:
         if not isinstance(response_transport, str) or response_transport not in RESPONSE_TRANSPORTS:
             raise ValidationError("unknown response transport")
         self.response_transport = response_transport
+        if tool_consistency not in (None, CONSISTENCY_VERSION):
+            raise ValidationError('unknown tool consistency policy')
+        self.tool_consistency = tool_consistency
 
     def run(self, context: ForecastInput, *, workflow: str = "research_forecast", mode: str = "base",
             capability_scope: set[str] | None = None) -> dict:
@@ -208,6 +212,8 @@ class AgentRunner:
     def _initialize(self, context: ForecastInput, workflow: str, mode: str,
                     capability_scope: set[str] | None) -> ExecutionState:
         context = validated_input(context)
+        if self.tool_consistency and workflow not in ('quant_research', 'quant_risk'):
+            raise ValidationError('tool consistency requires quant_research or quant_risk')
         plan = route_plan(self.config, workflow, mode, capability_scope=capability_scope)
         missing = set(plan["requires_loaded_adapters"]) - set(self.backend.available_adapters)
         if missing:
@@ -223,6 +229,7 @@ class AgentRunner:
             started = time.perf_counter()
             try:
                 quant_state = build_quant_state(state["context"])
+                if self.tool_consistency:requested_fields(state['context'], quant_state)
             except (ValueError, TypeError) as exc:
                 state['result'] = {'status': 'failed', 'stage': 'quant', 'error': 'invalid_tool_evidence',
                         'prediction': None, 'stages': {}, 'trace': [], 'model_calls': 0,
@@ -283,6 +290,7 @@ class AgentRunner:
                     raise ValidationError("output_budget_exceeded")
                 parsed, decoded_transport = decode_agent_response(encoded, self.response_transport)
                 value = validate_agent_output(role, parsed, visible)
+                if self.tool_consistency:validate_consistency(value, visible, quant_state)
             except (ValueError, TypeError, OverflowError) as exc:
                 error = str(exc)
                 trace.append({"agent": role, "adapter": step["adapter"], "attempt": attempt, "seconds": elapsed,

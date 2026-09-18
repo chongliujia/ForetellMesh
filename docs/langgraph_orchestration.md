@@ -100,3 +100,5 @@ python -m foretellmesh.langgraph_probe \
 ```
 
 运行前需上述完整源归档及相同基座/适配器。工具与图实验各自冻结源码，重新执行历史审计时使用对应的 `source_snapshot`。测到原始输出不一致时会记录 `mismatch` 并返回非零退出码，不自动改写预期结果。
+
+后续已增加仅作用于 Quant→Research / Risk 的 opt-in `tool_consistency` 参数；图执行器会冻结并传递该设置。新情景 GPU 对照、首次/修正评分及使用限制见 [缺参一致性校验](tool_consistency_validation.md)。

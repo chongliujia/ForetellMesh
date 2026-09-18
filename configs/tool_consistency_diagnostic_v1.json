@@ -1,0 +1,6 @@
+{
+  "schema_version": "1",
+  "base_config": "configs/tool_assisted_diagnostic_v1.json",
+  "previous_cohort": "data/processed/tool_assisted_diagnostic_v1",
+  "seed": 20260922
+}
