@@ -48,13 +48,17 @@ def verify_staging(staging, capture, heldout_index):
     return report, [strict_json(s) for s in (staging/'candidates.jsonl').read_text().splitlines()]
 
 
-def preflight(staging, capture, heldout_index, config_path):
+def preflight(staging, capture, heldout_index, config_path, chain_bundle=None):
     config = strict_json(config_path.read_text())
     if (config.get('schema_version') != '1' or config.get('purpose') != 'development_replay'
             or type(config.get('minimum_event_groups')) is not int or config['minimum_event_groups'] < 2
             or config.get('training') is not False or config.get('default_promotion') is not False):
         raise ValidationError('invalid admission policy')
     report, candidates = verify_staging(staging, capture, heldout_index)
+    chain_audit = None
+    if chain_bundle is not None:
+        from .historical_chain_supplement import apply_bundle
+        candidates, chain_audit = apply_bundle(staging, capture, candidates, chain_bundle)
     decisions = [{'sample_id': c['record']['sample_id'], 'event_group_id': c['record']['event_group_id'],
                   'platform': c['record']['dataset_source'],
                   'replay_blockers': blockers(c, 'development_replay'), 'sft_blockers': blockers(c, 'sft')}
@@ -67,7 +71,10 @@ def preflight(staging, capture, heldout_index, config_path):
     # A later release must additionally freeze real splits and per-run weights.
     cohort_blockers.append('chronological_split_and_checkpoint_manifest_not_frozen')
     return {'schema_version': '1', 'kind': 'historical_replay_admission', 'status': 'not_admitted',
-            'staging_report_sha256': sha256_file(staging/'report.json'), 'dataset_version': report['dataset_version'],
+            'staging_report_sha256': sha256_file(staging/'report.json'),
+            'dataset_version': chain_audit['dataset_version'] if chain_audit else report['dataset_version'],
+            'chain_supplement': chain_audit,
+            'exact_settled_rows': sum(c['record']['label'] is not None for c in candidates),
             'evaluation_policy': config, 'policy_sha256': sha256_file(config_path),
             'candidate_rows': len(candidates), 'candidate_event_groups': len({d['event_group_id'] for d in decisions}),
             'eligible_replay_rows': len(eligible), 'eligible_replay_event_groups': len(groups),
@@ -84,9 +91,10 @@ def preflight(staging, capture, heldout_index, config_path):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     for name in ('staging', 'capture', 'heldout-index', 'config', 'output'):p.add_argument('--'+name, type=Path, required=True)
+    p.add_argument('--chain-bundle', type=Path)
     a = p.parse_args()
     if a.output.exists():raise ValidationError('admission report exists')
-    r = preflight(a.staging, a.capture, a.heldout_index, a.config)
+    r = preflight(a.staging, a.capture, a.heldout_index, a.config, a.chain_bundle)
     a.output.parent.mkdir(parents=True, exist_ok=True); a.output.write_text(json_text(r))
     print(json_text({k: r[k] for k in ('status', 'candidate_rows', 'eligible_replay_rows', 'eligible_sft_rows', 'cohort_blockers')}))
 

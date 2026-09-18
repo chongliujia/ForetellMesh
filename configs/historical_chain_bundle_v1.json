@@ -1,0 +1,9 @@
+{
+  "schema_version": "1",
+  "oracle_archive": "../data/raw/polygon_settlement_capture_20260918_v1",
+  "ctf_archive": "../data/raw/polygon_ctf_settlement_20260918_v1",
+  "initial_archive": "../data/raw/polygon_proof_capture_20260918_v1",
+  "code_archive": "../data/raw/polygon_adapter_code_20260918_v2",
+  "explorer_archive": "../data/raw/settlement_research_20260918_v2",
+  "rules_policy": "polygon_rules_review_v1.json"
+}

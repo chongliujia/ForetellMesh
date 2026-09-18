@@ -22,8 +22,11 @@ class RpcArchive:
         output.mkdir(parents=True); self.output = output; self.endpoint = endpoint; self.refs = []
 
     def read(self, method, params):
-        if method not in {'eth_chainId', 'eth_getBlockByNumber', 'eth_getTransactionReceipt', 'eth_call'}:
+        if method not in {'eth_chainId', 'eth_getBlockByNumber', 'eth_getTransactionReceipt', 'eth_call', 'eth_getLogs', 'eth_getCode'}:
             raise ValidationError('unsupported read-only RPC method')
+        if method == 'eth_getLogs' and (len(params) != 1 or not isinstance(params[0], dict)
+                or set(params[0]) != {'address', 'blockHash', 'topics'}):
+            raise ValidationError('log capture requires one explicit blockHash, address and topics')
         body = {'jsonrpc': '2.0', 'id': len(self.refs)+1, 'method': method, 'params': params}
         started = datetime.now(timezone.utc).isoformat()
         request = Request(self.endpoint, data=json_text(body).encode(), headers={

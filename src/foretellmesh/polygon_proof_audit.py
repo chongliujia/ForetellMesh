@@ -18,7 +18,7 @@ GET_UPDATES = '0x555c56fc'
 GET_QUESTION = '0x58c039cd'
 EMPTY_UPDATES = '0x' + (32).to_bytes(32, 'big').hex() + bytes(32).hex()
 RPC_HOSTS = {'https://polygon.drpc.org', 'https://polygon-bor-rpc.publicnode.com'}
-METHODS = {'eth_chainId', 'eth_getBlockByNumber', 'eth_getTransactionReceipt', 'eth_call', 'eth_getLogs'}
+METHODS = {'eth_chainId', 'eth_getBlockByNumber', 'eth_getTransactionReceipt', 'eth_call', 'eth_getLogs', 'eth_getCode'}
 
 
 def abi_bytes(value):
@@ -64,7 +64,7 @@ def read_rpc_archive(root):
             raise ValidationError('RPC artifact provenance changed')
         if timestamp(ref['started_at'], 'request start') > timestamp(ref['completed_at'], 'request end'):
             raise ValidationError('backwards RPC request clock')
-        obj = strict_json(raw.decode()) if ref['status'] else None
+        obj = strict_json(raw.decode()) if ref['status'] == 200 else None
         if ref['status'] == 200 and (obj.get('id') != req['id'] or obj.get('jsonrpc') != '2.0'):
             raise ValidationError('RPC response identity mismatch')
         refs[ref['file']] = (ref, obj)
