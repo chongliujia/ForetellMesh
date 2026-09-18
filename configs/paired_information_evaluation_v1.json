@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3-8b_information-paired-diagnostic_three-arm_v1",
+  "partition": "validation",
+  "arms": ["base", "previous", "candidate"],
+  "output_protocol": "grounded_json_v3",
+  "response_transport": "single_json_fence",
+  "max_context_tokens": 2048,
+  "max_new_tokens": 384,
+  "do_sample": false,
+  "attention": "sdpa",
+  "base_dtype": "bfloat16",
+  "seed": 20260919,
+  "retries": 0,
+  "training": false,
+  "default_promotion": false
+}

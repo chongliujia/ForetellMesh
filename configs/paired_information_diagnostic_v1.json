@@ -1,0 +1,13 @@
+{
+  "schema_version": "1",
+  "dataset_version": "paired_information_diagnostic_v1",
+  "partition": "validation",
+  "source_policy": "all_frozen_uncertainty_v1_rows",
+  "factors": {
+    "wording": ["original", "audit"],
+    "formula": ["implicit", "explicit"],
+    "presentation": ["inline", "json"]
+  },
+  "synthetic_only": true,
+  "training_allowed": false
+}
