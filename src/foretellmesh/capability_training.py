@@ -11,6 +11,7 @@ import sys
 import time
 
 from .data import sha256_file, strict_json
+from .capability_curriculum import select_training_rows, validate_curriculum
 from .evaluation import code_provenance, json_text
 from .lora_probe import verify_model_manifest
 from .peft_runtime import render_agent_prompt
@@ -27,8 +28,10 @@ def load_training_config(path: Path) -> dict:
              'adapter_dtype': 'float32', 'quantization': None, 'attention': 'sdpa',
              'gradient_checkpointing': True, 'optimizer': 'adamw', 'loss': 'mean_completion_loss_per_example',
              'checkpoint_selection': 'last_fixed_epoch_no_validation_selection'}
+    optional = {'curriculum'} if isinstance(c, dict) and 'curriculum' in c else set()
     fields(c, set(fixed) | {'run_name', 'seed', 'epochs', 'max_sequence_length', 'gradient_accumulation_steps',
-           'learning_rate', 'weight_decay', 'max_grad_norm', 'lora_r', 'lora_alpha', 'lora_dropout', 'target_modules'}, 'capability training config')
+           'learning_rate', 'weight_decay', 'max_grad_norm', 'lora_r', 'lora_alpha', 'lora_dropout', 'target_modules'} | optional, 'capability training config')
+    if optional:validate_curriculum(c['curriculum'])
     if any(type(c[k]) is not type(v) or c[k] != v for k, v in fixed.items()):
         raise ValidationError('unsupported capability training policy')
     if not isinstance(c['run_name'], str) or not c['run_name'].strip():raise ValidationError('run name is required')
@@ -61,19 +64,22 @@ def train_capability(bundle: Path, model_manifest: Path, config_path: Path, outp
     if output.exists():raise ValidationError('training output already exists')
     config = load_training_config(config_path)
     data_manifest, partitions, _ = read_research_tool_data(bundle)
+    selected_train, selection = select_training_rows(partitions['train'], config.get('curriculum'))
+    training_parts = {'train': selected_train, 'validation': partitions['validation']}
     model_path, model_hash = verify_model_manifest(model_manifest, config)
     import torch
     from peft import LoraConfig, get_peft_model
     from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():raise ValidationError('CUDA BF16 is required')
     tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True, trust_remote_code=False)
-    encoded = {p: [encode_capability_row(tokenizer, row, config['max_sequence_length']) for row in partitions[p]]
+    encoded = {p: [encode_capability_row(tokenizer, row, config['max_sequence_length']) for row in training_parts[p]]
                for p in ('train', 'validation')}
     if not encoded['train'] or not encoded['validation']:raise ValidationError('empty training/validation partition')
     output.mkdir(parents=True)
     shutil.copytree(Path(__file__).parent, output / 'source_snapshot/foretellmesh', ignore=shutil.ignore_patterns('__pycache__'))
     (output / 'config.json').write_bytes(config_path.read_bytes())
     (output / 'dataset_manifest.json').write_bytes((bundle / 'manifest.json').read_bytes())
+    if selection is not None:(output / 'training_selection.json').write_text(json_text(selection))
     for p, rows in encoded.items():(output / (p + '_tokens.jsonl')).write_text(jsonl(rows))
     report = {'schema_version': '1', 'kind': 'synthetic_capability_lora_training', 'status': 'running',
               'started_at': datetime.now(timezone.utc).isoformat(), 'config': config, 'config_sha256': sha256_file(config_path),
@@ -86,11 +92,14 @@ def train_capability(bundle: Path, model_manifest: Path, config_path: Path, outp
               'optimizer_steps': [], 'validation_losses': [], 'checkpoint_saved': False, 'default_promoted': False,
               'reward_implementation': None, 'rl_performed': False,
               'limitations': data_manifest['limitations'] + ['Fixed two-epoch behavior experiment; NLL is not capability or forecasting quality.']}
+    if selection is not None:report['training_selection_sha256'] = sha256_file(output / 'training_selection.json')
     def save():
         temp = output / 'report.tmp'; temp.write_text(json_text(report)); temp.replace(output / 'report.json')
     def memory():
+        stats = torch.cuda.memory_stats()
         return {'allocated_bytes': torch.cuda.memory_allocated(), 'reserved_bytes': torch.cuda.memory_reserved(),
-                'peak_allocated_bytes': torch.cuda.max_memory_allocated(), 'peak_reserved_bytes': torch.cuda.max_memory_reserved()}
+                'peak_allocated_bytes': torch.cuda.max_memory_allocated(), 'peak_reserved_bytes': torch.cuda.max_memory_reserved(),
+                'allocator_retries': stats.get('num_alloc_retries'), 'allocator_ooms': stats.get('num_ooms')}
     save()
     try:
         torch.cuda.set_device(0); set_seed(config['seed'])

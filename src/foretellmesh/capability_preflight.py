@@ -7,6 +7,7 @@ import sys
 import tempfile
 
 from .capability_training import encode_capability_row, load_training_config
+from .capability_curriculum import select_training_rows
 from .data import sha256_file
 from .evaluation import code_provenance, json_text
 from .lora_probe import verify_model_manifest
@@ -44,10 +45,11 @@ def preflight(bundle: Path, model_manifest: Path, training_config: Path, output:
     if output.exists():raise ValidationError("preflight output already exists")
     config = load_training_config(training_config)
     manifest, partitions, _ = read_research_tool_data(bundle)
+    selected_train, selection = select_training_rows(partitions['train'], config.get('curriculum'))
     model_path, model_hash = verify_model_manifest(model_manifest, config)
     from transformers import AutoTokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True, trust_remote_code=False)
-    tokenized = check_tokens(tokenizer, partitions, config["max_sequence_length"])
+    tokenized = check_tokens(tokenizer, {'train': selected_train, 'validation': partitions['validation']}, config["max_sequence_length"])
     report = {"schema_version": "1", "kind": "capability_data_preflight", "status": "passed",
         "dataset_version": manifest["dataset_version"], "dataset_manifest_sha256": sha256_file(bundle / "manifest.json"),
         "training_config_sha256": sha256_file(training_config), "model_manifest_sha256": model_hash,
@@ -59,6 +61,9 @@ def preflight(bundle: Path, model_manifest: Path, training_config: Path, output:
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".preflight-", dir=output.parent) as tmp:
         stage = Path(tmp) / "report"; stage.mkdir()
+        if selection is not None:
+            (stage / 'training_selection.json').write_text(json_text(selection))
+            report['training_selection_sha256'] = sha256_file(stage / 'training_selection.json')
         (stage / "report.json").write_text(json_text(report))
         (stage / "training_config.json").write_bytes(training_config.read_bytes())
         stage.rename(output)

@@ -1,0 +1,40 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3-8b_research-tool-sft_r16_lr1e-4_balanced_v3",
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "capability": "research_tool_lora",
+  "seed": 20260919,
+  "epochs": 2,
+  "max_sequence_length": 1024,
+  "micro_batch_size": 1,
+  "gradient_accumulation_steps": 16,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0,
+  "max_grad_norm": 1.0,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+  ],
+  "base_dtype": "bfloat16",
+  "adapter_dtype": "float32",
+  "quantization": null,
+  "attention": "sdpa",
+  "gradient_checkpointing": true,
+  "optimizer": "adamw",
+  "loss": "mean_completion_loss_per_example",
+  "checkpoint_selection": "last_fixed_epoch_no_validation_selection",
+  "curriculum": {
+    "policy": "legacy_plus_paired_information_v1",
+    "selection_seed": 20260922,
+    "groups_per_family": 8
+  }
+}

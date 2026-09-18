@@ -16,6 +16,7 @@ from .agent_baseline_data import input_context, read_cohort
 from .agent_runtime import AgentRunner, agent_instruction, decode_agent_response, validate_agent_output
 from .capabilities import load_capabilities
 from .capability_training import load_training_config
+from .capability_curriculum import EVALUATION_POLICY, select_information_validation, select_training_rows, summarize_information
 from .data import sha256_file, strict_json
 from .evaluation import code_provenance, json_text
 from .lora_probe import verify_model_manifest
@@ -37,13 +38,14 @@ def load_evaluation_config(path: Path) -> dict:
              'role_evaluation':'one_response_per_frozen_task_including_feedback_variants',
              'system_workflow':'reviewed_forecast', 'response_transport':'single_json_fence',
              'max_context_tokens':2048, 'max_new_tokens':384, 'default_promotion':False}
-    optional = {'uncertainty_protocols'} if isinstance(c,dict) and 'uncertainty_protocols' in c else set()
+    optional = {'uncertainty_protocols', 'information_cohort'} & set(c) if isinstance(c,dict) else set()
     fields(c,set(fixed)|{'run_name','seed','output_protocol','arms'}|optional,'capability evaluation config')
     if (any(type(c[k]) is not type(v) or c[k]!=v for k,v in fixed.items())
             or type(c['seed']) is not int or not 0<=c['seed']<2**32
             or c['output_protocol'] not in (*DIAGNOSTIC_PROTOCOLS,'grounded_json_v3')
             or c['arms'] not in (['base','candidate'],['base','previous','candidate'])
-            or (optional and c['uncertainty_protocols'] not in (list(DIAGNOSTIC_PROTOCOLS),['grounded_json_v3']))
+            or ('uncertainty_protocols' in optional and c['uncertainty_protocols'] not in (list(DIAGNOSTIC_PROTOCOLS),['grounded_json_v3']))
+            or ('information_cohort' in optional and (c['information_cohort'] != EVALUATION_POLICY or c['output_protocol'] != 'grounded_json_v3'))
             or ('previous' in c['arms'] and (c['output_protocol']!='grounded_json_v3' or c.get('uncertainty_protocols')!=['grounded_json_v3']))):
         raise ValidationError('unsupported capability evaluation policy')
     if not isinstance(c['run_name'],str) or not c['run_name'].strip():raise ValidationError('missing run name')
@@ -79,12 +81,17 @@ def judge_role(row: dict, output: dict | None) -> dict:
 def summarize_capability(role_tasks: list[dict], system_cohort: dict, results: list[dict],
                          uncertainty_cohort: tuple[list[dict], list[dict]] | None = None, *,
                          arms: tuple[str,...] = ('base','candidate'),
-                         uncertainty_protocols: tuple[str,...] = DIAGNOSTIC_PROTOCOLS) -> dict:
+                         uncertainty_protocols: tuple[str,...] = DIAGNOSTIC_PROTOCOLS,
+                         information_tasks: list[dict] | None = None) -> dict:
     if arms not in (('base','candidate'),('base','previous','candidate')) or uncertainty_protocols not in (DIAGNOSTIC_PROTOCOLS,('grounded_json_v3',)):
         raise ValidationError('unsupported evaluation arms or diagnostic protocols')
     tasks = {r['sample_id']:r for r in role_tasks}
     judges = {r['sample_id']:r for r in system_cohort['judge.jsonl']}
     wanted = {(kind,arm,sid) for kind,ids in (('role',tasks),('system',judges)) for arm in arms for sid in ids}
+    if information_tasks is not None:
+        information = {row['sample_id']: row for row in information_tasks}
+        if not information or len(information) != len(information_tasks):raise ValidationError('invalid information cohort identities')
+        wanted.update(('information', arm, sid) for arm in arms for sid in information)
     if uncertainty_cohort is not None:
         probe_inputs, probe_judges = uncertainty_cohort
         probes = {r['sample_id']:r for r in probe_inputs}
@@ -155,6 +162,12 @@ def summarize_capability(role_tasks: list[dict], system_cohort: dict, results: l
                     'by_role':{role:counts([sid for sid,r in probes.items() if r['role']==role]) for role in ('research','risk')},
                     'by_condition':{condition:counts([sid for sid,r in probe_labels.items() if r['condition']==condition])
                                     for condition in sorted({r['condition'] for r in probe_labels.values()})}}
+    if information_tasks is not None:
+        report['information'] = {}
+        for arm in arms:
+            rows = [indexed['information', arm, sid] for sid in information]
+            report['information'][arm] = {**summarize_information(information_tasks, {r['sample_id']: r['output'] for r in rows}),
+                                          'resources': resource(rows)}
     return report
 
 
@@ -175,6 +188,13 @@ def verify_training_run(training_run: Path, bundle: Path, agents: dict) -> tuple
     if (ac['base_model_name_or_path']!=tc['model'] or ac['revision']!=tc['model_revision'] or ac['r']!=tc['lora_r']
             or ac['lora_alpha']!=tc['lora_alpha'] or set(ac['target_modules'])!=set(tc['target_modules'])):
         raise ValidationError('adapter configuration mismatch')
+    if 'curriculum' in tc:
+        _, parts, _ = read_research_tool_data(bundle)
+        selected, expected = select_training_rows(parts['train'], tc['curriculum'])
+        if (trained.get('training_selection_sha256') != sha256_file(training_run/'training_selection.json')
+                or strict_json((training_run/'training_selection.json').read_text()) != expected
+                or trained['tokenized']['train']['examples'] != len(selected)):
+            raise ValidationError('training curriculum provenance mismatch')
     return trained,tc
 
 
@@ -202,6 +222,8 @@ def evaluate_capability(bundle: Path, training_run: Path, system_cohort_path: Pa
     data_manifest,partitions,_=read_research_tool_data(bundle)
     selection=set(strict_json((bundle/'evaluation_ids.json').read_text()))
     role_tasks=[r for r in partitions['validation'] if r['sample_id'] in selection]
+    information_tasks = (select_information_validation(partitions['validation'], config['information_cohort'])
+                         if 'information_cohort' in config else None)
     _,system_cohort=read_cohort(system_cohort_path)
     agents,_=load_capabilities(system_cohort_path/'agent_config.json')
     trained,tc=verify_training_run(training_run,bundle,agents)
@@ -240,6 +262,13 @@ def evaluate_capability(bundle: Path, training_run: Path, system_cohort_path: Pa
     if probes is not None:
         report['uncertainty_cohort_manifest_sha256']=sha256_file(uncertainty_path/'manifest.json')
         report['limitations'].extend(probe_manifest['limitations'])
+    if information_tasks is not None:
+        (output/'information_evaluation_ids.json').write_text(json_text([r['sample_id'] for r in information_tasks]))
+        report['information_evaluation_ids_sha256'] = sha256_file(output/'information_evaluation_ids.json')
+        report['limitations'].extend([
+            'Information-state validation uses 128 rows from eight disjoint development groups, not 128 independent events.',
+            'Each group uses one language; role and naming format are counterbalanced across the two languages, not fully crossed within a group.',
+            'Information-state correctness requires exact unknown-name sets and grounded role fields; it is not an open-ended factuality score.'])
     if previous_training_run is not None:
         report.update(previous_training_report_sha256=sha256_file(previous_training_run/'report.json'),
                       previous_dataset_manifest_sha256=sha256_file(previous_bundle/'manifest.json'),
@@ -280,6 +309,10 @@ def evaluate_capability(bundle: Path, training_run: Path, system_cohort_path: Pa
                 offset=index%len(config['arms'])
                 arms=config['arms'][offset:]+config['arms'][:offset]
                 jobs.extend((kind,arm,row) for arm in arms)
+        if information_tasks is not None:
+            for index, row in enumerate(information_tasks):
+                offset = index % len(config['arms'])
+                jobs.extend(('information', arm, row) for arm in config['arms'][offset:]+config['arms'][:offset])
         if probes is not None:
             combinations=[arm+':'+protocol for protocol in config['uncertainty_protocols'] for arm in config['arms']]
             for index,row in enumerate(probe_inputs):
@@ -290,9 +323,9 @@ def evaluate_capability(bundle: Path, training_run: Path, system_cohort_path: Pa
             for index,(kind,arm,row) in enumerate(jobs):
                 backend.calls=[];torch.cuda.reset_peak_memory_stats();torch.cuda.synchronize();start=time.perf_counter()
                 record={'kind':kind,'arm':arm,'sample_id':row['sample_id']}
-                if kind in ('role','uncertainty'):
+                if kind in ('role','information','uncertainty'):
                     selected_arm,protocol=arm.split(':') if kind=='uncertainty' else (arm,config['output_protocol'])
-                    request=deepcopy(row['request']) if kind=='role' else {'agent':row['role'],'input':deepcopy(row['input']),'upstream':{}}
+                    request=deepcopy(row['request']) if kind in ('role','information') else {'agent':row['role'],'input':deepcopy(row['input']),'upstream':{}}
                     request['instruction']=agent_instruction(request['agent'],protocol)
                     request['adapter']=adapter_names[selected_arm]
                     record.update(output=None,decoded_transport=None,error=None)
@@ -311,11 +344,12 @@ def evaluate_capability(bundle: Path, training_run: Path, system_cohort_path: Pa
                 log.write(json.dumps(record,ensure_ascii=False,sort_keys=True,allow_nan=False)+'\n');log.flush();results.append(record)
                 report['completed_jobs']=len(results);save()
                 print(json.dumps({'progress':f'{index+1}/{len(jobs)}','kind':kind,'arm':arm,'sample_id':row['sample_id'],
-                                  'valid':record['output'] is not None if kind in ('role','uncertainty') else record['result']['status']=='completed',
+                                  'valid':record['output'] is not None if kind in ('role','information','uncertainty') else record['result']['status']=='completed',
                                   'seconds':round(record['seconds'],2)}),flush=True)
                 if any(c['error'] and 'OutOfMemoryError' in c['error'] for c in backend.calls):raise RuntimeError('CUDA OOM; partial results only')
         report['metrics']=summarize_capability(role_tasks,system_cohort,results,probes,arms=tuple(config['arms']),
-                                               uncertainty_protocols=tuple(config.get('uncertainty_protocols',DIAGNOSTIC_PROTOCOLS)))
+                                               uncertainty_protocols=tuple(config.get('uncertainty_protocols',DIAGNOSTIC_PROTOCOLS)),
+                                               information_tasks=information_tasks)
         report['results_sha256']=sha256_file(output/'results.jsonl');report['status']='completed'
         report['all_parameters_frozen']=all(not p.requires_grad for p in model.parameters())
     except Exception as exc:
