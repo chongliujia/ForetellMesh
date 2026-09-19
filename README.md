@@ -4,7 +4,7 @@
 
 当前已实现第一个里程碑：**统一 JSONL 数据导入 → 时间和事件校验 → 时间切分 → 确定性基线 → 评估报告**。此阶段仅使用 Python 标准库，不需要 GPU、网络或模型权重。
 
-第二阶段已增加真实来源注册、固定版本下载、Prophet Arena / ForecastBench 原始格式适配，以及本地 PMA Kalshi 市场快照 Parquet 适配。真实数据通过独立导入审计进入待核验区；历史时间证明与事件分组未完成前，不会自动成为训练或评估样本。
+第二阶段已增加真实来源注册、固定版本下载、Prophet Arena / ForecastBench 原始格式适配，以及本地 PMA Kalshi 市场快照 Parquet 适配。现增加 [PMA 原生 Polymarket 历史归档流程](docs/pma_historical_archive.md)：批量读取市场、成交、区块时间，再用 API 补充身份和父事件。真实数据通过独立导入审计进入待核验区；历史时间证明与事件分组未完成前，不会自动成为训练或评估样本。
 
 已进一步跑通 **6 条真实 ForecastBench / Manifold 样本**的历史快照核对、精确结算时间检查和保留集基线评估。该小集合只验证数据链路，不用于训练、调参或模型能力结论；见 [首批真实样本复现说明](docs/verified_subset.md)。
 

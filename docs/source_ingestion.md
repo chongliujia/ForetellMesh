@@ -1,6 +1,6 @@
 # 真实数据接入与来源审计
 
-核查日期：2026-09-18。固定版本和文件哈希见 [data_sources_v1.json](../configs/data_sources_v1.json)。原始数据下载到被 Git 忽略的 `data/raw/`，不将第三方数据内容合入本项目源码。
+核查日期：2026-09-19。固定版本和文件哈希见 [data_sources_v1.json](../configs/data_sources_v1.json)。原始数据下载到被 Git 忽略的 `data/raw/`，不将第三方数据内容合入本项目源码。
 
 ## 来源与当前接入范围
 
@@ -8,13 +8,13 @@
 | --- | --- | --- | --- |
 | Prophet Arena Subset 1200 | [作者 Hugging Face 仓库](https://huggingface.co/datasets/prophetarena/Prophet-Arena-Subset-1200) | `c94b6f450d7fe3b03688799cce1c8b29838b5d96` | 下载 CSV；逐合约展开；保留父事件和 submission 身份；审计并按时间证明转换 |
 | ForecastBench | [官方数据入口](https://www.forecastbench.org/datasets/)、[官方仓库](https://github.com/forecastingresearch/forecastbench-datasets)的 Hugging Face 镜像 | `a11ac3a9ba8812cdedab2b79ab3181a9c0825d62` | 固定 2026-01-04 轮次的问题/结算文件；按来源、问题、期限匹配；始终仅供评估 |
-| Prediction Market Analysis | [Jonathan Becker 原仓库](https://github.com/Jon-Becker/prediction-market-analysis) | `2276382cb616107db8c8647803bffa4a0d7091f8` | 固定 schema 与许可证；支持本地 Kalshi 市场元数据 Parquet 分片 |
+| Prediction Market Analysis | [Jonathan Becker 原仓库](https://github.com/Jon-Becker/prediction-market-analysis) | `2276382cb616107db8c8647803bffa4a0d7091f8` | 固定 schema 与许可证；本地 Kalshi 快照适配；独立的 Polymarket 全归档目录与成交/区块关联流程 |
 
 前两个 revision 标识数据仓库版本。PMA revision **只标识上游代码与 schema**，不是外部托管数据归档的版本；本地导入分片使用 `sha256:<文件内容哈希>` 作为 dataset_version。
 
 上游声明：Prophet 数据卡标注 MIT，ForecastBench 数据为 CC-BY-SA-4.0，PMA 仓库为 MIT。`fetch` 保留相应数据卡/许可证；数据内容与本项目的 Apache-2.0 代码许可证分别记录。这里记录上游声明，不将其解释为所有底层新闻、统计数据或市场内容都具有相同授权。
 
-PMA 上游 README 提供约 36 GiB 的压缩数据归档；本阶段没有下载完整归档。`fetch --source prediction_market_analysis` 只获取固定版本的 schema 和许可证。没有自动转用第三方镜像，也不执行 `make setup` 或上游 Python 代码。
+PMA 上游 README 提供完整压缩数据归档；本次固定 HTTP 对象实测为 36,020,641,508 字节（约 33.55 GiB）。[历史库流程](pma_historical_archive.md)单独管理下载、完整压缩帧验证、逐分片哈希、原生 Polymarket 目录及历史成交重建。原有 `fetch --source prediction_market_analysis` 仍只获取 schema 和许可证；不能用该命令的成功状态代替完整数据接入。未执行 `make setup` 或上游 Python 代码。
 
 ## 实测结果
 
@@ -65,7 +65,7 @@ PYTHONPATH=src python -m foretellmesh ingest \
 
 一份分片内须同时有事件的早期 open 快照与稍后 finalized 结果快照，才能产生可进一步审核的有标签候选。观测时点采用早期快照 `_fetched_at`，不是把后来抓取的 metadata 倒填到过去。后来的结果只进入标签，标签可用时间不得早于本文件中相应 finalized 快照的时间。实际结算时间仍要单独证明。
 
-仅含最终状态的市场表会被隔离。无时区时间戳直接报错。当前没有 Polymarket token/outcome 映射、区块时间连接、交易价格重建、多分片外部连接或完整归档实测；PMA 适配器用合成 Parquet 进行测试。读取以 batch 进行，但仍在内存中按 ticker 汇总单分片，不适合把完整归档合成一个巨型文件。
+仅含最终状态的市场表会被隔离。无时区时间戳直接报错。该 Kalshi 单分片适配器用合成 Parquet 测试；读取以 batch 进行，但仍在内存中按 ticker 汇总，不适合把完整归档合成一个巨型文件。原生 Polymarket 的 token/outcome 映射、区块时间连接及多分片历史成交重建由独立的 `foretellmesh.pma_*` 模块实现，见[命令与实测报告](pma_historical_archive.md)。
 
 ## 导入产物与时间证明
 

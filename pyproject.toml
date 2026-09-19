@@ -12,6 +12,7 @@ dependencies = []
 
 [project.optional-dependencies]
 parquet = ["pyarrow>=15"]
+archive = ["pyarrow>=15", "zstandard>=0.22"]
 graph = ["langgraph==1.2.11"]
 
 [project.scripts]

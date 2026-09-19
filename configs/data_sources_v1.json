@@ -65,7 +65,7 @@
       "role": "train_eval",
       "homepage": "https://github.com/Jon-Becker/prediction-market-analysis",
       "license": "MIT (upstream repository)",
-      "data_status": "full archive not downloaded; local Kalshi metadata Parquet shard supported",
+      "data_status": "native Polymarket archive pipeline supported via pma_archive/pma_catalog/pma_trades; local Kalshi metadata adapter retained",
       "artifacts": {
         "SCHEMAS.md": {
           "url": "https://raw.githubusercontent.com/Jon-Becker/prediction-market-analysis/2276382cb616107db8c8647803bffa4a0d7091f8/docs/SCHEMAS.md",
@@ -83,7 +83,8 @@
       "notes": [
         "The upstream code commit is not a version of the independently hosted data archive.",
         "Local Parquet dataset versions are content SHA-256 hashes.",
-        "No Polymarket token/block reconstruction or autonomous trading execution."
+        "Archive transport policy is pinned in configs/pma_archive_v1.json; complete archive SHA-256 identifies the data version.",
+        "Native Polymarket trade reconstruction uses outcome token mapping and block timestamps; candidates require separate historical-rule, grouping and label review."
       ]
     }
   }

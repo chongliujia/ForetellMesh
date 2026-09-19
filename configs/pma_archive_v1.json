@@ -1,0 +1,11 @@
+{
+  "schema_version": "1",
+  "source": "prediction_market_analysis",
+  "url": "https://s3.jbecker.dev/data.tar.zst",
+  "upstream_schema_revision": "2276382cb616107db8c8647803bffa4a0d7091f8",
+  "expected_bytes": 36020641508,
+  "expected_etag": "\"18f290309fb5d12915d667fc5ee199e4-4294\"",
+  "extract_tables": ["polymarket/markets", "polymarket/blocks", "polymarket/trades"],
+  "max_extracted_bytes": 268435456000,
+  "max_member_bytes": 2147483648
+}

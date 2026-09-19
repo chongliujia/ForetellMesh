@@ -144,7 +144,7 @@ Kalshi 旧版采集的 23 条中点报价没有独立订单簿深度和报价生
 ## 现有来源的角色
 
 - Prophet Arena 保留已完成的核验流程；缺少 SFT 答案并不等于市场数据无用。
-- Prediction Market Analysis 是 Kalshi / Polymarket 市场与交易记录的候选补充；已有接入目前仅验证 schema 和本地 Kalshi 快照适配，不能声称完整历史库已导入。
+- Prediction Market Analysis 作为批量历史市场与成交数据来源；原先只有 schema 与 Kalshi 快照适配，现增加[原生 Polymarket 历史库流程](pma_historical_archive.md)。成交与区块时间用于重建事前价格；最终快照不直接生成历史证据或预测概率答案。
 - ForecastBench 保持仅评估用途。
 - 已实读 `LightningRodLabs/outcome-rl-test-dataset` 固定版本 `f200d538760aa94848f2bc803d5307f5552fa73f`：1,265 条 Polymarket 预测任务，带 prompt、结果及模型预测。其 [论文](https://arxiv.org/html/2505.17989v4)将它定义为测试集；即使 Hugging Face 分片名为 `train`，也不自动转为本项目训练数据。新闻摘要、教师预测的历史时间证明还需审查，目前仅存来源研究目录。
 
