@@ -202,8 +202,9 @@ def poly_history_quote(pages: list[dict], t: datetime, plan: dict) -> tuple[dict
     return (None if quality["issues"] else {"probability": p, "observed_at": iso(end), "available_at": iso(end)}), quality
 
 
-def kalshi_history_quote(obj: dict | None, t: datetime, plan: dict) -> tuple[dict | None, dict]:
+def kalshi_history_quote(obj: dict | None, t: datetime, plan: dict, *, historical: bool = False) -> tuple[dict | None, dict]:
     quality = {"kind": "historical_candle_bid_ask_midpoint", "issues": []}
+    if historical:quality['source_schema'] = 'historical_fixed_point_close'
     if obj is None:
         quality["issues"].append("price_history_missing")
         return None, quality
@@ -217,9 +218,12 @@ def kalshi_history_quote(obj: dict | None, t: datetime, plan: dict) -> tuple[dic
         end = datetime.fromtimestamp(end_ts, timezone.utc)
         if end > t or end < t - timedelta(hours=plan["price_window_hours"]):
             continue
-        bid, ask = row.get("yes_bid", {}).get("close_dollars"), row.get("yes_ask", {}).get("close_dollars")
+        key = 'close' if historical else 'close_dollars'
+        bid, ask = row.get("yes_bid", {}).get(key), row.get("yes_ask", {}).get(key)
         if bid is None or ask is None:
             continue
+        if historical and any(not isinstance(x, str) or not re.fullmatch(r'(?:0|1)\.\d{4}', x) for x in (bid, ask)):
+            raise ValidationError('invalid historical fixed-point dollar quote')
         bid, ask = decimal_value(bid, "historical bid"), decimal_value(ask, "historical ask")
         if not 0 <= bid <= ask <= 1:
             raise ValidationError("invalid historical candle quotes")
@@ -476,7 +480,7 @@ def build_historical_markets(capture: Path, heldout_index: Path, output: Path) -
                             # the full 2026 wording was available at historical T.
                             reasons.append("historical_market_rules_version_missing")
                             historical = bool(cutoff and market.get("settlement_ts") and timestamp(market["settlement_ts"], "settled") < timestamp(cutoff["market_settled_ts"], "cutoff"))
-                            quote, quality = kalshi_history_quote(safe_get(kalshi_price_url(mid, t, plan, historical)), t, plan)
+                            quote, quality = kalshi_history_quote(safe_get(kalshi_price_url(mid, t, plan, historical)), t, plan, historical=historical)
                             available = max([mref["completed_at"], rref["completed_at"]], key=lambda x: timestamp(x, "received"))
                             label, ledger = historical_kalshi_label(market, available, t, expected)
                         record = {"sample_id": sid, "dataset_source": SOURCE_PREFIX + platform, "dataset_version": version,

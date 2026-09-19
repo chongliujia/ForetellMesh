@@ -1,0 +1,64 @@
+{
+  "bls_archive": "../data/raw/macro_bls_releases_20260919_v1",
+  "checkpoint_selection": false,
+  "comparison_bucket_seconds": 1800,
+  "discovery": "../data/raw/macro_evaluation_capture_20260919_v1",
+  "fed_releases": [
+    {
+      "published_at": "2025-12-10T19:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20251210a.htm"
+    },
+    {
+      "published_at": "2026-01-28T19:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260128a.htm"
+    },
+    {
+      "published_at": "2026-03-18T18:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260318a.htm"
+    },
+    {
+      "published_at": "2026-04-29T18:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260429a.htm"
+    },
+    {
+      "published_at": "2026-06-17T18:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260617a.htm"
+    },
+    {
+      "published_at": "2026-07-29T18:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm"
+    },
+    {
+      "published_at": "2026-09-16T18:00:00Z",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+    }
+  ],
+  "heldout_index": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+  "inventory": "../data/processed/macro_evaluation_inventory_20260919_v3",
+  "max_requests": 1600,
+  "pagination_policy": "one page requested (limit 1000); has_more remains a blocker, never silently truncated",
+  "policy_revision_note": "Correct the documentation URL in v2; collection policy and all requested prices are identical.",
+  "price_policy": {
+    "kalshi_period_minutes": 60,
+    "max_price_age_seconds": 10800,
+    "polymarket_bucket_seconds": 10800,
+    "price_window_hours": 6
+  },
+  "price_resolution_policy": "Use the permanent 3-hour series for every Polymarket contract and cutoff, selected before model generation. Retain the 30-minute series solely as an availability diagnostic. No outcome-based fallback, no changed cutoff or freshness threshold.",
+  "price_schema_sources": [
+    "https://docs.polymarket.com/api-reference/markets/get-a-tokens-price-history",
+    "https://docs.kalshi.com/api-reference/historical/get-historical-market-candlesticks"
+  ],
+  "prompt_tuning": false,
+  "purpose": "heldout_evidence_collection",
+  "reward_tuning": false,
+  "schema_version": "1",
+  "source_hashes": {
+    "bls_archive": "1c8a0fac1055ca6f35e8fe6b2927bc4e1baaf75784d5eb670310836f90e2f26f",
+    "discovery": "c8691f25e0392b44da699dcdfbbfdc850a63343cfd2169ae6346784c08b1e5ff",
+    "heldout_index": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429",
+    "inventory": "53f9e8d2b7e43f51e800e856cb290ecaa5180aa988cb4b7003ab8219f25800b1"
+  },
+  "training": false,
+  "workers": 4
+}
