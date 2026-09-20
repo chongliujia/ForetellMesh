@@ -1,0 +1,66 @@
+{
+  "schema_version": "1",
+  "base_model": "Qwen/Qwen3-8B-Base",
+  "base_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "capabilities": {
+    "research_tool_lora": {
+      "skills": [
+        "evidence_selection",
+        "temporal_provenance",
+        "tool_calling",
+        "counter_evidence"
+      ],
+      "training_routes": [
+        "optional_behavior_sft",
+        "verifiable_tool_rl"
+      ],
+      "status": "planned"
+    },
+    "forecast_lora": {
+      "skills": [
+        "probability_forecasting",
+        "uncertainty",
+        "forecast_review"
+      ],
+      "training_routes": [
+        "optional_behavior_sft",
+        "forecast_brier_rl"
+      ],
+      "status": "planned"
+    }
+  },
+  "agents": {
+    "research": "research_tool_lora",
+    "quant": "research_tool_lora",
+    "risk": "research_tool_lora",
+    "forecast": "forecast_lora",
+    "critic": "forecast_lora",
+    "market_quant": "research_tool_lora",
+    "game_theory": "research_tool_lora"
+  },
+  "limits": {
+    "max_repairs": 1,
+    "max_model_calls": 8,
+    "max_input_chars": 24000,
+    "max_output_chars": 12000
+  },
+  "execution": {
+    "base_model_instances": 1,
+    "concurrent_requests": 1,
+    "adapters_per_request": 1
+  }
+}

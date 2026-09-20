@@ -2,6 +2,8 @@
 
 本流程直接使用 Jonathan Becker 的 [Prediction Market Analysis](https://github.com/Jon-Becker/prediction-market-analysis) 公开历史归档，先批量读取市场、成交和区块数据，再用原生 API 与已有证明模块补缺项。上游程序不在本机执行。
 
+后续[历史补证试跑](pma_proof_pilot.md)已扩为[宏观研究数据集](pma_macro_research_dataset.md)：159 条观察覆盖 91 个合约、22 次不同发布，训练/验证/保留测试分区已冻结。保留测试仍只有 3 次 FOMC，正式双平台评分尚未准入。下文统计仍对应历史库接入和价格重建阶段。
+
 ## 来源与版本
 
 - Schema / 上游代码 revision：`2276382cb616107db8c8647803bffa4a0d7091f8`。

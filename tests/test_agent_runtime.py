@@ -10,7 +10,7 @@ import unittest
 from foretellmesh.agent_check import ScriptedBackend, check_agent_workflow
 from foretellmesh.agent_runtime import AgentRunner, OUTPUT_PROTOCOLS, PROMPTS, decode_agent_response
 from foretellmesh.capabilities import load_capabilities, route_plan
-from foretellmesh.peft_runtime import PeftTextBackend, SharedPeftExecutor
+from foretellmesh.peft_runtime import PeftTextBackend, SharedPeftExecutor, complete_json_object
 from foretellmesh.probability_tools import execute_probability_tool
 from foretellmesh.rewards import brier_reward, critic_score_delta, score_forecast_response
 from foretellmesh.schema import ValidationError, parse_record
@@ -262,6 +262,62 @@ class AdapterIsolationTests(unittest.TestCase):
 
 
 class BackendUsageTests(unittest.TestCase):
+    def test_complete_object_boundary_handles_nested_strings_and_never_extracts(self):
+        obj = json.dumps({'text': 'escaped quote " and brace }', 'items': [{'p': .4}]})
+        for text in (obj, ' \n'+obj+'\n', '```json\n'+obj+'\n```', '{}'):
+            self.assertTrue(complete_json_object(text))
+        for text in (obj[:-1], obj+'\n{}', 'explanation\n'+obj, '[{}]', '{"a":1,"a":2}',
+                     '{"a":NaN}', '```json\n'+obj, '```python\n'+obj+'\n```'):
+            self.assertFalse(complete_json_object(text))
+
+    def test_optional_boundary_stops_generation_without_editing_completion(self):
+        import torch
+        class Tokenizer:
+            eos_token_id = 0
+            def encode(self, text, add_special_tokens=False):return [1, 2]
+            def decode(self, tokens, skip_special_tokens=True):return ''.join(chr(int(x)) for x in tokens)
+        class Model(torch.nn.Module):
+            def __init__(self):
+                super().__init__();self.weight=torch.nn.Parameter(torch.zeros(1))
+            def generate(self, input_ids, **kwargs):
+                for char in '{"p":0.4}\n{"p":0.9}':
+                    input_ids=torch.cat([input_ids,torch.tensor([[ord(char)]])],dim=1)
+                    if 'stopping_criteria' in kwargs and kwargs['stopping_criteria'](input_ids,None).all():break
+                return input_ids
+        request={'instruction':'JSON','input':{},'upstream':{},'adapter':None}
+        executor=SharedPeftExecutor(Model())
+        self.assertEqual(PeftTextBackend(executor,Tokenizer()).generate(request),'{"p":0.4}\n{"p":0.9}')
+        backend=PeftTextBackend(executor,Tokenizer(),stop_on_json_object=True)
+        self.assertEqual(backend.generate(request),'{"p":0.4}')
+        self.assertEqual(backend.last_usage['output_tokens'],len('{"p":0.4}'))
+        with self.assertRaises(ValidationError):PeftTextBackend(executor,Tokenizer(),stop_on_json_object='yes')
+
+    def test_sampling_is_explicit_and_greedy_default_is_unchanged(self):
+        try:
+            import torch
+        except ImportError:
+            self.skipTest('optional torch dependency is not installed')
+        class Tokenizer:
+            eos_token_id = 0
+            def encode(self, text, add_special_tokens=False):return [1]
+            def decode(self, tokens, skip_special_tokens=True):return '{}'
+        class Model(torch.nn.Module):
+            def __init__(self):
+                super().__init__();self.weight=torch.nn.Parameter(torch.zeros(1))
+            def generate(self,input_ids,**kwargs):
+                self.received=kwargs
+                return torch.cat([input_ids,torch.tensor([[2]])],dim=1)
+        model=Model();executor=SharedPeftExecutor(model)
+        request={'instruction':'JSON','input':{},'upstream':{},'adapter':None}
+        PeftTextBackend(executor,Tokenizer()).generate(request)
+        self.assertFalse(model.received['do_sample']);self.assertNotIn('temperature',model.received)
+        sampling={'temperature':.8,'top_p':.95,'top_k':50}
+        PeftTextBackend(executor,Tokenizer(),sampling=sampling).generate(request)
+        self.assertTrue(model.received['do_sample'])
+        for key,value in sampling.items():self.assertEqual(model.received[key],value)
+        for bad in ({**sampling,'temperature':float('nan')},{**sampling,'top_p':0},{**sampling,'top_k':True},{'do_sample':True}):
+            with self.assertRaises(ValidationError):PeftTextBackend(executor,Tokenizer(),sampling=bad)
+
     def test_usage_counts_generated_tokens_and_does_not_leak_across_errors(self):
         try:
             import torch

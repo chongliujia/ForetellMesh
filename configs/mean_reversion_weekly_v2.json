@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "run_name": "pma_mean_reversion_weekly_v2",
+  "dataset_report_sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e",
+  "partition": "validation",
+  "calendar": "min_to_max_approved_validation_observation",
+  "universe": "admitted_validation_contracts_initialized_to_last_approved_observation",
+  "purpose": "short_horizon_price_reversion_with_rolling_seven_day_fill_requirement",
+  "arms": [
+    "mean_reversion_only",
+    "weekly_liquidity_control",
+    "mean_reversion_weekly"
+  ],
+  "final_test_scored": false,
+  "training": false,
+  "model_calls": 0,
+  "real_orders_sent": 0,
+  "policy": {
+    "schema_version": "2",
+    "initial_cash": "100",
+    "step_seconds": 3600,
+    "lookback_hours": 72,
+    "minimum_history_points": 36,
+    "quote_max_age_seconds": 10800,
+    "fill_window_seconds": 300,
+    "cadence_seconds": 604800,
+    "cadence_lead_seconds": 86400,
+    "max_holding_seconds": 172800,
+    "mandatory_holding_seconds": 86400,
+    "cooldown_seconds": 86400,
+    "max_entries_per_day": 2,
+    "max_trade_usd": "2",
+    "mandatory_trade_usd": "1",
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "minimum_trade_usd": "1",
+    "entry_z": "1.5",
+    "std_floor": "0.01",
+    "min_round_trip_edge": "0.01",
+    "stop_probability_points": "0.05",
+    "entry_price_tolerance": "0.02",
+    "min_yes_price": "0.05",
+    "max_yes_price": "0.95",
+    "max_24h_change": "0.15",
+    "simulation_only": true,
+    "training": false,
+    "mandatory_price_filter": "feasible_side"
+  },
+  "scenarios": {
+    "frictionless_reference": {
+      "entry_price_premium": "0",
+      "fee_fraction": "0"
+    },
+    "cost_assumption": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.01"
+    },
+    "cost_stress": {
+      "entry_price_premium": "0.03",
+      "fee_fraction": "0.02"
+    }
+  }
+}

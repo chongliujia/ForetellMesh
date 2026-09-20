@@ -12,6 +12,16 @@ This repository builds a financial forecasting and research system based on **Qw
 - Probability forecasting and calibration evaluation
 - Local development on a single RTX 3090 24GB where practical
 
+User-confirmed product objective (2026-09-19): build multi-agent automated **simulated trading** for prediction markets, starting with **USD 100 of virtual capital**, and evaluate net profitability and drawdown after explicit execution costs. Begin with an offline, unmodified Qwen3-8B-Base baseline; do not start further fine-tuning or RL until its simulation results identify a need. SFT, LoRAs, and RL are optional improvements, not prerequisites for the first trading simulation.
+
+Historical user requirements (2026-09-19, activity requirement superseded below): include a price mean-reversion strategy and require at least one actual simulated buy/sell fill every rolling 7 days. Preserve earlier experiments and their original activity audits; never reinterpret them using new requirements. Mean-reversion price targets are not event-resolution probabilities.
+
+User-authorized RL experiment (2026-09-20): a small allocation-policy PPO prototype may train on the admitted training partition while Qwen3-8B and capability adapters remain frozen. Keep forecast scoring separate from net-equity trading rewards. Freeze all seeds/checkpoints before development evaluation; do not train on the already evaluated validation contracts or open the final test. The first prototype uses deterministic price features and is not evidence of improved LLM/multi-agent forecasting.
+
+Latest user direction (2026-09-20): remove the requirement to trade every seven days and remove all cadence action guards, activity penalties and cadence-based promotion gates from new allocation experiments. Allow indefinite cash holding when trading has no net advantage. Explicitly expose transaction fees as a policy variable and evaluate different fee assumptions. Optimize after-cost net terminal equity under the existing cash/exposure/risk limits, with a $100 cash-only baseline; do not double-count fees already charged in the ledger. This is allocation-policy learning, not a replacement for proper forecast scoring. Historical cadence configurations remain for reproducibility only. Simulated execution only; never fabricate profitable fills or promote in-sample gains as generalization.
+
+User-authorized next experiment (2026-09-20): connect actual multi-agent analysis to the allocation policy and retry the simulation. Generate frozen Research / market Quant / Game Theory / Forecast outputs through LangGraph on the single shared Qwen3-8B-Base, then compare paired price-control and Agent-informed PPO policies on training data only. Agent outputs become visible after measured generation latency, expire explicitly, and are never backfilled into earlier states. Keep failed outputs missing. Preserve fees, cash-only baseline and absence of required trade frequency. Periodic research refresh does not imply periodic trading. Freeze all policies before evaluation; final test remains sealed.
+
 The primary objective is **not generic chat quality**. The system should become a reliable financial research and event-forecasting engine that can:
 
 1. gather evidence,
@@ -735,6 +745,8 @@ Train forecasting quality first.
 
 Only evaluate decision/allocation policies in a separate layer.
 
+At the system level, simulated net PnL, capital usage, drawdown, and execution feasibility are primary product outcomes. Keep Brier/calibration as forecasting diagnostics. Compare the unmodified Base system with cash/no-trade and fixed rule baselines before training. Do not equate better forecast metrics with profitable trading, or a profitable small backtest with established out-of-sample skill.
+
 ---
 
 ## 14. Tool Use
@@ -940,7 +952,7 @@ Examples of dynamic facts:
 
 ## 22. Prediction-Market Safety Boundary
 
-The core research objective is forecasting and decision-support quality.
+The product objective includes explicitly authorized automated **simulated** trading with USD 100 initial virtual capital. Forecasting and decision quality support this objective.
 
 Do not add automatic real-money wagering, deposit, withdrawal, or autonomous execution logic as an incidental feature.
 

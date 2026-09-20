@@ -1,0 +1,20 @@
+{
+  "schema_version": "1",
+  "run_name": "pma_allocation_execution_lifetime_v1",
+  "partition": "train",
+  "training_performed": false,
+  "final_test_opened": false,
+  "real_orders_sent": 0,
+  "order_ttl_seconds": [300, 3600, 14400],
+  "closeout_ttl_seconds": 300,
+  "scenarios": ["frictionless_reference", "cost_assumption", "cost_stress"],
+  "arms": ["corrected_mean_reversion", "weekly_cost_only", "ppo_7", "ppo_17", "ppo_27"],
+  "primary_seed": 7,
+  "winner_selection": "none_all_predeclared_arms_reported",
+  "executor_version": "pending_first_print_proxy_v1",
+  "reference_hashes": {
+    "config.json": "356c4622ddb26bbb5938762fe5178175fb26953272e52047b7d619aa0105d072",
+    "training_report.json": "b0aa20cd0453f5b4db8bd9e3b65f12e51d42969993ecf26fb2f2d9eaa960f5f5",
+    "report.json": "a0ada9baa3006df1dd698c8fb3c122dc652517c37f77f7d1e06496d526b8ead2"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1",
+  "run_name": "pma_allocation_cadence_diagnostic_v1",
+  "partition": "train",
+  "scenario": "cost_assumption",
+  "training_performed": false,
+  "final_test_opened": false,
+  "real_orders_sent": 0,
+  "arms": ["corrected_mean_reversion", "weekly_cost_only", "ppo_7", "ppo_17", "ppo_27"],
+  "reference_hashes": {
+    "config.json": "356c4622ddb26bbb5938762fe5178175fb26953272e52047b7d619aa0105d072",
+    "training_report.json": "b0aa20cd0453f5b4db8bd9e3b65f12e51d42969993ecf26fb2f2d9eaa960f5f5",
+    "report.json": "a0ada9baa3006df1dd698c8fb3c122dc652517c37f77f7d1e06496d526b8ead2"
+  }
+}

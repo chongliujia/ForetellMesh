@@ -243,8 +243,19 @@ def kalshi_history_quote(obj: dict | None, t: datetime, plan: dict, *, historica
 
 
 def fed_upper_bound(text: str) -> Fraction:
+    """Read the Committee's decision, not a dissenting member's preferred rate."""
     num = r"\d+(?:-\d+/\d+|\.\d+)?"
-    matches = re.findall(r"target range for the federal funds rate (?:at|by .*? to) (" + num + r") to (" + num + r") percent", normalize(text))
+    change = r"\d+(?:/\d+|\.\d+)? percentage points?"
+    rate_range = (r"target range for the federal funds rate (?:at|by " + change
+                  + r" to) (" + num + r") to (" + num + r") percent")
+    # The Fed also publishes mixed fractions with a nonbreaking hyphen.
+    # Preserve archived source text; normalize only these equivalent glyphs.
+    normalized = normalize(text).replace('\u2011', '-').replace('\u2010', '-')
+    decisions = re.findall(r"\b[Tt]he Committee decided to (?:maintain|lower|raise) the " + rate_range, normalized)
+    # Keep support for callers supplying only the range clause. Full official
+    # statements may also quote a dissent: December 2024 contains two ranges.
+    has_decision = re.search(r"\b[Tt]he Committee decided to\b", normalized)
+    matches = decisions if has_decision else re.findall(rate_range, normalized)
     if len(matches) != 1:
         raise ValidationError("cannot unambiguously extract official target range")
     def value(s):

@@ -1,0 +1,58 @@
+{
+  "formal_evaluation": false,
+  "groups": [
+    {
+      "event_group_id": "macro:us:fomc:2026-01",
+      "group_rationale": "All rate-change brackets for one scheduled FOMC announcement; cross-parent correlation is reviewed at combined cohort release.",
+      "native_event_id": "45883",
+      "period": "2026-01",
+      "prior_release": {
+        "published_at": "2025-12-10T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20251210a.htm"
+      },
+      "release": {
+        "published_at": "2026-01-28T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260128a.htm"
+      }
+    }
+  ],
+  "max_markets": 20,
+  "max_price_age_seconds": 10800,
+  "max_rpc_requests_per_market": 160,
+  "observation_days_before": [
+    7,
+    1
+  ],
+  "purpose": "pma_historical_proof_pilot",
+  "schema_version": "1",
+  "selection_policy": "All PMA contracts in predeclared monthly FOMC parents using the reviewed 2f5e deployment; capture batches are transport units only, not data splits. Preserve every failed contract; no selection by outcome or quote quality.",
+  "sources": {
+    "catalog": {
+      "path": "../data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+      "sha256": "81c3a8b09569a41d20feebf1ece49d9e79fca18c04be0d1af21a89326e6eaaff"
+    },
+    "enrichment": {
+      "path": "../data/raw/pma_macro_enrichment_20260919_v1/manifest.json",
+      "sha256": "8d7cfaeb7ea31103ac017e64275b024d3de40540b16973427416240ede289ad4"
+    },
+    "heldout_index": {
+      "path": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+      "sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429"
+    },
+    "price_store": {
+      "path": "../data/processed/pma_macro_trade_store_20260919_v4/report.json",
+      "sha256": "a69227cecf3eca5ea1fac61060973067ad5116a5b8460983144486733a70110f"
+    },
+    "rules_policy": {
+      "path": "../configs/pma_rules_review_v1.json",
+      "sha256": "29066b15ede1a239dab644037a828e3c7403489cd955eabdb604b8696f21f3ae"
+    },
+    "rules_source": {
+      "path": "../data/raw/pma_adapter_source_20260919_v1/manifest.json",
+      "sha256": "2d8197617b03e6a17678b50ba667a480caa0efd086dddb39f8506c1e0e840fa1"
+    }
+  },
+  "split": null,
+  "training": false,
+  "workers": 4
+}

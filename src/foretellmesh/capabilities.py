@@ -16,6 +16,14 @@ WORKFLOWS = {
     "quant_risk": ("risk",),
 }
 
+# Opt-in market specialists; legacy workflow names and adapters are unchanged.
+MARKET_WORKFLOWS = {
+    'market_control': ('research', 'forecast'),
+    'market_quant_forecast': ('research', 'market_quant', 'forecast'),
+    'market_game_forecast': ('research', 'game_theory', 'forecast'),
+    'market_quant_game_forecast': ('research', 'market_quant', 'game_theory', 'forecast'),
+}
+
 
 def load_capabilities(path: Path) -> tuple[dict, str]:
     raw = path.read_bytes()
@@ -49,7 +57,8 @@ def load_capabilities(path: Path) -> tuple[dict, str]:
         for key in ("skills", "training_routes"):
             if not isinstance(spec[key], list) or not spec[key] or any(not isinstance(x, str) or not x.strip() for x in spec[key]):
                 raise ValidationError("capability skills/routes must be nonempty string lists")
-    fields(value["agents"], {"research", "quant", "risk", "forecast", "critic"}, "agent routes")
+    optional = {'market_quant', 'game_theory'} & value['agents'].keys()
+    fields(value["agents"], {"research", "quant", "risk", "forecast", "critic"} | optional, "agent routes")
     if any(not isinstance(cap, str) or cap not in caps for cap in value["agents"].values()):
         raise ValidationError("each agent must select one registered capability")
     limits = fields(value["limits"], {"max_repairs", "max_model_calls", "max_input_chars", "max_output_chars"}, "agent limits")
@@ -64,15 +73,20 @@ def load_capabilities(path: Path) -> tuple[dict, str]:
 
 
 def route_plan(config: dict, workflow: str, mode: str = "base", *, capability_scope: set[str] | None = None) -> dict:
-    if workflow not in WORKFLOWS or mode not in ("base", "capability"):
+    workflows = WORKFLOWS | MARKET_WORKFLOWS
+    if workflow not in workflows or mode not in ("base", "capability"):
         raise ValidationError("unknown workflow/adapter mode")
+    if workflow in MARKET_WORKFLOWS and mode != 'base':
+        raise ValidationError('market specialist workflows are evaluated on Base only')
+    if set(workflows[workflow]) - config['agents'].keys():
+        raise ValidationError('workflow requires explicit specialist agent routes')
     if capability_scope is not None:
         if (mode != "capability" or not isinstance(capability_scope, set) or not capability_scope
                 or any(not isinstance(x, str) for x in capability_scope) or capability_scope - config["capabilities"].keys()):
             raise ValidationError("invalid explicit capability scope")
     steps = [{"agent": agent, "capability": config["agents"][agent],
               "adapter": None if mode == "base" or (capability_scope is not None and config["agents"][agent] not in capability_scope) else config["agents"][agent]}
-             for agent in WORKFLOWS[workflow]]
+             for agent in workflows[workflow]]
     plan = {"workflow": workflow, "mode": mode, "base_model": config["base_model"],
             "base_revision": config["base_revision"], "steps": steps,
             "max_model_calls": len(steps) * (config["limits"]["max_repairs"] + 1),

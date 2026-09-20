@@ -1,0 +1,20 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3_8b_pma_macro_development_v1",
+  "partition": "validation",
+  "dataset_report_sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e",
+  "arms": ["single_base", "multi_base", "multi_research_lora"],
+  "output_protocol": "grounded_json_v3",
+  "response_transport": "single_json_fence",
+  "max_context_tokens": 4096,
+  "max_new_tokens": 768,
+  "max_repairs": 0,
+  "seed": 20260919,
+  "do_sample": false,
+  "base_dtype": "bfloat16",
+  "attention": "sdpa",
+  "training": false,
+  "default_promotion": false,
+  "ece_bins": 10,
+  "log_loss_epsilon": 1e-15
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1",
+  "run_name": "pma_allocation_profit_fee_v1",
+  "partition": "train",
+  "periodic_activity_required": false,
+  "activity_penalty_usd": "0",
+  "objective": "maximize_after_cost_terminal_equity",
+  "reward_version": "net_liquidation_equity_delta_usd_v1",
+  "order_ttl_seconds": 3600,
+  "minimum_entry_buffer_seconds": 86400,
+  "observation_version": "profit_fee_and_premium_no_cadence_v1",
+  "seeds": [
+    7,
+    17,
+    27
+  ],
+  "primary_seed": 7,
+  "training_cost_schedules": {
+    "fixed_fee": [
+      "cost_assumption"
+    ],
+    "variable_fee": [
+      "cost_assumption",
+      "fee_zero",
+      "fee_high"
+    ]
+  },
+  "scenarios": {
+    "frictionless_reference": {
+      "entry_price_premium": "0",
+      "fee_fraction": "0"
+    },
+    "fee_zero": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0"
+    },
+    "cost_assumption": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.01"
+    },
+    "fee_interpolation": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.015"
+    },
+    "fee_high": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.02"
+    },
+    "cost_stress": {
+      "entry_price_premium": "0.03",
+      "fee_fraction": "0.02"
+    }
+  },
+  "initialization": "fresh_paired_between_fee_families",
+  "checkpoint_selection": "last_fixed_step_all_seeds_no_selection",
+  "fixed_controls": [
+    "cash_only",
+    "mean_reversion"
+  ],
+  "validation_replayed": false,
+  "final_test_opened": false,
+  "foundation_model_updated": false,
+  "llm_calls": 0,
+  "real_orders_sent": 0,
+  "default_promotion": false,
+  "ppo": {
+    "total_timesteps": 32768,
+    "n_steps": 1024,
+    "batch_size": 128,
+    "n_epochs": 4,
+    "learning_rate": 0.0003,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "net_arch": [
+      64,
+      64
+    ],
+    "device": "cpu",
+    "torch_threads": 1
+  },
+  "reference_hashes": {
+    "config.json": "03d1fbdd79f26e1a6045c61602c5f0ad595a7e66a36fe3f12627577518ef6f93",
+    "report.json": "5fa15ea5cbd9de290ff2e623d493124d5a1be7349ee8579b83c6022113f6b1cc",
+    "training_report.json": "6cc1e7d4e1ade87ccdd2683f052d8eb3b717a03bef107f86204a44400ce61505",
+    "audit.json": "2cbde88bfeb1ae32c789eb35f7fea5d1e5242b2bc87c869e3ea8f43be9299613"
+  }
+}

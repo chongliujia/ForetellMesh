@@ -1,0 +1,81 @@
+{
+  "automatic_training": false,
+  "batches": [
+    {
+      "capture": "../data/raw/pma_proof_pilot_20260919_v1",
+      "config": "pma_proof_pilot_v1.json",
+      "config_sha256": "8112b508c79f0667f611967fa34775ae7a8e9f13777059c800e01e93ed489e48"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2024a_20260919_v1",
+      "config": "pma_fomc_2024a_v1.json",
+      "config_sha256": "778f2ae9ac4dcd05666aaee99049775534c5912688cbafcb95ae2efc9b108ed3"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2024b_20260919_v1",
+      "config": "pma_fomc_2024b_v1.json",
+      "config_sha256": "f925f3e93491ee4fd1632e73c4af1a48864463ee8a912797a747825f959051b6"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2025b_20260919_v1",
+      "config": "pma_fomc_2025b_v1.json",
+      "config_sha256": "240ec65748d256486e83c8d13cec6ff1c03d98a5f1b5858b7a180eea99a1fee7"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2026a_20260919_v1",
+      "config": "pma_fomc_2026a_v1.json",
+      "config_sha256": "6a3e0c6bda7df086e5efaf826ab0a015c5722ccdc425ed794dbd9cebeb397d17"
+    },
+    {
+      "capture": "../data/raw/pma_bls_cpi_1_20260919_v1",
+      "config": "pma_bls_cpi_1_v1.json",
+      "config_sha256": "628eca81efc742b3829cc0087fd73134a224a3d1824a66f84415f91ffbb7a95d"
+    },
+    {
+      "capture": "../data/raw/pma_bls_cpi_2_20260919_v1",
+      "config": "pma_bls_cpi_2_v1.json",
+      "config_sha256": "df0eb21d918a8b3c6ad4d0a44271c1f4ff79e7cb57518f4720559e544e5881c0"
+    },
+    {
+      "capture": "../data/raw/pma_bls_cpi_3_20260919_v1",
+      "config": "pma_bls_cpi_3_v1.json",
+      "config_sha256": "3418d784867f7553aa9d61abf79b618d44548b115bd9a5394939fa2dfcf45986"
+    },
+    {
+      "capture": "../data/raw/pma_bls_u3_1_20260919_v1",
+      "config": "pma_bls_u3_1_v1.json",
+      "config_sha256": "824021f17839318f288035b42d3999fb471cde58900819101e6bc993af39f51f"
+    },
+    {
+      "capture": "../data/raw/pma_bls_u3_2_20260919_v1",
+      "config": "pma_bls_u3_2_v1.json",
+      "config_sha256": "7de7cc05e38d16f04b727c499b5091e8159c7bda65db02a576fc6aac11f48f6d"
+    },
+    {
+      "capture": "../data/raw/pma_bls_u3_3_20260919_v1",
+      "config": "pma_bls_u3_3_v1.json",
+      "config_sha256": "7b707d8b1c2664db581aae7e6beea0e2ffd65c7f7bb680a8aa772f9d87bd9281"
+    }
+  ],
+  "benchmark_index": {
+    "path": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+    "sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429"
+  },
+  "excluded_scope": "All unselected parents, including annual totals, cumulative cuts, multi-meeting combos, appointment and mention markets; not authorized by this release.",
+  "formal_evaluation": false,
+  "minimum_formal_evaluation_groups": 20,
+  "parent_release": {
+    "path": "../data/processed/pma_fomc_research_20260919_v2",
+    "report_sha256": "0999ae18f8065477f1111de65d6ebc4f556dc2a42c0431926811580029fcd92f"
+  },
+  "purpose": "pma_macro_chronological_research_dataset",
+  "schema_version": "1",
+  "selection_scope": "Retain the frozen FOMC cohort and add every native bracket of US CPI annual / U-3 monthly parents for November 2024 through June 2025 using the reviewed 2f5e deployment; no outcome or quote availability selection.",
+  "split_policy": {
+    "label_before_next_split_observation": true,
+    "test_release_before": "2026-02-01T00:00:00Z",
+    "train_release_before": "2025-01-01T00:00:00Z",
+    "unit": "scheduled_us_macro_release",
+    "validation_release_before": "2025-08-01T00:00:00Z"
+  }
+}

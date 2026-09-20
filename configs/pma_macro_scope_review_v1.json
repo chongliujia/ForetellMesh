@@ -1,0 +1,274 @@
+{
+  "benchmark_entries_sha256": "cc751db5748397e863e6df1cc9b833ddace59b416b1c5a0e366273aa96aeea12",
+  "benchmark_index_sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429",
+  "benchmark_inventory_summary": {
+    "entries": 2244,
+    "native_question_templates": 250,
+    "series_horizon_origin": "2026-01-04",
+    "series_templates": 250,
+    "source_counts": {
+      "acled": 400,
+      "dbnomics": 400,
+      "fred": 394,
+      "infer": 29,
+      "manifold": 74,
+      "metaculus": 74,
+      "polymarket": 73,
+      "wikipedia": 400,
+      "yfinance": 400
+    }
+  },
+  "cohort_config_sha256": "e5aee688b4543adf416b43c07b18e1f4255ff1f8c7a18a4581000204d22b230e",
+  "cohort_projection_sha256": "f445b7997911b0c78a1163f7d4bba510e86fc791215911957ae71f67cc089c69",
+  "economic_review_inventory_sha256": "ecd357fe759a033bba1fc3b220bbd1b4d3b3c1f1830b75abdbc7bc6019d699f8",
+  "groups": [
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-03",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-05",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-06",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-07",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-09",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-11",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2024-12",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared train partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-01",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared validation partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-03",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared validation partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-05",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared validation partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-06",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared validation partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-07",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared validation partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-09",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared test partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-10",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared test partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:fomc:2025-12",
+      "rationale": "One scheduled FOMC announcement with all native bracket siblings kept together. Pre-2026 meeting outside the benchmark rate-series forecast windows; no same-release target found in the reviewed frozen index. Release only source-verified rows in the predeclared test partition; exclude all annual/cumulative/combo parents.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "benchmark_related_reserve",
+      "event_group_id": "macro:us:fomc:2026-01",
+      "rationale": "Reserve this entire January 2026 policy event because the benchmark contains contemporaneous IORB/overnight-rate windows and a later FOMC decision. No training or tuning; identity non-match does not waive this related-period reservation.",
+      "related_benchmark_entry_ids": [
+        "fred:AMERIBOR:2026-01-04:2026-01-11",
+        "fred:AMERIBOR:2026-01-04:2026-02-03",
+        "fred:AMERIBOR:2026-01-04:2026-04-04",
+        "fred:AMERIBOR:2026-01-04:2026-07-03",
+        "fred:AMERIBOR:2026-01-04:2027-01-04",
+        "fred:AMERIBOR:2026-01-04:2029-01-03",
+        "fred:AMERIBOR:2026-01-04:2031-01-03",
+        "fred:AMERIBOR:2026-01-04:2036-01-02",
+        "fred:DTB1YR:2026-01-04:2026-01-11",
+        "fred:DTB1YR:2026-01-04:2026-02-03",
+        "fred:DTB1YR:2026-01-04:2026-04-04",
+        "fred:DTB1YR:2026-01-04:2026-07-03",
+        "fred:DTB1YR:2026-01-04:2027-01-04",
+        "fred:DTB1YR:2026-01-04:2029-01-03",
+        "fred:DTB1YR:2026-01-04:2031-01-03",
+        "fred:DTB1YR:2026-01-04:2036-01-02",
+        "fred:DTB4WK:2026-01-04:2026-01-11",
+        "fred:DTB4WK:2026-01-04:2026-02-03",
+        "fred:DTB4WK:2026-01-04:2026-04-04",
+        "fred:DTB4WK:2026-01-04:2026-07-03",
+        "fred:DTB4WK:2026-01-04:2027-01-04",
+        "fred:DTB4WK:2026-01-04:2029-01-03",
+        "fred:DTB4WK:2026-01-04:2031-01-03",
+        "fred:DTB4WK:2026-01-04:2036-01-02",
+        "fred:IORB:2026-01-04:2026-01-11",
+        "fred:IORB:2026-01-04:2026-02-03",
+        "fred:IORB:2026-01-04:2026-04-04",
+        "fred:IORB:2026-01-04:2026-07-03",
+        "fred:IORB:2026-01-04:2027-01-04",
+        "fred:IORB:2026-01-04:2029-01-03",
+        "fred:IORB:2026-01-04:2031-01-03",
+        "fred:IORB:2026-01-04:2036-01-02",
+        "fred:OBFR:2026-01-04:2026-01-11",
+        "fred:OBFR:2026-01-04:2026-02-03",
+        "fred:OBFR:2026-01-04:2026-04-04",
+        "fred:OBFR:2026-01-04:2026-07-03",
+        "fred:OBFR:2026-01-04:2027-01-04",
+        "fred:OBFR:2026-01-04:2029-01-03",
+        "fred:OBFR:2026-01-04:2031-01-03",
+        "fred:OBFR:2026-01-04:2036-01-02",
+        "fred:SOFR90DAYAVG:2026-01-04:2026-01-11",
+        "fred:SOFR90DAYAVG:2026-01-04:2026-02-03",
+        "fred:SOFR90DAYAVG:2026-01-04:2026-04-04",
+        "fred:SOFR90DAYAVG:2026-01-04:2026-07-03",
+        "fred:SOFR90DAYAVG:2026-01-04:2027-01-04",
+        "fred:SOFR90DAYAVG:2026-01-04:2029-01-03",
+        "fred:SOFR90DAYAVG:2026-01-04:2031-01-03",
+        "fred:SOFR90DAYAVG:2026-01-04:2036-01-02",
+        "polymarket:0x257b18205f908aef01ef2d1d50e6fea7d29cf5486fe04031d8b101394476faed"
+      ]
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2024-11",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2024-11; calendar publication, not reference month, determines train role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2024-12",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2024-12; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-01",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-01; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-02",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-02; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-03",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-03; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-04",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-04; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-05",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-05; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:cpi_yoy:2025-06",
+      "rationale": "All bracket siblings for one US BLS cpi_yoy first release for 2025-06; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2024-11",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2024-11; calendar publication, not reference month, determines train role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2024-12",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2024-12; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-01",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-01; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-02",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-02; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-03",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-03; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-04",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-04; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-05",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-05; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    },
+    {
+      "disposition": "release_in_planned_split",
+      "event_group_id": "macro:us:unemployment_u3:2025-06",
+      "rationale": "All bracket siblings for one US BLS unemployment_u3 first release for 2025-06; calendar publication, not reference month, determines validation role. No same-release benchmark target found in the reviewed index; 2026 forecast windows and GDP/long-horizon unemployment targets are different events. Exclude all unselected monthly-CPI/annual/foreign-country parents; only source-verified samples may release.",
+      "related_benchmark_entry_ids": []
+    }
+  ],
+  "historical_knowledge_policy": "These are retrospective development data. Hiding labels does not remove pretrained historical knowledge. Do not claim prospective forecasting skill; preserve future timestamped forecasts as a separate benchmark. No SFT targets are created from realized outcomes.",
+  "rationale": "Additive scope review of 146 native contracts and 32 planned scheduled releases against the same 2244-entry ForecastBench index. The previous full 250 native-question / 250 series-template review remains applicable; additional economic-target review distinguishes 2024-11 through 2025-06 US CPI-U annual NSA and U-3 SA first releases from future 2026 series horizons, multi-year AI unemployment thresholds, and GDP-defined recession targets. No same-release CPI/U-3 target found. Shared macro drivers remain; no statistical-independence claim. Annual/monthly CPI sibling parents refer to the same BLS release but monthly parents remain excluded, as do annual-maxima and other-country markets. No inference from mere absence of exact matches.",
+  "review_id": "pma_macro_scope_review_v1",
+  "reviewed_by": "Codex source/scope review; not an independent human certification",
+  "schema_version": "1",
+  "unselected_parent_policy": "exclude_all_from_this_release"
+}

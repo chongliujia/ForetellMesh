@@ -1,0 +1,40 @@
+{
+  "schema_version": "1",
+  "run_name": "pma_allocation_ppo_execution_retrain_v1",
+  "partition": "train",
+  "training_scenario": "cost_assumption",
+  "training_order_ttl_seconds": 3600,
+  "evaluation_order_ttl_seconds": [3600, 14400],
+  "scenarios": ["frictionless_reference", "cost_assumption", "cost_stress"],
+  "seeds": [7, 17, 27],
+  "primary_seed": 7,
+  "rewards": {"net_equity": "0", "net_equity_cadence": "0.10"},
+  "reward_version": "net_equity_minus_integrated_overdue_hours_v1",
+  "initialization": "fresh_paired_original_seed_parameters",
+  "checkpoint_selection": "last_fixed_step_all_seeds_no_selection",
+  "validation_replayed": false,
+  "final_test_opened": false,
+  "foundation_model_updated": false,
+  "llm_calls": 0,
+  "real_orders_sent": 0,
+  "default_promotion": false,
+  "ppo": {
+    "total_timesteps": 32768,
+    "n_steps": 1024,
+    "batch_size": 128,
+    "n_epochs": 4,
+    "learning_rate": 0.0003,
+    "gamma": 0.995,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "net_arch": [64, 64],
+    "device": "cpu",
+    "torch_threads": 1
+  },
+  "execution_reference_hashes": {
+    "config.json": "ef5b95b5ea8216fb65d5c1b5165e96e29be4e3a9ba35e1d21e7b0799703915c7",
+    "report.json": "262ef0533656bcd57ff2cf5f57c376104a22dcbe846fa7a58b4765e74cddb468",
+    "audit.json": "8ec9f56faa36bc158b65e98a9ec0871fe1d2abe029ad2c8be9bea631a68fcf5b"
+  }
+}

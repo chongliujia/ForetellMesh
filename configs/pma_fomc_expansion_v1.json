@@ -1,0 +1,47 @@
+{
+  "automatic_training": false,
+  "batches": [
+    {
+      "capture": "../data/raw/pma_proof_pilot_20260919_v1",
+      "config": "pma_proof_pilot_v1.json",
+      "config_sha256": "8112b508c79f0667f611967fa34775ae7a8e9f13777059c800e01e93ed489e48"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2024a_20260919_v1",
+      "config": "pma_fomc_2024a_v1.json",
+      "config_sha256": "778f2ae9ac4dcd05666aaee99049775534c5912688cbafcb95ae2efc9b108ed3"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2024b_20260919_v1",
+      "config": "pma_fomc_2024b_v1.json",
+      "config_sha256": "f925f3e93491ee4fd1632e73c4af1a48864463ee8a912797a747825f959051b6"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2025b_20260919_v1",
+      "config": "pma_fomc_2025b_v1.json",
+      "config_sha256": "240ec65748d256486e83c8d13cec6ff1c03d98a5f1b5858b7a180eea99a1fee7"
+    },
+    {
+      "capture": "../data/raw/pma_fomc_2026a_20260919_v1",
+      "config": "pma_fomc_2026a_v1.json",
+      "config_sha256": "6a3e0c6bda7df086e5efaf826ab0a015c5722ccdc425ed794dbd9cebeb397d17"
+    }
+  ],
+  "benchmark_index": {
+    "path": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+    "sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429"
+  },
+  "excluded_scope": "All unselected parents, including annual totals, cumulative cuts, multi-meeting combos, appointment and mention markets; not authorized by this release.",
+  "formal_evaluation": false,
+  "minimum_formal_evaluation_groups": 20,
+  "purpose": "pma_fomc_chronological_research_dataset",
+  "schema_version": "1",
+  "selection_scope": "All 16 scheduled monthly FOMC parent markets using the reviewed 2f5e deployment from March 2024 through January 2026 in the pinned PMA archive; all native sibling contracts retained in audit.",
+  "split_policy": {
+    "label_before_next_split_observation": true,
+    "test_release_before": "2026-02-01T00:00:00Z",
+    "train_release_before": "2025-01-01T00:00:00Z",
+    "unit": "scheduled_fomc_release",
+    "validation_release_before": "2025-08-01T00:00:00Z"
+  }
+}

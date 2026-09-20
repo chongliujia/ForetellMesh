@@ -1,0 +1,102 @@
+{
+  "kind": "experiment_plan_not_trainer_config",
+  "schema_version": "1",
+  "plan_name": "pma_allocation_ppo_cadence_penalty_design_v1",
+  "created_at": "2026-09-20",
+  "status": "design_pending_training_diagnostics_and_new_development_manifest",
+  "execution_enabled": false,
+  "document": "docs/allocation_rl_design.md",
+  "reference": {
+    "config_path": "configs/allocation_ppo_v1.json",
+    "config_sha256": "356c4622ddb26bbb5938762fe5178175fb26953272e52047b7d619aa0105d072",
+    "report_path": "runs/pma_allocation_ppo_v1/report.json",
+    "report_sha256": "a0ada9baa3006df1dd698c8fb3c122dc652517c37f77f7d1e06496d526b8ead2",
+    "dataset_report_sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e"
+  },
+  "scope": {
+    "simulation_only": true,
+    "initial_cash_usd": "100",
+    "real_orders_sent": 0,
+    "foundation_model": "Qwen/Qwen3-8B-Base",
+    "foundation_model_updated": false,
+    "adapter_updates": false,
+    "llm_calls": 0,
+    "signal_source": "causal_price_features_only",
+    "final_test_opened": false,
+    "automatic_default_promotion": false
+  },
+  "hypothesis": "Adding an actual-fill overdue-time penalty improves cadence compliance relative to identical PPO with net-equity reward alone; profitability is evaluated separately.",
+  "reward_design": {
+    "pnl_reward": "net_liquidation_equity_delta_usd_v1",
+    "proposed_cost_version": "actual_fill_overdue_hours_v1",
+    "cadence_seconds": 604800,
+    "cost_units": "newly_elapsed_overdue_hours_per_transition",
+    "cost_clock": "split_at_actual_buy_sell_fills_clip_to_fixed_replay_calendar",
+    "initial_clock_anchor": "fixed_replay_start",
+    "rollout_boundary_resets_clock": false,
+    "qualifying_events": ["buy_fill", "sell_fill"],
+    "nonqualifying_events": ["order", "cancel", "settle"],
+    "candidate_penalty_usd_per_overdue_hour": "0.10",
+    "penalty_weight_search": false,
+    "penalty_changes_cash_ledger": false,
+    "trade_count_bonus": "0",
+    "separate_logs": [
+      "pnl_reward_usd",
+      "late_hours",
+      "cadence_penalty_usd",
+      "training_reward"
+    ],
+    "hard_qualification_max_gap_seconds": 604800,
+    "feasibility_guarantee_claimed": false
+  },
+  "comparison": {
+    "shared_environment_config": "reference.config_path#environment",
+    "shared_scenarios": "reference.config_path#scenarios",
+    "shared_ppo_config": "reference.config_path#ppo",
+    "shared_libraries": "reference.config_path#libraries",
+    "training_scenario": "cost_assumption",
+    "fixed_controls": ["corrected_mean_reversion", "weekly_cost_only"],
+    "learned_arms": [
+      {"name": "ppo_control", "penalty_usd_per_overdue_hour": "0"},
+      {"name": "ppo_cadence_penalty", "penalty_usd_per_overdue_hour": "0.10"}
+    ],
+    "seeds": [7, 17, 27],
+    "primary_seed": 7,
+    "paired_initial_parameters": true,
+    "timesteps_per_arm_per_seed": 32768,
+    "total_training_timesteps": 196608,
+    "checkpoint_selection": "last_fixed_step_for_every_seed_no_validation_selection",
+    "freeze_all_checkpoints_before_new_development_evaluation": true,
+    "change_observations_actions_executor_or_gamma_in_reward_ablation": false
+  },
+  "data_policy": {
+    "existing_train_role": "training_only_mechanism_diagnostics",
+    "existing_train_event_groups": 6,
+    "existing_validation_role": "previously_observed_regression_only_not_training",
+    "new_training_manifest_sha256": null,
+    "new_development_manifest_sha256": null,
+    "new_development_selection_by_policy_pnl": false,
+    "split": "chronological_and_event_group_disjoint_with_cross_dataset_deduplication",
+    "historical_cutoff": "all_policy_visible_source_timestamps_lte_decision_time",
+    "future_fill_diagnostics_policy_visible": false,
+    "drop_unfillable_intervals_from_headline_metrics": false,
+    "final_test_policy": "sealed"
+  },
+  "prerequisites_for_new_development_evaluation": [
+    "training_partition_fill_opportunity_and_failure_diagnostics",
+    "exact_overdue_cost_implementation_and_boundary_tests",
+    "cash_ledger_reward_decomposition_and_temporal_isolation_checks",
+    "new_admitted_data_manifests_and_event_split_hashes",
+    "shared_environment_expanded_numeric_config_and_source_snapshot_frozen",
+    "all_seed_checkpoints_frozen"
+  ],
+  "profitability_candidate_necessary_conditions": {
+    "all_seeds_main_cost_cadence_violations": 0,
+    "all_seeds_main_cost_cash_or_exposure_violations": 0,
+    "mean_main_cost_net_pnl_gt_usd": "0",
+    "mean_main_cost_net_pnl_gt_corrected_mean_reversion": true,
+    "report_every_seed_worst_seed_subperiods_and_cost_stress": true,
+    "independent_event_and_time_replication_required_before_promotion": true
+  },
+  "next_implementation_task": "training_partition_fill_opportunity_and_cadence_failure_diagnostics"
+}

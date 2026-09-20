@@ -1,0 +1,141 @@
+{
+  "allowed_fields": [
+    "headline_cpi_yoy_nsa",
+    "headline_unemployment_u3_sa"
+  ],
+  "archive_manifest_sha256": "7e421a3f846c3b04eccc8277b50b396f36976466cb242342c8b5205e8a78f7b3",
+  "historical_tables_allowed": false,
+  "releases": [
+    {
+      "capture_sha256": "e182397023110964151459c7b88b6332ad624d9f2dba675c06009b15dbbb1391",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2024-10",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "481276e9abc5999c9597a6cdd888e6f599271642d142071848cfa9cb4efa2905",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2024-11",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "38b3668c544dd468b8b8f31a84cf6403f0e3fbac15d2665dd998dbab33dd5b74",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2024-12",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "47925b705ac814b211ae43bbfd51bef7ee51c3740ff297ac4501f11bfdf6fb87",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-01",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "ea36a44428f40b15d9e66f86f1113dbe88259e77a65c4d62e29b0230f16e7ca3",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-02",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "b262f505bb85edbf53e85dbc7875dee73547e2ebc80e99b21afc00824119115f",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-03",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "6338f7fa0d8a6250ff35e3e95c7fec07b0987806dedcd6e3af8a70b4e21d46d1",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-04",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "d444e79a89bfa1f74bb1736530391ff7eb2280a0deadf664355582e132564998",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-05",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "84d58f9ecd73ddd2f5c741b055185fdfea1299ce8d2929ef0763da16f2d2cc74",
+      "disposition": "no_correction_marker_found",
+      "family": "cpi_yoy",
+      "period": "2025-06",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "d328afc2bd57d38eba48d4c8c31fa4cd8d735dced055ecad21ac02087d88bdf1",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2024-10",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "ad2cec7591220c34c7a6d0e1f794829192daa03a3f6f41e41137021c9de9ed0f",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2024-11",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "7b0d61ee614729a217d5ff3e892636266c3cca4cf99ec07c3fc14564a67decd5",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2024-12",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "a0d0e8ee3a5b2abfbbd1e02e71181916998e626cc54dccc6f4bf1348430372a2",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2025-01",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "f3baddfd5a3954fa486b305a1c8976f55af2288a8e7166546759ffda707185c8",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2025-02",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "df8fc87988c9e5a51b2bfba326fafb4d5e927def97157a14f0bbaab2b2c5a5f9",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2025-03",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    },
+    {
+      "capture_sha256": "2e9cb31032817613886da4c837a18922ef7d7248510ff6fd4843bf4f81ae4749",
+      "disposition": "april_2025_u3_unaffected_errata",
+      "family": "unemployment_u3",
+      "period": "2025-04",
+      "rationale": "BLS official June 3 errata states the overall unemployment rate was unaffected and April archived release was not updated with corrected estimates. April inserted notice and May correction discussion are excluded from all model-visible text; authorize only each current-period headline U-3 value."
+    },
+    {
+      "capture_sha256": "d44253d382e3686f9c78dc3f89f88734d4fcd6c34e7679cd53f275817b2adbcb",
+      "disposition": "april_2025_u3_unaffected_errata",
+      "family": "unemployment_u3",
+      "period": "2025-05",
+      "rationale": "BLS official June 3 errata states the overall unemployment rate was unaffected and April archived release was not updated with corrected estimates. April inserted notice and May correction discussion are excluded from all model-visible text; authorize only each current-period headline U-3 value."
+    },
+    {
+      "capture_sha256": "d347dee5441d8cf1cc1bdeff0c80f5bb57a6d4995aaa5afa42899dcd1646907c",
+      "disposition": "no_correction_marker_found",
+      "family": "unemployment_u3",
+      "period": "2025-06",
+      "rationale": "Dated release headline only. Indexed official page search found no correction or reissue markers; not a first-publication snapshot."
+    }
+  ],
+  "review_id": "pma_bls_headline_v1",
+  "reviewer": "assistant_source_review_not_independent_human_certification",
+  "schema_version": "1",
+  "trust_model": "dated_official_headline_and_indexed_correction_search_not_first_fetch_snapshot",
+  "whole_release_model_evidence_allowed": false
+}

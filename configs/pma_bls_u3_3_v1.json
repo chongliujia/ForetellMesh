@@ -1,0 +1,86 @@
+{
+  "formal_evaluation": false,
+  "groups": [
+    {
+      "event_group_id": "macro:us:unemployment_u3:2025-05",
+      "family": "unemployment_u3",
+      "group_rationale": "All native brackets for one US BLS release; monthly CPI and other-country/annual-combo parents excluded from this release.",
+      "native_event_id": "23803",
+      "period": "2025-05",
+      "prior_release": {
+        "period": "2025-04",
+        "published_at": "2025-05-02T12:30:00Z",
+        "url": "https://www.bls.gov/news.release/archives/empsit_05022025.htm"
+      },
+      "release": {
+        "period": "2025-05",
+        "published_at": "2025-06-06T12:30:00Z",
+        "url": "https://www.bls.gov/news.release/archives/empsit_06062025.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:unemployment_u3:2025-06",
+      "family": "unemployment_u3",
+      "group_rationale": "All native brackets for one US BLS release; monthly CPI and other-country/annual-combo parents excluded from this release.",
+      "native_event_id": "26238",
+      "period": "2025-06",
+      "prior_release": {
+        "period": "2025-05",
+        "published_at": "2025-06-06T12:30:00Z",
+        "url": "https://www.bls.gov/news.release/archives/empsit_06062025.htm"
+      },
+      "release": {
+        "period": "2025-06",
+        "published_at": "2025-07-03T12:30:00Z",
+        "url": "https://www.bls.gov/news.release/archives/empsit_07032025.htm"
+      }
+    }
+  ],
+  "max_markets": 20,
+  "max_price_age_seconds": 10800,
+  "max_rpc_requests_per_market": 160,
+  "observation_days_before": [
+    7,
+    1
+  ],
+  "purpose": "pma_bls_historical_proof_pilot",
+  "schema_version": "1",
+  "selection_policy": "All PMA candidates within four consecutive scheduled 2025 FOMC parent events (March through July); no selection by payout, forecast or price availability. Engineering pilot, not a representative benchmark.",
+  "sources": {
+    "bls_archive": {
+      "path": "../data/raw/pma_bls_releases_20260919_v1/manifest.json",
+      "sha256": "7e421a3f846c3b04eccc8277b50b396f36976466cb242342c8b5205e8a78f7b3"
+    },
+    "bls_policy": {
+      "path": "../configs/pma_bls_headline_review_v1.json",
+      "sha256": "84e34b9d917af0f67489256cae855b46faf7a435c9a653cf76ba70ce8b654cef"
+    },
+    "catalog": {
+      "path": "../data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+      "sha256": "81c3a8b09569a41d20feebf1ece49d9e79fca18c04be0d1af21a89326e6eaaff"
+    },
+    "enrichment": {
+      "path": "../data/raw/pma_macro_enrichment_20260919_v1/manifest.json",
+      "sha256": "8d7cfaeb7ea31103ac017e64275b024d3de40540b16973427416240ede289ad4"
+    },
+    "heldout_index": {
+      "path": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+      "sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429"
+    },
+    "price_store": {
+      "path": "../data/processed/pma_macro_trade_store_20260919_v4/report.json",
+      "sha256": "a69227cecf3eca5ea1fac61060973067ad5116a5b8460983144486733a70110f"
+    },
+    "rules_policy": {
+      "path": "../configs/pma_rules_review_v1.json",
+      "sha256": "29066b15ede1a239dab644037a828e3c7403489cd955eabdb604b8696f21f3ae"
+    },
+    "rules_source": {
+      "path": "../data/raw/pma_adapter_source_20260919_v1/manifest.json",
+      "sha256": "2d8197617b03e6a17678b50ba667a480caa0efd086dddb39f8506c1e0e840fa1"
+    }
+  },
+  "split": null,
+  "training": false,
+  "workers": 4
+}

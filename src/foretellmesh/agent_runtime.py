@@ -19,6 +19,8 @@ from .schema import ForecastInput, ValidationError, fields, iso, nonempty, parse
 from .sft_data import INSTRUCTION, validate_response
 from .synthetic_sft import canonical_hash
 from .tool_consistency import VERSION as CONSISTENCY_VERSION, requested_fields, validate_consistency
+from .market_experts import PROMPTS as MARKET_PROMPTS, feature_values, validate_output as validate_expert
+from .capabilities import MARKET_WORKFLOWS
 
 PROMPTS = {
     "research": "Select relevant supplied evidence. Return JSON with evidence_ids, counter_evidence_ids, unknowns, observation_time. ID arrays must be disjoint and refer to supplied evidence. Do not invent facts or fetch current information.",
@@ -27,6 +29,7 @@ PROMPTS = {
     "critic": "Review the supplied forecast for ignored evidence, base rates, correlated evidence and unjustified certainty. Do not automatically shrink toward 0.5. Return JSON with accept (boolean), revised_probability (null if accepted), rationale, evidence_ids, unknowns, observation_time. A revision requires a rationale and supporting evidence IDs. Do not invent sources.",
     "quant": "Select one deterministic probability tool using only supplied numerical inputs. Return JSON with name and arguments. Tools: bayes_binary(prior, sensitivity, false_positive_rate), weighted_probability(probabilities, weights). All values are probabilities; mixture weights sum to one. Never supply Python or shell code.",
 }
+PROMPTS.update(MARKET_PROMPTS)
 
 OUTPUT_PROTOCOLS = {
     "baseline_v1": "",
@@ -137,6 +140,8 @@ def validate_agent_output(role: str, value: dict, context: ForecastInput) -> dic
     if role == "quant":
         execute_probability_tool(value)
         return value
+    if role in MARKET_PROMPTS:
+        return validate_expert(role, value, context, refs, string_list)
     required = {
         "research": {"evidence_ids", "counter_evidence_ids", "unknowns", "observation_time"},
         "risk": {"risks", "unknowns", "observation_time"},
@@ -215,6 +220,8 @@ class AgentRunner:
         if self.tool_consistency and workflow not in ('quant_research', 'quant_risk'):
             raise ValidationError('tool consistency requires quant_research or quant_risk')
         plan = route_plan(self.config, workflow, mode, capability_scope=capability_scope)
+        if workflow in MARKET_WORKFLOWS:
+            feature_values(context)
         missing = set(plan["requires_loaded_adapters"]) - set(self.backend.available_adapters)
         if missing:
             raise ValidationError("requested adapters are not loaded: " + ", ".join(sorted(missing)))
@@ -257,11 +264,15 @@ class AgentRunner:
         # Risk and critic inspect the original evidence, including evidence
         # omitted by Research. Forecast sees only the selected union.
         visible = current if role == "forecast" else context
+        if role == 'forecast' and state['plan']['workflow'] in MARKET_WORKFLOWS:
+            # Every ablation receives identical raw information, even if Research
+            # omits a source. Specialists add interpretation, never extra data.
+            visible = context
         upstream = {}
         if quant_state is not None:
             upstream['quant'] = quant_state
         if role == "forecast":
-            upstream = {k: summaries[k] for k in ("research", "risk") if k in summaries}
+            upstream = {k: summaries[k] for k in ("research", "risk", "market_quant", "game_theory") if k in summaries}
         elif role == "critic":
             upstream = {"forecast": prediction}
             if "risk" in summaries:

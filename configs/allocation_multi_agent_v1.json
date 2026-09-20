@@ -1,0 +1,82 @@
+{
+  "partition": "train",
+  "seeds": [
+    7,
+    17,
+    27
+  ],
+  "primary_seed": 7,
+  "periodic_activity_required": false,
+  "activity_penalty_usd": "0",
+  "objective": "maximize_after_cost_terminal_equity",
+  "reward_version": "net_liquidation_equity_delta_usd_v1",
+  "order_ttl_seconds": 3600,
+  "minimum_entry_buffer_seconds": 86400,
+  "scenarios": {
+    "frictionless_reference": {
+      "entry_price_premium": "0",
+      "fee_fraction": "0"
+    },
+    "fee_zero": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0"
+    },
+    "cost_assumption": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.01"
+    },
+    "fee_interpolation": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.015"
+    },
+    "fee_high": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.02"
+    },
+    "cost_stress": {
+      "entry_price_premium": "0.03",
+      "fee_fraction": "0.02"
+    }
+  },
+  "checkpoint_selection": "last_fixed_step_all_seeds_no_selection",
+  "validation_replayed": false,
+  "final_test_opened": false,
+  "foundation_model_updated": false,
+  "real_orders_sent": 0,
+  "default_promotion": false,
+  "ppo": {
+    "total_timesteps": 32768,
+    "n_steps": 1024,
+    "batch_size": 128,
+    "n_epochs": 4,
+    "learning_rate": 0.0003,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "net_arch": [
+      64,
+      64
+    ],
+    "device": "cpu",
+    "torch_threads": 1
+  },
+  "run_name": "pma_allocation_multi_agent_v1",
+  "families": [
+    "price_control",
+    "market_anchor",
+    "multi_agent"
+  ],
+  "observation_version": "profit_fee_with_agent_signals_v1",
+  "training_cost_schedule": [
+    "cost_assumption",
+    "fee_zero",
+    "fee_high"
+  ],
+  "controls": [
+    "cash_only",
+    "mean_reversion"
+  ],
+  "content_ablation": "zero_content_keep_identical_availability_age_and_network_shape",
+  "anchor_control": "historical_market_probability_at_identical_cutoff_no_expert_fields"
+}

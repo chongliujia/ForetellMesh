@@ -1,0 +1,17 @@
+{
+  "run_name": "allocation_no_edge_learnability_v1",
+  "kind": "synthetic_learning_check_not_market_evaluation",
+  "fixture_days": 3,
+  "fixture_markets": 4,
+  "constant_price": 0.5,
+  "fee_fraction": "0.01",
+  "entry_price_premium": "0.01",
+  "signal_ttl_seconds": 604800,
+  "seeds": [7, 17, 27],
+  "families": ["price_control", "multi_agent"],
+  "neutral_signals_are_synthetic": true,
+  "llm_calls": 0,
+  "required_final_cash": "100",
+  "required_entries": 0,
+  "training_config": "configs/allocation_multi_agent_v1.json"
+}

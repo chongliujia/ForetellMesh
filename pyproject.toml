@@ -14,6 +14,7 @@ dependencies = []
 parquet = ["pyarrow>=15"]
 archive = ["pyarrow>=15", "zstandard>=0.22"]
 graph = ["langgraph==1.2.11"]
+rl = ["gymnasium==1.2.3", "stable-baselines3==2.7.1", "sb3-contrib==2.7.1"]
 
 [project.scripts]
 foretellmesh = "foretellmesh.cli:main"

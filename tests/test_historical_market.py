@@ -271,6 +271,29 @@ class HistoricalMarketTests(unittest.TestCase):
         self.assertIsNone(label)
         self.assertEqual(ledger['status'], 'non_binary_or_missing_payout')
 
+    def test_official_decision_ignores_explicit_dissent_range(self):
+        decision = ('The Committee decided to lower the target range for the federal funds rate '
+                    'by 1/4 percentage point to 4-1/4 to 4-1/2 percent.')
+        dissent = (' Voting against the action was Beth M. Hammack, who preferred to maintain '
+                   'the target range for the federal funds rate at 4-1/2 to 4-3/4 percent.')
+        self.assertEqual(fed_upper_bound(decision + dissent), Fraction(9, 2))
+        self.assertEqual(fed_upper_bound(dissent + decision), Fraction(9, 2))
+        with self.assertRaisesRegex(ValidationError, 'unambiguously'):
+            fed_upper_bound(decision + decision.replace('4-1/4 to 4-1/2', '4-1/2 to 4-3/4'))
+        with self.assertRaisesRegex(ValidationError, 'unambiguously'):
+            fed_upper_bound(decision.replace('lower', 'change') + dissent)
+
+    def test_official_range_parser_cannot_jump_across_sentences(self):
+        with self.assertRaisesRegex(ValidationError, 'unambiguously'):
+            fed_upper_bound('The target range for the federal funds rate by an unspecified amount. '
+                            'Other projections rose to 4 to 5 percent.')
+
+    def test_official_mixed_fraction_supports_nonbreaking_hyphen(self):
+        self.assertEqual(fed_upper_bound('The Committee decided to lower the target range for the '
+            'federal funds rate by 1/4 percentage point to 4 to 4\u20111/4 percent.'), Fraction(17, 4))
+        self.assertEqual(fed_upper_bound('The Committee decided to maintain the target range for the '
+            'federal funds rate at 3\u20111/2 to 3\u20113/4 percent.'), Fraction(15, 4))
+
     def test_payout_conflicts_cannot_fall_back_to_binary_oracle_price(self):
         for payout in ([500_000, 500_000], [False, 1_000_000], [1_000_000], '1000000'):
             state = {**self.state, 'payouts': payout, 'price': '1000000000000000000'}

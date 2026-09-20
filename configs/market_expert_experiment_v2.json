@@ -1,0 +1,30 @@
+{
+  "schema_version": "1",
+  "run_name": "qwen3_8b_base_market_experts_pilot_v2",
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "dataset_report_sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e",
+  "partition": "validation",
+  "engine": "langgraph",
+  "mode": "base",
+  "output_protocol": "grounded_json_v3",
+  "response_transport": "single_json_fence",
+  "max_context_tokens": 8192,
+  "max_new_tokens": 768,
+  "max_repairs": 1,
+  "seed": 20260922,
+  "do_sample": false,
+  "base_dtype": "bfloat16",
+  "attention": "sdpa",
+  "training": false,
+  "load_adapters": false,
+  "selection": "earliest_observation_then_closest_to_half_per_event_group",
+  "arms": {
+    "features_only": "market_control",
+    "quant": "market_quant_forecast",
+    "game": "market_game_forecast",
+    "quant_game": "market_quant_game_forecast"
+  },
+  "default_promotion": false,
+  "stop_on_json_object": true
+}
