@@ -1,0 +1,15 @@
+{
+  "kind": "team_autonomous_research_loop_v1",
+  "run_name": "qwen3_8b_team_task_negotiation_v1",
+  "template_config": "configs/team_variable_contract_v3.json",
+  "template_sha256": "6f6fb7da37260aa3becb8b0b4f4ad2fe162e6b91f4eb407ce6b737d156505a46",
+  "max_attempts": 2,
+  "max_new_tokens": 1536,
+  "scope": "Two bounded training attempts starting from the registered previous task-binding failure. Each task receives one researcher assessment and coordinator accept/retain/abstain decision before design. No silent ID removal. Keep semantic probes, frozen Base, sources, clock and evaluator. No fine-tuning or held-out/trading evaluation.",
+  "archive_catalog_report": "data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+  "handoff_protocol": "executable_task_negotiation_v1",
+  "semantic_probe_source_run": "runs/qwen3_8b_team_multi_input_v2",
+  "semantic_probe_report_sha256": "ff891d54b2d0b6fe3502da3c58193d2a5beb80310fbe0e91d8d89211ec3cbea6",
+  "negotiation_reference_run": "runs/qwen3_8b_team_semantic_consistency_v1",
+  "negotiation_reference_report_sha256": "678cfc2169f4515e33b0c68a321467c95387ee2ddbdc0adcb0739317e883fc20"
+}

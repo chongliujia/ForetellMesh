@@ -1,0 +1,25 @@
+{
+  "schema_version": "1",
+  "name": "real_forecast_supervision_inventory_v1",
+  "source": "philadelphia_fed_spf",
+  "years": [2019, 2020, 2021, 2022, 2023, 2024],
+  "quarters": [1, 2, 3, 4],
+  "variable": "mean_probability_negative_quarter_over_quarter_real_gdp_growth",
+  "extract_column": "New",
+  "horizons": [0, 1, 2, 3, 4],
+  "collection_only": true,
+  "training_authorized_after_data_admission": true,
+  "automatic_training_admission": false,
+  "training_inputs_include_teacher_report": false,
+  "historical_publication_time_precision": "day",
+  "existing_holdouts_opened": false,
+  "limitations": [
+    "An expert panel mean is a historical forecast, not an outcome or a verified true probability.",
+    "GDP contraction in a specified quarter is not an NBER recession or an FOMC/CPI contract.",
+    "A dated archive retrieved today is not an independently preserved original publication snapshot.",
+    "No exact individual forecast issue times or identical teacher information sets are asserted.",
+    "No source report or target probability may be passed as the student's forecasting evidence.",
+    "Multiple horizons and repeated forecasts for a GDP quarter are correlated; no random row split.",
+    "Source and benchmark overlap review, time-bounded student evidence, outcome semantics and evaluation cohort are required before forecast SFT."
+  ]
+}

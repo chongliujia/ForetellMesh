@@ -1,0 +1,243 @@
+{
+  "kind": "team_rsi_cohort_review_v1",
+  "selection_report_sha256": "b5da43ca553f1d8f8312e4b474996c9e292c216c939bad8ddb9e842bd77d4098",
+  "benchmark_index_sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429",
+  "review_scope": "Frozen first 32 hash-ranked candidates; source identity and title review only. Outcome values are not used for selection. All native siblings must share a split. Known same-event families consolidated; US 2024 election/transition family excluded conservatively. Pilot v2 uses nonpolitical contracts; geopolitical/political events remain outside this executable experiment. Observation is triggered by the first actual trade at or after each predeclared age, never stale-price substitution. No model evaluation or outcome value was used to revise observation triggering.",
+  "train_before": "2024-09-01T00:00:00Z",
+  "development_from": "2024-09-15T00:00:00Z",
+  "development_before": "2025-02-01T00:00:00Z",
+  "observation_age_hours": [
+    6,
+    24,
+    168
+  ],
+  "max_quote_age_seconds": 10800,
+  "max_markets_per_episode": 3,
+  "entries": [
+    {
+      "market_id": "511550",
+      "question_sha256": "7e81c749815ed0260294968e61397fb98bf9f53515b7d397b0290ad9d74e5228",
+      "event_group_id": "team:native_market_511550",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "507011",
+      "question_sha256": "92723dd95c16ff00498d6ccf56bc2b71830fbf940abf5f40dfdd974a25404667",
+      "event_group_id": "team:native_market_507011",
+      "disposition": "exclude_reserved_family",
+      "rationale": "US 2024 presidential campaign, conservatively reserved with metaculus:20406."
+    },
+    {
+      "market_id": "514546",
+      "question_sha256": "408900c15e5dff86324543613554bedc8d7d289736ec969832b4a26159c65a3f",
+      "event_group_id": "team:native_market_514546",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "513222",
+      "question_sha256": "cc59b887512878de6f8bbe9d040e44d8baf45217c22f9807c0594eac9de2fad9",
+      "event_group_id": "team:native_market_513222",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "503908",
+      "question_sha256": "0b83cd41f4d04a2ec9329198d7bc5db4af1c76e5b3ebd1c992c47c2fb422f7d7",
+      "event_group_id": "team:paris_olympics_2024",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "502275",
+      "question_sha256": "1be218bd137e784a69771e159cb6d01a9bb73b5c9e3362f0e4b1cb83963e15f6",
+      "event_group_id": "team:native_market_502275",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "500870",
+      "question_sha256": "9c7f749037ab5d6a060e63e51e4a3f7a55bb3033e8424c599023e2f187824f25",
+      "event_group_id": "team:native_market_500870",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "513501",
+      "question_sha256": "99a0c863270a7799cd1be654e3cfe5cfd751969e587efeac12348271e51601e8",
+      "event_group_id": "team:native_market_513501",
+      "disposition": "exclude_reserved_family",
+      "rationale": "US 2024 election/transition family reserved; also requires historical rule amendment review."
+    },
+    {
+      "market_id": "516443",
+      "question_sha256": "2832ea943f1f3ea9e47825c28763dbafb9818c83d606475df0f6e5fb3f894dd7",
+      "event_group_id": "team:aston_villa_2024_autumn",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "515156",
+      "question_sha256": "85ffe8a2844688191bb06e8b8b19128814a9614f254d649a406bf95ca7544e43",
+      "event_group_id": "team:aston_villa_2024_autumn",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "251622",
+      "question_sha256": "62ef93cfd45ddeddf5025e396ab68f1629e7baa54e17d28a32a38afdb8a15c28",
+      "event_group_id": "team:ukraine_escalation_2023",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "506598",
+      "question_sha256": "b0f2cc91dbd919c18c62da31b120c69834883a727f71890b92c4539473011f19",
+      "event_group_id": "team:native_market_506598",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "251914",
+      "question_sha256": "83046ceb2b6856306f4873b4c805a2ed074d8c080c9db5ebaa903e7eee233fa5",
+      "event_group_id": "team:ukraine_escalation_2023",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "254408",
+      "question_sha256": "232fe96e321edd1a10210bcd4c76548eff8768b434344e249d556a40701e0569",
+      "event_group_id": "team:native_market_254408",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "515947",
+      "question_sha256": "586799f4f857297591a1d14425a12e98fca1704bc32529887458a80e2d58360f",
+      "event_group_id": "team:native_market_515947",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "512228",
+      "question_sha256": "d23ec0914a685ecd66c29d9bae68f7ab41f3cec6d1d16e5b73d78ed1674760de",
+      "event_group_id": "team:native_market_512228",
+      "disposition": "exclude_reserved_family",
+      "rationale": "US 2024 election/transition family reserved with metaculus:20406."
+    },
+    {
+      "market_id": "500638",
+      "question_sha256": "457f2d61312d5e7d4d79027b14705a6fd602d28fe9547b7d50fcfe6b19606689",
+      "event_group_id": "team:native_market_500638",
+      "disposition": "exclude_reserved_family",
+      "rationale": "US 2024 election balance-of-power family reserved with metaculus:20406."
+    },
+    {
+      "market_id": "505229",
+      "question_sha256": "4da81791104412c9117af1c26254546a472f017e34aca0cb9bd3b6d8f1741783",
+      "event_group_id": "team:native_market_505229",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "254653",
+      "question_sha256": "4747c4338e6e92cc9f812b75e04c16e1b2bf36f1611c893ec61780feebcb73f4",
+      "event_group_id": "team:native_market_254653",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "501148",
+      "question_sha256": "647888b23bc04ec5241080176a1551b026e132376dadb3dda571cbec46473a08",
+      "event_group_id": "team:native_market_501148",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "502752",
+      "question_sha256": "c7a37f0ba1d17492fe3c372d29654a54ca74e522c9fe29c3a06d521ed539ff75",
+      "event_group_id": "team:native_market_502752",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "511539",
+      "question_sha256": "e4bf4f9eec62e9681757630c82613a2e147aa23f50e84aa7e4ba0c0c805d03d8",
+      "event_group_id": "team:native_market_511539",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "252406",
+      "question_sha256": "6707170c5e98f6ff9c4165f0024348b76c852efa8fe6bd7e907cef289df7a8b9",
+      "event_group_id": "team:native_market_252406",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "509451",
+      "question_sha256": "c90307e3e234f288da73d66f14ef7f32a6d39b415d9519a20fff3c7ae7c43bcb",
+      "event_group_id": "team:native_market_509451",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "510219",
+      "question_sha256": "7a277ddbb24d83f4e5e90c097236edaec7a86898e271c5f35c38285b943a3018",
+      "event_group_id": "team:native_market_510219",
+      "disposition": "exclude_pilot_scope",
+      "rationale": "Outside the nonpolitical first-cycle execution scope; retained in the discovery archive."
+    },
+    {
+      "market_id": "500507",
+      "question_sha256": "fdcb084c223d8a662f08b65014b6514dca0a96e50b7bad95878410a17cd03d09",
+      "event_group_id": "team:native_market_500507",
+      "disposition": "exclude_reserved_family",
+      "rationale": "US 2024 presidential election family reserved with metaculus:20406."
+    },
+    {
+      "market_id": "503435",
+      "question_sha256": "359b37f34b8a62d1a918ba7ec49744e37528115c1ac48ba2f33e4dad2d3343ad",
+      "event_group_id": "team:native_market_503435",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "254462",
+      "question_sha256": "8203c87812e61e7a7f65a6f469d5ac7b3a579fa6e9e83d5f600cbe9c2525b293",
+      "event_group_id": "team:native_market_254462",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "513675",
+      "question_sha256": "9f3efb10729811070ca9c84742958bcce3387db81200c2419547a9b8cad8c9d3",
+      "event_group_id": "team:native_market_513675",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "508444",
+      "question_sha256": "d93e6cdeaef6ea7f1f9d5ea08bf2003f9a064e6faf5a82747859ffb642e8be92",
+      "event_group_id": "team:native_market_508444",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "254223",
+      "question_sha256": "42844b4893fbe114962d51da340b38ec9a253d75deda97069f2e581e811b1027",
+      "event_group_id": "team:native_market_254223",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    },
+    {
+      "market_id": "503634",
+      "question_sha256": "510ad7a2da0bf8a48e5968b425c77597728d85a5beb67e0ac758fc5183c8c52c",
+      "event_group_id": "team:paris_olympics_2024",
+      "disposition": "candidate_replay",
+      "rationale": "Specific 2023/2024 contract event; not equivalent to reserved macro releases or a ForecastBench identity/target. Shared entities with later distinct events are not treated as the same resolution event. Native siblings inherit this group. No model relationship graph is prescribed."
+    }
+  ],
+  "observation_trigger": "first_trade_after_age"
+}

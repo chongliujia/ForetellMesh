@@ -1,0 +1,32 @@
+{
+  "run_name": "qwen3_8b_train_evidence_forecast_pilot_v1",
+  "partition": "train",
+  "dataset": "data/processed/pma_macro_training_extension_20260920_v2",
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "workflow": "research_forecast",
+  "engine": "langgraph",
+  "mode": "base",
+  "arms": [
+    "original_market",
+    "original_blind",
+    "refreshed_blind"
+  ],
+  "selection": "lexicographically_first_contract_per_event_all_observations",
+  "evidence_window_days": 120,
+  "evidence_per_family": 2,
+  "output_protocol": "grounded_json_v3",
+  "response_transport": "single_json_fence",
+  "max_context_tokens": 8192,
+  "max_new_tokens": 768,
+  "max_repairs": 1,
+  "seed": 20260925,
+  "base_dtype": "bfloat16",
+  "attention": "sdpa",
+  "do_sample": false,
+  "training": false,
+  "load_adapters": false,
+  "final_test_opened": false,
+  "default_promotion": false,
+  "dataset_report_sha256": "8658b83fb2c4693239671e6972f823191e3843ac1144a827b7ef5e6909d62c17"
+}

@@ -1,0 +1,24 @@
+{
+  "kind": "team_lifecycle_smoke_v1",
+  "source_config": "configs/team_discovery_v5.json",
+  "source_config_sha256": "dc710541bf42b26efae78ab893029d752b27e2d371546b95821861560094973a",
+  "reference_run": "runs/qwen3_8b_team_discovery_frozen_expanded_v5",
+  "reference_report_sha256": "4b0347e49568f26368427b8e07ee5787a8389f8dec6d67c46d55167e25dcae41",
+  "run_name": "qwen3_8b_team_lifecycle_trade_experience_smoke_v1",
+  "max_reviews": 3,
+  "review_window_days": 7,
+  "max_new_tokens": 768,
+  "timing": {
+    "min_review_seconds": 3600,
+    "max_review_seconds": 2592000,
+    "max_signal_valid_seconds": 604800,
+    "max_order_ttl_seconds": 86400,
+    "failure_review_seconds": 86400
+  },
+  "online_learning": true,
+  "selection": "first_chronological_training_job_no_return_filter",
+  "retrospective_selection": "all_filled_trades_from_preserved_reference_no_pnl_filter",
+  "effectiveness_verified": false,
+  "automatic_fine_tuning": false,
+  "final_test_opened": false
+}

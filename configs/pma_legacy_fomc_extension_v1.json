@@ -1,0 +1,155 @@
+{
+  "automatic_training": false,
+  "groups": [
+    {
+      "event_group_id": "macro:us:fomc:2023-03",
+      "native_event_id": "901498",
+      "period": "2023-03",
+      "prior_release": {
+        "published_at": "2023-02-01T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230201a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-03-22T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230322a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-05",
+      "native_event_id": "901497",
+      "period": "2023-05",
+      "prior_release": {
+        "published_at": "2023-03-22T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230322a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-05-03T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230503a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-06",
+      "native_event_id": "901796",
+      "period": "2023-06",
+      "prior_release": {
+        "published_at": "2023-05-03T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230503a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-06-14T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230614a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-07",
+      "native_event_id": "902049",
+      "period": "2023-07",
+      "prior_release": {
+        "published_at": "2023-06-14T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230614a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-07-26T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230726a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-09",
+      "native_event_id": "902233",
+      "period": "2023-09",
+      "prior_release": {
+        "published_at": "2023-07-26T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230726a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-09-20T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230920a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-11",
+      "native_event_id": "902512",
+      "period": "2023-11",
+      "prior_release": {
+        "published_at": "2023-09-20T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230920a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-11-01T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20231101a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2023-12",
+      "native_event_id": "902721",
+      "period": "2023-12",
+      "prior_release": {
+        "published_at": "2023-11-01T18:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20231101a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2023-12-13T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20231213a.htm"
+      }
+    },
+    {
+      "event_group_id": "macro:us:fomc:2024-01",
+      "native_event_id": "903022",
+      "period": "2024-01",
+      "prior_release": {
+        "published_at": "2023-12-13T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20231213a.htm"
+      },
+      "rationale": "One scheduled US FOMC announcement; every native bracket kept in the same training event group. Pre-2025 extension; no admission based on outcome or price availability.",
+      "release": {
+        "published_at": "2024-01-31T19:00:00Z",
+        "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240131a.htm"
+      }
+    }
+  ],
+  "kind": "pma_legacy_fomc_training_extension_v1",
+  "partition": "train",
+  "selection_sha256": "2ce5c5674227e52c69a5b11dfa6355e1b27031cfd225a70e6adb6a3204473131",
+  "sources": {
+    "benchmark": {
+      "path": "../data/processed/forecastbench_sft_exclusion_index_v1.json",
+      "sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429"
+    },
+    "catalog": {
+      "path": "../data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+      "sha256": "81c3a8b09569a41d20feebf1ece49d9e79fca18c04be0d1af21a89326e6eaaff"
+    },
+    "inventory": {
+      "path": "../data/processed/pma_training_inventory_20260920_v1/report.json",
+      "sha256": "63c9bf46a99520e0e2818b625fd740fc9830103adddfa72b3d625b0df010a50e"
+    },
+    "native": {
+      "path": "../data/raw/pma_macro_enrichment_20260919_v1/manifest.json",
+      "sha256": "8d7cfaeb7ea31103ac017e64275b024d3de40540b16973427416240ede289ad4"
+    },
+    "parent": {
+      "path": "../data/processed/pma_macro_research_20260919_v1/report.json",
+      "sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e"
+    },
+    "prices": {
+      "path": "../data/processed/pma_macro_trade_store_20260919_v4/report.json",
+      "sha256": "a69227cecf3eca5ea1fac61060973067ad5116a5b8460983144486733a70110f"
+    },
+    "rules_policy": {
+      "path": "../configs/pma_legacy_rules_review_v1.json",
+      "sha256": "9905e4e5497771c9a8d77826f19bc825433af090479277589ae69bbd2a993c3c"
+    },
+    "rules_source": {
+      "path": "../data/raw/pma_legacy_adapter_probe_20260920_v1/manifest.json",
+      "sha256": "c5b7b81f669f1ba102cace5ec45493d7f39454156f68a9379b55f23206fbc3c9"
+    }
+  },
+  "train_before": "2025-01-01T00:00:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "team_autonomous_research_loop_v1",
+  "run_name": "qwen3_8b_team_research_handoff_v2",
+  "template_config": "configs/team_variable_contract_v3.json",
+  "template_sha256": "6f6fb7da37260aa3becb8b0b4f4ad2fe162e6b91f4eb407ce6b737d156505a46",
+  "max_attempts": 3,
+  "max_new_tokens": 1536,
+  "scope": "Three-attempt interface follow-up: infer task change type deterministically from admitted IDs; keep full raw outputs and strict scope. Preserves ten-attempt V1 failures. Same frozen Base, data and original score grid. No predictive-score-driven rerun.",
+  "archive_catalog_report": "data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+  "handoff_protocol": "executable_task_v2"
+}

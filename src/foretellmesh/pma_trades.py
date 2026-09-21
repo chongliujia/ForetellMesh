@@ -115,18 +115,54 @@ claim about within-block transaction ordering. Missing block times fail closed.
         'trades_in_block':len(rows),'age_seconds':cutoff-seconds,'is_executable_quote':False}
 
 
-def build(extraction, catalog, output):
+def load_selection(catalog, report, selection=None):
+    """Legacy macro default, or an explicitly hash-bound discovery inventory."""
+    if selection is None:
+        path = catalog/'macro_candidates.jsonl'
+        if sha256_file(path) != report['artifact_hashes']['macro_candidates.jsonl']:
+            raise ValidationError('PMA catalog binding changed')
+    else:
+        selected = strict_json((selection/'report.json').read_text())
+        path = selection/'markets.jsonl'
+        if (selected.get('kind') != 'team_market_discovery_selection_v1'
+                or selected.get('status') != 'discovery_not_admitted'
+                or selected['catalog_report_sha256'] != sha256_file(catalog/'report.json')
+                or selected['selection_sha256'] != sha256_file(path)):
+            raise ValidationError('unbound discovery selection')
+    markets = [strict_json(line) for line in path.read_text().splitlines()]
+    if not 1 <= len(markets) <= 2000 or len({m['market_id'] for m in markets}) != len(markets):
+        raise ValidationError('unbounded or duplicate trade selection')
+    if selection is not None:
+        by_id = {m['market_id']: m for m in markets}
+        found = set()
+        if sha256_file(catalog/'markets.jsonl') != report['artifact_hashes']['markets.jsonl']:
+            raise ValidationError('full catalog changed')
+        with (catalog/'markets.jsonl').open() as stream:
+            for line in stream:
+                original = strict_json(line)
+                if original['market_id'] not in by_id:
+                    continue
+                row = by_id[original['market_id']]
+                if (any(row[k] != original[k] for k in ('tokens', 'condition_id', 'source_ref', 'benchmark_matches'))
+                        or row['benchmark_matches'] or row['ready_for_training'] is not False
+                        or row['ready_for_scoring'] is not False):
+                    raise ValidationError('discovery mapping or reservation changed')
+                found.add(original['market_id'])
+        if found != set(by_id):
+            raise ValidationError('discovery identity absent from catalog')
+    return markets, path
+
+
+def build(extraction, catalog, output, selection=None):
     import pyarrow as pa
     import pyarrow.compute as pc
     import pyarrow.parquet as pq
     if output.exists():raise ValidationError('PMA trade store exists')
     manifest,entries=extraction_entries(extraction); report=strict_json((catalog/'report.json').read_text())
     if (report['extraction_manifest_sha256']!=sha256_file(extraction/'manifest.json')
-            or report['artifact_hashes']['macro_candidates.jsonl']!=sha256_file(catalog/'macro_candidates.jsonl')
             or report['artifact_hashes']['shards.jsonl']!=sha256_file(catalog/'shards.jsonl')):
         raise ValidationError('PMA catalog binding changed')
-    markets=[strict_json(line) for line in (catalog/'macro_candidates.jsonl').read_text().splitlines()]
-    if not 1<=len(markets)<=2000:raise ValidationError('unbounded macro trade selection')
+    markets,selection_path=load_selection(catalog,report,selection)
     token_map={}
     for market in markets:
         for outcome,token in (market['tokens'] or {}).items():
@@ -198,7 +234,7 @@ def build(extraction, catalog, output):
             raise ValidationError('active readers prevented final database checkpoint')
     finally:connection.close()
     result={'schema_version':'1','kind':'pma_historical_trade_store','dataset_version':report['dataset_version'],
-        'catalog_report_sha256':sha256_file(catalog/'report.json'),'selection_sha256':sha256_file(catalog/'macro_candidates.jsonl'),
+        'catalog_report_sha256':sha256_file(catalog/'report.json'),'selection_sha256':sha256_file(selection_path),
         'selected_markets':len(markets),'sqlite_cache_budget_mib':SQLITE_CACHE_MIB,'sqlite_checkpoint_policy':'final_explicit_truncate',
         'counts':dict(sorted(counts.items())),'rejected_trade_reasons':dict(sorted(issues.items())),
         'rejected_block_reasons':dict(sorted(block_issues.items())),
@@ -208,13 +244,17 @@ def build(extraction, catalog, output):
             'Prices represent fills, not bid/ask midpoint, depth or guaranteed executability.',
             'Every candidate stays in coverage, including missing or unsupported trade histories.',
             'No labels or future snapshot fields are stored as price features; no training targets are emitted.']}
+    if selection is not None:
+        result['discovery_selection_report_sha256']=sha256_file(selection/'report.json')
+        result['selection_purpose']='topic_neutral_discovery_not_training_admission'
     (output/'report.json').write_text(json_text(result));return result
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for key in ('extraction','catalog','output'):parser.add_argument('--'+key,type=Path,required=True)
-    args=parser.parse_args();print(json_text(build(args.extraction,args.catalog,args.output)))
+    parser.add_argument('--selection',type=Path)
+    args=parser.parse_args();print(json_text(build(args.extraction,args.catalog,args.output,args.selection)))
 
 
 if __name__=='__main__':main()

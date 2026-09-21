@@ -246,7 +246,7 @@ def fed_upper_bound(text: str) -> Fraction:
     """Read the Committee's decision, not a dissenting member's preferred rate."""
     num = r"\d+(?:-\d+/\d+|\.\d+)?"
     change = r"\d+(?:/\d+|\.\d+)? percentage points?"
-    rate_range = (r"target range for the federal funds rate (?:at|by " + change
+    rate_range = (r"target range for the federal funds rate (?:at|to|by " + change
                   + r" to) (" + num + r") to (" + num + r") percent")
     # The Fed also publishes mixed fractions with a nonbreaking hyphen.
     # Preserve archived source text; normalize only these equivalent glyphs.

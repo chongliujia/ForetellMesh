@@ -1,0 +1,87 @@
+{
+  "kind": "spf_pdf_table_visual_review",
+  "capture_root": "data/raw/spf_forecast_pdf_review_20260920_v1",
+  "capture_manifest_sha256": "f2120967ab8834336ab635ddb2ec3da619583e6129b8a33e8b4cc55cde924c0d",
+  "reviewer": "Codex source table visual inspection",
+  "scope": "Read New column on complete rendered probability-table pages. PDF replaces failed HTML, without editing the captured HTML or guessing target years. This is extraction review, not SFT admission or proof of original vintage.",
+  "releases": [
+    {
+      "key": "spf-q1-2019",
+      "table_page": 6,
+      "release_date": "2019-03-22",
+      "visually_checked_new_percents": [
+        "16.7",
+        "11.2",
+        "14.5",
+        "17.9",
+        "21.9"
+      ],
+      "pdf_sha256": "7550869758250315f6c5a6c2442450bb9b5996897e0697338b80aa317a24a471"
+    },
+    {
+      "key": "spf-q2-2019",
+      "table_page": 6,
+      "release_date": "2019-05-10",
+      "visually_checked_new_percents": [
+        "11.9",
+        "13.1",
+        "15.8",
+        "19.4",
+        "22.8"
+      ],
+      "pdf_sha256": "cbac1a9bcbc06a6f416ff29819a6ca68aa98186b60f9a8db945636a85ada6ae3"
+    },
+    {
+      "key": "spf-q3-2019",
+      "table_page": 6,
+      "release_date": "2019-08-09",
+      "visually_checked_new_percents": [
+        "11.7",
+        "14.2",
+        "17.6",
+        "21.5",
+        "26.1"
+      ],
+      "pdf_sha256": "e6b38fff02305affb46b8b6d0cdcc203555ff8b7ea28efedf64ccd4d52904fd8"
+    },
+    {
+      "key": "spf-q4-2019",
+      "table_page": 7,
+      "release_date": "2019-11-15",
+      "visually_checked_new_percents": [
+        "12.8",
+        "18.1",
+        "20.8",
+        "22.6",
+        "25.1"
+      ],
+      "pdf_sha256": "ba6988b5b429dc6a7240ab73083d2f75e55041fa91476a8c3fee7db1c35a316c"
+    },
+    {
+      "key": "spf-q3-2020",
+      "table_page": 6,
+      "release_date": "2020-08-14",
+      "visually_checked_new_percents": [
+        "11.9",
+        "20.4",
+        "19.2",
+        "18.6",
+        "17.1"
+      ],
+      "pdf_sha256": "579085753b2e22c9456a885999dd24d43ca62e5016a71749e853bea43a375232"
+    },
+    {
+      "key": "spf-q4-2020",
+      "table_page": 6,
+      "release_date": "2020-11-16",
+      "visually_checked_new_percents": [
+        "16.4",
+        "20.4",
+        "17.5",
+        "14.4",
+        "13.9"
+      ],
+      "pdf_sha256": "29a13126805dcf3090ff2234dfe613e9e046be2d5348a8d3ff1d467b7b08fd55"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "allowed_partition": "train",
+  "benchmark_sha256": "4e561ea308d97c96591a3a9946d08e60c427948f2c48a2951237e4a78cde0429",
+  "config_sha256": "c702185cd06c31922d47f6545cc4823c2ccf526452da2f2ca71ead192dec642d",
+  "groups": [
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-03",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-03. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-05",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-05. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-06",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-06. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-07",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-07. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-09",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-09. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-11",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-11. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2023-12",
+      "rationale": "Scheduled FOMC rate-change brackets for 2023-12. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    },
+    {
+      "disposition": "training_candidate",
+      "event_group_id": "macro:us:fomc:2024-01",
+      "rationale": "Scheduled FOMC rate-change brackets for 2024-01. All native siblings share this group. Earlier than existing validation and reserved 2025/2026 macro scopes; frozen ForecastBench review has no same-event question (rate-series forecasts start in 2026). Cumulative/annual/cross-meeting and speech contracts are not selected; exact benchmark matches still override this review."
+    }
+  ],
+  "historical_model_knowledge": "Pretraining may contain historical outcomes; use only as training/mechanism research, never as an unseen benchmark.",
+  "kind": "pma_legacy_fomc_training_scope_review_v1",
+  "preserve_parent_partitions": true,
+  "rule_review": "All 24 selected questions have explicit 0/25/50 bp change thresholds for the named meeting; full descriptions must equal immutable initialization, normal direct CTF settlement must match the official upper-target-rate change. Missing proofs/rules/prices remain excluded.",
+  "selection_sha256": "2ce5c5674227e52c69a5b11dfa6355e1b27031cfd225a70e6adb6a3204473131"
+}

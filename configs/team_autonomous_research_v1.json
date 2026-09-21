@@ -1,0 +1,10 @@
+{
+  "kind": "team_autonomous_research_loop_v1",
+  "run_name": "qwen3_8b_team_autonomous_research_v1",
+  "template_config": "configs/team_variable_contract_v3.json",
+  "template_sha256": "6f6fb7da37260aa3becb8b0b4f4ad2fe162e6b91f4eb407ce6b737d156505a46",
+  "max_attempts": 10,
+  "max_new_tokens": 1536,
+  "scope": "All proof-admitted training catalogue records, adaptive research only. Keep every attempt; no fixed strategy classes, no model updates, no held-out evaluation.",
+  "archive_catalog_report": "data/processed/pma_polymarket_catalog_20260919_v1/report.json"
+}

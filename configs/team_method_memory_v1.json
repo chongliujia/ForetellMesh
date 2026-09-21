@@ -1,0 +1,53 @@
+{
+  "kind": "team_memory_comparison_v1",
+  "final_test_opened": false,
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "price_store": "data/processed/team_market_trade_store_20260920_v1",
+  "price_store_report_sha256": "8784f3d58fc46bedb0f74f9050830e9fabfbd2acf44a24aaeb1eb6855b47c59b",
+  "price_read_before": "2025-02-01T00:00:00Z",
+  "seed": 20260920,
+  "max_context_tokens": 16384,
+  "max_new_tokens": 1024,
+  "sampling": null,
+  "execution_policy": {
+    "initial_cash": "100",
+    "max_trade_usd": "2",
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "min_trade_usd": "1",
+    "min_edge": "0.03",
+    "entry_price_premium": "0.01",
+    "fee_fraction": "0.01",
+    "max_quote_age_seconds": 10800,
+    "fill_window_seconds": 3600
+  },
+  "cohort": "data/processed/team_rsi_cohort_20260920_v3",
+  "max_scoring_tokens": 12288,
+  "cohort_report_sha256": "08ac11c4a01c51ed6e141a08b90aa7a64e8426e813d1d4b26bb1ca748d2b547c",
+  "run_name": "qwen3_8b_team_method_memory_paired_v1",
+  "automatic_fine_tuning": false,
+  "effectiveness_evidence_required": true,
+  "objective": {
+    "initial_cash": "100",
+    "target_net_return": "0.10",
+    "target_terminal_cash": "110",
+    "basis": "single_continuous_settled_account",
+    "deadline": null,
+    "force_trades": false,
+    "automatic_fine_tuning": false
+  },
+  "learning_start": "2024-07-01T00:00:00Z",
+  "learning_end": "2024-09-01T00:00:00Z",
+  "minimum_anchor_age_hours": 72,
+  "learning_episodes": 6,
+  "evaluation_episodes": 6,
+  "previous_development_report": "data/processed/team_rsi_cohort_20260920_v2/report.json",
+  "previous_development_report_sha256": "cd5aaf3c88639ea63135c701a2d7567a1050dade3f1e62d371230c4c9e64e7c4",
+  "additional_related_group_exclusions": {
+    "team:red_star_champions_league_2024_25": "Prior evaluated Champions League season exposure; conservative exclusion.",
+    "team:native_market_507457": "Prior evaluated NFL season exposure; conservative exclusion.",
+    "team:native_market_509985": "Prior evaluated NFL season exposure; conservative exclusion.",
+    "team:native_market_509776": "Prior evaluated Nations League season exposure; conservative exclusion."
+  }
+}

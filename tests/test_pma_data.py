@@ -147,6 +147,30 @@ class ArchiveIntegrationTests(unittest.TestCase):
         (self.native/'polymarket/markets/m.parquet').write_bytes(b'tampered')
         with self.assertRaises(ValidationError):catalog_build(self.native,self.index,self.reserved,self.root/'bad')
 
+    def test_topic_neutral_selection_reconstructs_nonmacro_and_binds_identity(self):
+        from foretellmesh.team_market_scope import build as select
+        from foretellmesh.pma_trades import load_selection
+        catalog = self.root/'broad_catalog'
+        report = catalog_build(self.native, self.index, self.reserved, catalog)
+        membership = self.root/'membership.jsonl'; membership.write_text('')
+        config = self.root/'scope.json'
+        config.write_text(json_text({'kind': 'team_market_discovery_v1', 'seed': 1, 'limit': 3,
+            'created_from': '2023-01-01T00:00:00Z', 'created_before': '2025-01-01T00:00:00Z',
+            'catalog_report_sha256': sha256_file(catalog/'report.json'), 'membership_sha256': sha256_file(membership)}))
+        scope = self.root/'scope'; selection = select(config, catalog, membership, scope)
+        self.assertEqual(selection['counts']['selected'], 1)
+        result = trade_build(self.native, catalog, self.root/'broad_store', scope)
+        self.assertEqual(result['counts']['unique_valid_selected_trades'], 1)
+        self.assertEqual(result['admitted_training_rows'], 0)
+        self.assertEqual(result['selection_purpose'], 'topic_neutral_discovery_not_training_admission')
+        rows = [json.loads(s) for s in (scope/'markets.jsonl').read_text().splitlines()]
+        rows[0]['tokens']['Yes'] = '999'
+        (scope/'markets.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+        selection['selection_sha256'] = sha256_file(scope/'markets.jsonl')
+        (scope/'report.json').write_text(json_text(selection))
+        with self.assertRaisesRegex(ValidationError, 'mapping'):
+            load_selection(catalog, report, scope)
+
     def test_terminal_prices_do_not_enter_market_projection(self):
         a=market();b=deepcopy(a);b['outcome_prices']='["0","1"]'
         ref={'file':'fixture.parquet','sha256':'a'*64}

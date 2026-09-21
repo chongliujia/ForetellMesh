@@ -1,0 +1,15 @@
+{
+  "kind": "team_autonomous_research_loop_v1",
+  "run_name": "qwen3_8b_team_grounded_revision_v1",
+  "template_config": "configs/team_variable_contract_v3.json",
+  "template_sha256": "6f6fb7da37260aa3becb8b0b4f4ad2fe162e6b91f4eb407ce6b737d156505a46",
+  "max_attempts": 2,
+  "max_new_tokens": 1536,
+  "scope": "Two frozen full research attempts continuing the preserved unscored no-joint-input failure. Refresh exact effective task coverage after negotiation; separate tool facts, candidate hypotheses and critic advice, require grounded revision citations. Old sources, time grid and scoring unchanged; no parameter updates, heldouts or trading.",
+  "archive_catalog_report": "data/processed/pma_polymarket_catalog_20260919_v1/report.json",
+  "handoff_protocol": "executable_grounded_revision_v1",
+  "semantic_probe_source_run": "runs/qwen3_8b_team_multi_input_v2",
+  "semantic_probe_report_sha256": "ff891d54b2d0b6fe3502da3c58193d2a5beb80310fbe0e91d8d89211ec3cbea6",
+  "grounded_reference_run": "runs/qwen3_8b_team_structured_history_v1",
+  "grounded_reference_report_sha256": "0ae4e11712d1e5e9b0d1a15c1fdb16d10f3ca59a03dfeae13bcfd819573c08ff"
+}

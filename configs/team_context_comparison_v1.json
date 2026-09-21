@@ -1,0 +1,10 @@
+{
+  "kind": "team_context_comparison_v1",
+  "run_name": "qwen3_8b_team_context_comparison_v1",
+  "source_run": "runs/qwen3_8b_team_data_catalogue_v1",
+  "source_report_sha256": "28420e0afe4bf9c467f1b4b5486fc4d87a3a9b39eac3f71eb6cbd8b66730aa7e",
+  "order": ["full_history", "structured_history", "structured_history", "full_history"],
+  "max_context_tokens": 12288,
+  "max_new_tokens": 1536,
+  "scope": "One already exposed second-round assessor task. Same instruction/input/schema/model/greedy generation. Only upstream.training_history changes. Four ABBA role attempts, max one repair each (eight model calls total). No downstream strategy scoring, fine-tuning, heldout access or production-loop change. Repeats are not independent cases."
+}

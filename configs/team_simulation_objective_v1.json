@@ -1,0 +1,9 @@
+{
+  "initial_cash": "100",
+  "target_net_return": "0.10",
+  "target_terminal_cash": "110",
+  "basis": "single_continuous_settled_account",
+  "deadline": null,
+  "force_trades": false,
+  "automatic_fine_tuning": false
+}

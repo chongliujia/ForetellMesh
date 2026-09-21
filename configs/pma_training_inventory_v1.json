@@ -1,0 +1,18 @@
+{
+  "kind": "pma_existing_archive_training_inventory_v1",
+  "sources": {
+    "dataset": {
+      "path": "../data/processed/pma_macro_research_20260919_v1/report.json",
+      "sha256": "5b0f109cf0a1ed00ea25bdd9bbbebb7658215f8f3409c45d132714086537264e"
+    },
+    "native": {
+      "path": "../data/raw/pma_macro_enrichment_20260919_v1/manifest.json",
+      "sha256": "8d7cfaeb7ea31103ac017e64275b024d3de40540b16973427416240ede289ad4"
+    },
+    "prices": {
+      "path": "../data/processed/pma_macro_trade_store_20260919_v4/report.json",
+      "sha256": "a69227cecf3eca5ea1fac61060973067ad5116a5b8460983144486733a70110f"
+    }
+  },
+  "train_before": "2025-01-01T00:00:00Z"
+}

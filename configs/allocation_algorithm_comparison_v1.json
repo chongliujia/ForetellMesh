@@ -1,0 +1,140 @@
+{
+  "schema_version": "1",
+  "partition": "train",
+  "periodic_activity_required": false,
+  "activity_penalty_usd": "0",
+  "objective": "maximize_after_cost_terminal_equity",
+  "reward_version": "net_liquidation_equity_delta_usd_v1",
+  "order_ttl_seconds": 3600,
+  "minimum_entry_buffer_seconds": 86400,
+  "observation_version": "profit_fee_and_premium_no_cadence_v1",
+  "seeds": [
+    7,
+    17,
+    27
+  ],
+  "primary_seed": 7,
+  "scenarios": {
+    "frictionless_reference": {
+      "entry_price_premium": "0",
+      "fee_fraction": "0"
+    },
+    "fee_zero": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0"
+    },
+    "cost_assumption": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.01"
+    },
+    "fee_interpolation": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.015"
+    },
+    "fee_high": {
+      "entry_price_premium": "0.01",
+      "fee_fraction": "0.02"
+    },
+    "cost_stress": {
+      "entry_price_premium": "0.03",
+      "fee_fraction": "0.02"
+    }
+  },
+  "checkpoint_selection": "last_fixed_step_all_seeds_no_selection",
+  "fixed_controls": [
+    "cash_only",
+    "mean_reversion"
+  ],
+  "validation_replayed": false,
+  "final_test_opened": false,
+  "foundation_model_updated": false,
+  "llm_calls": 0,
+  "real_orders_sent": 0,
+  "default_promotion": false,
+  "run_name": "pma_allocation_algorithm_comparison_v1",
+  "families": [
+    "ppo",
+    "double_dqn"
+  ],
+  "signal_source": "causal_price_features_only",
+  "dataset_path": "/home/jiachongliu/github/ForetellMesh/data/processed/pma_macro_training_extension_20260920_v2",
+  "trade_store_path": "/home/jiachongliu/github/ForetellMesh/data/processed/pma_macro_trade_store_20260919_v4",
+  "dataset_report_sha256": "8658b83fb2c4693239671e6972f823191e3843ac1144a827b7ef5e6909d62c17",
+  "total_timesteps": 131072,
+  "ppo": {
+    "total_timesteps": 131072,
+    "n_steps": 1024,
+    "batch_size": 128,
+    "n_epochs": 4,
+    "learning_rate": 0.0003,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.01,
+    "net_arch": [
+      64,
+      64
+    ],
+    "device": "cpu",
+    "torch_threads": 1
+  },
+  "environment": {
+    "schema_version": "1",
+    "initial_cash": "100",
+    "step_seconds": 3600,
+    "lookback_hours": 72,
+    "minimum_history_points": 36,
+    "quote_max_age_seconds": 10800,
+    "std_floor": "0.01",
+    "fill_window_seconds": 300,
+    "cadence_seconds": 604800,
+    "cadence_lead_seconds": 86400,
+    "max_holding_seconds": 172800,
+    "weekly_holding_seconds": 86400,
+    "cooldown_seconds": 86400,
+    "max_entries_per_day": 2,
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "max_positions": 4,
+    "candidate_slots": 4,
+    "minimum_partial_exit_usd": "1",
+    "entry_price_tolerance": "0.02",
+    "stop_price_points": "0.05",
+    "min_yes_price": "0.05",
+    "max_yes_price": "0.95",
+    "entry_z": 1.5,
+    "max_24h_change": 0.15,
+    "min_round_trip_edge": 0.01
+  },
+  "libraries": {
+    "stable-baselines3": "2.7.1",
+    "sb3-contrib": "2.7.1",
+    "gymnasium": "1.2.3",
+    "torch": "2.13.0",
+    "numpy": "2.2.6"
+  },
+  "training_cost_schedule": [
+    "cost_assumption",
+    "fee_zero",
+    "fee_high"
+  ],
+  "double_dqn": {
+    "learning_rate": 0.0003,
+    "gamma": 1.0,
+    "buffer_size": 131072,
+    "batch_size": 128,
+    "learning_starts": 2048,
+    "train_freq": 4,
+    "target_update_interval": 2048,
+    "epsilon_initial": 1.0,
+    "epsilon_final": 0.05,
+    "epsilon_decay_steps": 65536,
+    "max_grad_norm": 10.0
+  },
+  "comparison_limits": [
+    "Equal environment-step budgets, not equal optimizer updates or parameter counts.",
+    "Train replay only; no selection, no evidence of out-of-sample profitability.",
+    "PPO retains entropy .01 and GAE .95; this is not an exhaustive optimizer search.",
+    "Price-only inputs isolate allocation optimizers; no new LLM forecasting claim."
+  ]
+}

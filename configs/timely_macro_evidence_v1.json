@@ -1,0 +1,165 @@
+{
+  "kind": "timely_macro_evidence_v1",
+  "reference_run": "runs/qwen3_8b_train_evidence_forecast_pilot_v1",
+  "reference_report_sha256": "5be7b623e7d9d3b80257f36b1dea5057195828c7052d0bfef9d2fa14ca224e81",
+  "scope": "same_19_training_observations_12_events",
+  "selection": "latest_listed_release_per_family_available_at_cutoff",
+  "per_family": 1,
+  "evidence_fields": [
+    "cpi_all_items_yoy_nsa",
+    "cpi_core_yoy_nsa",
+    "nonfarm_payroll_change_sa",
+    "unemployment_u3_sa"
+  ],
+  "max_source_age_days": 60,
+  "capture_method": "web_tool_extracted_text",
+  "trust_scope": "Dated official archive narrative and correction-marker search; not independently archived first-publication snapshots. No historical tables or revised prior-month values.",
+  "sources": [
+    {
+      "key": "cpi_03142023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_03142023.htm",
+      "expected_publication": "2023-03-14T12:30:00Z"
+    },
+    {
+      "key": "cpi_04122023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_04122023.htm",
+      "expected_publication": "2023-04-12T12:30:00Z"
+    },
+    {
+      "key": "cpi_05102023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_05102023.htm",
+      "expected_publication": "2023-05-10T12:30:00Z"
+    },
+    {
+      "key": "cpi_06132023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_06132023.htm",
+      "expected_publication": "2023-06-13T12:30:00Z"
+    },
+    {
+      "key": "cpi_07122023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_07122023.htm",
+      "expected_publication": "2023-07-12T12:30:00Z"
+    },
+    {
+      "key": "cpi_10122023",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_10122023.htm",
+      "expected_publication": "2023-10-12T12:30:00Z"
+    },
+    {
+      "key": "cpi_01112024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_01112024.htm",
+      "expected_publication": "2024-01-11T13:30:00Z"
+    },
+    {
+      "key": "cpi_05152024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_05152024.htm",
+      "expected_publication": "2024-05-15T12:30:00Z"
+    },
+    {
+      "key": "cpi_07112024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_07112024.htm",
+      "expected_publication": "2024-07-11T12:30:00Z"
+    },
+    {
+      "key": "cpi_10102024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_10102024.htm",
+      "expected_publication": "2024-10-10T12:30:00Z"
+    },
+    {
+      "key": "cpi_11132024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_11132024.htm",
+      "expected_publication": "2024-11-13T13:30:00Z"
+    },
+    {
+      "key": "cpi_12112024",
+      "family": "cpi",
+      "url": "https://www.bls.gov/news.release/archives/cpi_12112024.htm",
+      "expected_publication": "2024-12-11T13:30:00Z"
+    },
+    {
+      "key": "empsit_03102023",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_03102023.htm",
+      "expected_publication": "2023-03-10T13:30:00Z"
+    },
+    {
+      "key": "empsit_04072023",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_04072023.htm",
+      "expected_publication": "2023-04-07T12:30:00Z"
+    },
+    {
+      "key": "empsit_06022023",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_06022023.htm",
+      "expected_publication": "2023-06-02T12:30:00Z"
+    },
+    {
+      "key": "empsit_07072023",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_07072023.htm",
+      "expected_publication": "2023-07-07T12:30:00Z"
+    },
+    {
+      "key": "empsit_10062023",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_10062023.htm",
+      "expected_publication": "2023-10-06T12:30:00Z"
+    },
+    {
+      "key": "empsit_01052024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_01052024.htm",
+      "expected_publication": "2024-01-05T13:30:00Z"
+    },
+    {
+      "key": "empsit_05032024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_05032024.htm",
+      "expected_publication": "2024-05-03T12:30:00Z"
+    },
+    {
+      "key": "empsit_06072024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_06072024.htm",
+      "expected_publication": "2024-06-07T12:30:00Z"
+    },
+    {
+      "key": "empsit_07052024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_07052024.htm",
+      "expected_publication": "2024-07-05T12:30:00Z"
+    },
+    {
+      "key": "empsit_10042024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_10042024.htm",
+      "expected_publication": "2024-10-04T12:30:00Z"
+    },
+    {
+      "key": "empsit_11012024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_11012024.htm",
+      "expected_publication": "2024-11-01T12:30:00Z"
+    },
+    {
+      "key": "empsit_12062024",
+      "family": "empsit",
+      "url": "https://www.bls.gov/news.release/archives/empsit_12062024.htm",
+      "expected_publication": "2024-12-06T13:30:00Z"
+    }
+  ],
+  "training": false,
+  "final_test_opened": false
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "team_executable_method_diagnostic_v1",
+  "run_name": "qwen3_8b_team_executable_method_v1",
+  "source_config": "configs/team_discovery_v5.json",
+  "source_config_sha256": "dc710541bf42b26efae78ab893029d752b27e2d371546b95821861560094973a",
+  "candidate_run": "runs/qwen3_8b_team_fact_gate_comparison_v1",
+  "candidate_report_sha256": "cca9f573bc715b06e72631fede980e95e73f108fb4111e8727387e8642c491c0",
+  "as_of": "2024-08-23T19:04:57Z",
+  "feedback_cutoff": "2026-09-20T16:43:37.410901+00:00",
+  "max_days_per_target": 90,
+  "max_quote_age_seconds": 10800,
+  "min_event_groups": 3,
+  "min_coverage": 0.8,
+  "partition": "train",
+  "independent_validation": false,
+  "max_new_tokens": 1536,
+  "automatic_fine_tuning": false,
+  "final_test_opened": false
+}

@@ -36,6 +36,11 @@ class Signal:
     quote_time: datetime
     market_probability: Decimal
     probability: Decimal | None
+    action: str = 'auto'
+    expires_at: datetime | None = None
+    order_ttl_seconds: int | None = None
+    position_id: str | None = None
+    min_exit_price: Decimal | None = None
 
 
 @dataclass(frozen=True)
@@ -99,11 +104,25 @@ class TradePrintFeed:
         return D(price.numerator)/D(price.denominator),datetime.fromtimestamp(seconds,tz=time.tzinfo)
 
 
-def simulate(signals: list[Signal], settlements: list[Settlement], feed, config: dict) -> dict:
+def simulate(signals: list[Signal], settlements: list[Settlement], feed, config: dict, *, through=None, lifecycle=False) -> dict:
     c=validate_policy(config)
+    if through is not None and through.tzinfo is None:raise ValidationError('snapshot cutoff must be timezone aware')
     if len({s.sample_id for s in signals})!=len(signals):raise ValidationError('duplicate paper signal')
     group_by_market={}
     for s in signals:
+        extended = (s.action != 'auto' or any(v is not None for v in
+                    (s.expires_at, s.order_ttl_seconds, s.position_id, s.min_exit_price)))
+        if extended and not lifecycle:raise ValidationError('lifecycle signals require explicit opt-in')
+        if s.action not in ('auto','buy','hold','sell'):raise ValidationError('invalid lifecycle action')
+        if s.expires_at is not None and (s.expires_at.tzinfo is None or s.expires_at<=s.observation_time):
+            raise ValidationError('invalid signal expiry')
+        if s.order_ttl_seconds is not None and (type(s.order_ttl_seconds) is not int or s.order_ttl_seconds<1):
+            raise ValidationError('invalid order lifetime')
+        if s.action=='sell':
+            if not s.position_id or s.min_exit_price is None or not 0<decimal(s.min_exit_price)<1:
+                raise ValidationError('sell requires position identity and positive price limit')
+        elif s.position_id is not None or s.min_exit_price is not None:
+            raise ValidationError('exit fields on non-sell action')
         for t in (s.observation_time,s.decision_time,s.quote_time):
             if t.tzinfo is None:raise ValidationError('paper timestamps must be timezone aware')
         if not s.quote_time<=s.observation_time<=s.decision_time:raise ValidationError('future quote or decision before observation')
@@ -123,7 +142,7 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
         serial+=1;heapq.heappush(events,(t,priority,serial,kind,payload))
     for s in sorted(signals,key=lambda s:(s.decision_time,s.sample_id)):push(s.decision_time,2,'decision',s)
     for s in sorted(settlements,key=lambda s:(s.time,s.market_id)):push(s.time,0,'settlement',s)
-    cash=c['initial_cash'];pending={};positions={};resolved=set();ledger=[];curve=[];skips=Counter()
+    cash=c['initial_cash'];pending={};positions={};exits={};resolved=set();ledger=[];curve=[];skips=Counter()
     fees=D(0);turnover=D(0);realized=D(0);wins=0;closed=0;peak=cash;max_drawdown=D(0);max_drawdown_fraction=D(0)
     def record(t,kind,**values):
         ledger.append({'time':iso(t),'kind':kind,**{k:str(v) if isinstance(v,Decimal) else v for k,v in values.items()}})
@@ -149,8 +168,12 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
                       'open_positions':len(positions),'equity_proxy':str(value),'stale_marks':stale})
     while events:
         t,_,_,kind,item=heapq.heappop(events)
+        if through is not None and t>through:break
         if kind=='settlement':
             resolved.add(item.market_id)
+            for oid,o in list(exits.items()):
+                if o['market']==item.market_id:
+                    del exits[oid];record(t,'cancel',order_id=oid,reason='settled_before_sell')
             for oid,o in list(pending.items()):
                 if o['market']==item.market_id:
                     cash+=o['budget'];del pending[oid];record(t,'cancel',order_id=oid,reason='settled_before_fill')
@@ -162,7 +185,39 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
                 del positions[oid]
         elif kind=='decision':
             s=item;reason=None
+            # A new explicit review replaces that market's outstanding intent.
+            # Missing/invalid model output produces no signal and cancels nothing.
+            if s.action!='auto' and (s.expires_at is None or t<s.expires_at):
+                for oid,o in list(pending.items()):
+                    if o['market']==s.market_id:
+                        cash+=o['budget'];del pending[oid];record(t,'cancel',order_id=oid,reason='superseded_review')
+                for oid,o in list(exits.items()):
+                    if o['market']==s.market_id:
+                        del exits[oid];record(t,'cancel',order_id=oid,reason='superseded_review')
+            if s.action in ('hold','sell'):
+                if s.market_id in resolved:reason='already_settled'
+                elif s.expires_at is not None and t>=s.expires_at:reason='expired_decision'
+                elif s.action=='hold':reason='team_hold'
+                elif (t-s.quote_time).total_seconds()>c['max_quote_age_seconds']:reason='stale_decision_quote'
+                elif s.position_id not in positions or positions[s.position_id]['market']!=s.market_id:reason='position_not_held'
+                if reason:
+                    skips[reason]+=1;record(t,'hold',sample_id=s.sample_id,reason=reason)
+                else:
+                    pos=positions[s.position_id]
+                    deadline=t+timedelta(seconds=s.order_ttl_seconds or c['fill_window_seconds'])
+                    if s.expires_at is not None:deadline=min(deadline,s.expires_at)
+                    exits[s.sample_id]={'market':s.market_id,'position_id':s.position_id,
+                        'min_exit_price':decimal(s.min_exit_price),'expires_at':deadline,'signal_expires_at':s.expires_at}
+                    record(t,'sell_order',order_id=s.sample_id,position_id=s.position_id,market_id=s.market_id,
+                        side=pos['side'],shares=pos['shares'],min_exit_price=decimal(s.min_exit_price),expires_at=iso(deadline))
+                    quote=feed.next(s.market_id,t,deadline)
+                    if quote is not None and (not t<quote[1]<=deadline or not 0<quote[0]<1):
+                        raise ValidationError('invalid execution print timestamp/price')
+                    push(deadline if quote is None else quote[1],1,'sell_fill',(s.sample_id,quote))
+                equity(t)
+                continue
             if s.market_id in resolved:reason='already_settled'
+            elif s.expires_at is not None and t>=s.expires_at:reason='expired_decision'
             elif (s.decision_time-s.quote_time).total_seconds()>c['max_quote_age_seconds']:reason='stale_decision_quote'
             elif any(o['market']==s.market_id for o in [*pending.values(),*positions.values()]):reason='already_exposed_to_contract'
             choice=None if reason else choose_side(s,c)
@@ -177,21 +232,46 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
                 pending[s.sample_id]=order
                 record(t,'order',order_id=s.sample_id,market_id=s.market_id,event_group_id=s.event_group_id,
                        side=choice['side'],budget=budget,estimated_edge=choice['estimated_edge'])
-                deadline=t+timedelta(seconds=c['fill_window_seconds'])
+                deadline=t+timedelta(seconds=s.order_ttl_seconds or c['fill_window_seconds'])
+                if s.expires_at is not None:deadline=min(deadline,s.expires_at)
+                if lifecycle:order.update(expires_at=deadline,signal_expires_at=s.expires_at)
                 quote=feed.next(s.market_id,t,deadline)
                 if quote is None:push(deadline,1,'fill',(s.sample_id,None))
                 else:
                     if not t<quote[1]<=deadline or not 0<quote[0]<1:raise ValidationError('invalid execution print timestamp/price')
                     push(quote[1],1,'fill',(s.sample_id,quote))
+        elif kind=='sell_fill':
+            oid,quote=item
+            if oid not in exits:continue
+            order=exits.pop(oid);pos=positions.get(order['position_id'])
+            if pos is None:raise ValidationError('reserved sell position disappeared')
+            reason='no_post_decision_print' if quote is None else None
+            if order['signal_expires_at'] is not None and t>=order['signal_expires_at']:reason='expired_signal'
+            if quote:
+                q,_=quote;price=(q if pos['side']=='yes' else 1-q)-c['entry_price_premium']
+                if reason is None and price<order['min_exit_price']:reason='sell_price_limit'
+            if reason:record(t,'cancel',order_id=oid,reason=reason)
+            else:
+                gross=(pos['shares']*price).quantize(D('.000001'),rounding=ROUND_DOWN)
+                fee=(gross*c['fee_fraction']).quantize(D('.000001'),rounding=ROUND_DOWN)
+                proceeds=gross-fee;pnl=proceeds-pos['cost']
+                cash+=proceeds;fees+=fee;realized+=pnl;closed+=1;wins+=int(pnl>0)
+                record(t,'sell_fill',order_id=oid,position_id=order['position_id'],market_id=pos['market'],
+                    side=pos['side'],shares=pos['shares'],price=price,reference_yes_price=q,
+                    gross_proceeds=gross,fee=fee,proceeds=proceeds,net_pnl=pnl,
+                    holding_seconds=(t-pos['filled_at']).total_seconds(),
+                    fill_assumption='full_fill_at_next_block_mean_minus_premium')
+                del positions[order['position_id']]
         else:
             oid,quote=item
             if oid not in pending:continue
             order=pending.pop(oid);cash+=order['budget']
             reason='no_post_decision_print' if quote is None else None
+            if order.get('signal_expires_at') is not None and t>=order['signal_expires_at']:reason='expired_signal'
             if quote:
                 q,qt=quote;reference=q if order['side']=='yes' else 1-q
                 price=reference+c['entry_price_premium'];unit=price*(1+c['fee_fraction'])
-                if price>=1 or order['belief']-unit<c['min_edge']:reason='price_limit'
+                if reason is None and (price>=1 or order['belief']-unit<c['min_edge']):reason='price_limit'
             if reason:record(t,'cancel',order_id=oid,reason=reason)
             else:
                 shares=(order['budget']/unit).quantize(D('.000001'),rounding=ROUND_DOWN)
@@ -206,8 +286,9 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
                        reference_yes_price=q,fee=fee,cost=cost,fill_assumption='full_fill_at_next_block_mean_plus_premium')
         if cash<0 or exposure()>c['max_portfolio_usd']:raise ValidationError('paper accounting/risk invariant violated')
         equity(t)
-    if positions or pending or cash!=c['initial_cash']+realized:raise ValidationError('paper terminal ledger does not reconcile')
-    return {'kind':'historical_trade_print_simulation','initial_cash':str(c['initial_cash']),'final_cash':str(cash),
+    if through is None and (positions or pending or exits or cash!=c['initial_cash']+realized):raise ValidationError('paper terminal ledger does not reconcile')
+    if through is not None:equity(through)
+    result={'kind':'historical_trade_print_simulation','initial_cash':str(c['initial_cash']),'final_cash':str(cash),
             'net_pnl':str(realized),'return_fraction':str(realized/c['initial_cash']),'fees_paid':str(fees),
             'entry_turnover':str(turnover),'orders':sum(r['kind']=='order' for r in ledger),'filled_trades':closed,
             'winning_trades':wins,'win_rate':wins/closed if closed else None,'hold_reasons':dict(skips),
@@ -216,3 +297,20 @@ def simulate(signals: list[Signal], settlements: list[Settlement], feed, config:
             'equity_points_with_stale_marks':sum(r['stale_marks']>0 for r in curve),
             'currency_accounting':'micro_usd_floor_v1','share_decimal_places':6,
             'ledger':ledger,'equity_curve':curve,'real_orders_sent':0}
+    if through is not None:
+        result['snapshot']={'as_of':iso(through),'cash':str(cash),'reserved':curve[-1]['reserved'],
+            'equity_proxy':curve[-1]['equity_proxy'],'stale_marks':curve[-1]['stale_marks'],
+            'positions':[{'market_id':p['market'],'side':p['side'],'shares':str(p['shares']),
+                          'cost':str(p['cost']),'filled_at':iso(p['filled_at'])} for p in positions.values()],
+            'pending_orders':len(pending)+len(exits),'realized_net_pnl':str(realized),'fees_paid':str(fees)}
+        if lifecycle:
+            for row,oid in zip(result['snapshot']['positions'],positions):row['position_id']=oid
+            result['snapshot']['open_orders']=[{'order_id':oid,'market_id':o['market'],'action':action,
+                'expires_at':iso(o['expires_at'])} for action,orders in [('buy',pending),('sell',exits)] for oid,o in orders.items()]
+    if lifecycle:
+        result['execution_protocol']='team_lifecycle_v1'
+        result['entry_count']=sum(r['kind']=='fill' for r in ledger)
+        result['early_exit_count']=sum(r['kind']=='sell_fill' for r in ledger)
+        result['settlement_count']=sum(r['kind']=='settle' for r in ledger)
+        result['exit_turnover']=str(sum((decimal(r['gross_proceeds']) for r in ledger if r['kind']=='sell_fill'),D(0)))
+    return result

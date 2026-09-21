@@ -1,0 +1,43 @@
+{
+  "kind": "team_discovery_v1",
+  "final_test_opened": false,
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "price_store": "data/processed/team_market_trade_store_20260920_v1",
+  "price_store_report_sha256": "8784f3d58fc46bedb0f74f9050830e9fabfbd2acf44a24aaeb1eb6855b47c59b",
+  "price_read_before": "2025-02-01T00:00:00Z",
+  "seed": 20260920,
+  "max_context_tokens": 12288,
+  "max_new_tokens": 512,
+  "sampling": null,
+  "execution_policy": {
+    "initial_cash": "100",
+    "max_trade_usd": "2",
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "min_trade_usd": "1",
+    "min_edge": "0.03",
+    "entry_price_premium": "0.01",
+    "fee_fraction": "0.01",
+    "max_quote_age_seconds": 10800,
+    "fill_window_seconds": 3600
+  },
+  "cohort": "data/processed/team_rsi_cohort_20260920_v3",
+  "max_scoring_tokens": 6144,
+  "cohort_report_sha256": "08ac11c4a01c51ed6e141a08b90aa7a64e8426e813d1d4b26bb1ca748d2b547c",
+  "run_name": "qwen3_8b_team_discovery_concrete_hypothesis_smoke_v7",
+  "automatic_fine_tuning": false,
+  "effectiveness_evidence_required": true,
+  "max_episodes": 4,
+  "catalogue_search_rounds": 2,
+  "objective": {
+    "initial_cash": "100",
+    "target_net_return": "0.10",
+    "target_terminal_cash": "110",
+    "basis": "single_continuous_settled_account",
+    "deadline": null,
+    "force_trades": false,
+    "automatic_fine_tuning": false
+  },
+  "episode_selection": "chronological_even_spacing"
+}

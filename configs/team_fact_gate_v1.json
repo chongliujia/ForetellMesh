@@ -1,0 +1,23 @@
+{
+  "kind": "team_fact_gate_comparison_v1",
+  "run_name": "qwen3_8b_team_fact_gate_comparison_v1",
+  "source_config": "configs/team_lifecycle_v2.json",
+  "source_config_sha256": "eb4f2d47b56eb940e4dd2b790409a9e7d833287515e49f49b772948f18b2d9ed",
+  "development_config": "configs/team_method_memory_v1.json",
+  "development_config_sha256": "c70b6895eb438ab943ffacc0de14ad913e91d5ae7bd39acbb8f541bf4f755ebd",
+  "legacy_gate_run": "runs/qwen3_8b_team_lifecycle_trade_experience_smoke_v2",
+  "legacy_report_sha256": "651e367c8ae26ca702610dd132646abbb0eef9f5a4e3f6c27ff52de5999895b7",
+  "max_new_tokens": 1024,
+  "max_reviews": 4,
+  "review_window_days": 14,
+  "timing": {
+    "min_review_seconds": 3600,
+    "max_review_seconds": 2592000,
+    "max_signal_valid_seconds": 604800,
+    "max_order_ttl_seconds": 86400,
+    "failure_review_seconds": 86400
+  },
+  "automatic_fine_tuning": false,
+  "final_test_opened": false,
+  "development_is_fresh": false
+}

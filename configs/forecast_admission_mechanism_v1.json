@@ -1,0 +1,18 @@
+{
+  "kind": "forecast_admission_mechanism_v1",
+  "reference": "runs/pma_event_allocation_baseline_v2",
+  "reference_report_sha256": "f25abe889276c0be758e10aeadb8c79dc83d7300bf337b30c3779a0f9152e0f9",
+  "training": false,
+  "new_llm_calls": 0,
+  "validation_replayed": false,
+  "final_test_opened": false,
+  "real_orders_sent": 0,
+  "default_promotion": false,
+  "method_qualifications": {},
+  "arms": [
+    "cash_only",
+    "legacy_unvalidated",
+    "admitted_event"
+  ],
+  "interpretation": "Retrospective mechanism regression, not an out-of-sample profitability experiment; no method qualifications are issued."
+}

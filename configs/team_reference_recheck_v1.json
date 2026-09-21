@@ -1,0 +1,63 @@
+{
+  "kind": "preserved_team_fresh_recheck_v1",
+  "final_test_opened": false,
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "price_store": "data/processed/team_market_trade_store_20260920_v1",
+  "price_store_report_sha256": "8784f3d58fc46bedb0f74f9050830e9fabfbd2acf44a24aaeb1eb6855b47c59b",
+  "price_read_before": "2025-02-01T00:00:00Z",
+  "seed": 20260920,
+  "max_context_tokens": 12288,
+  "max_new_tokens": 512,
+  "sampling": null,
+  "execution_policy": {
+    "initial_cash": "100",
+    "max_trade_usd": "2",
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "min_trade_usd": "1",
+    "min_edge": "0.03",
+    "entry_price_premium": "0.01",
+    "fee_fraction": "0.01",
+    "max_quote_age_seconds": 10800,
+    "fill_window_seconds": 3600
+  },
+  "cohort": "data/processed/team_rsi_cohort_20260920_v3",
+  "max_scoring_tokens": 6144,
+  "cohort_report_sha256": "08ac11c4a01c51ed6e141a08b90aa7a64e8426e813d1d4b26bb1ca748d2b547c",
+  "run_name": "qwen3_8b_preserved_team_fresh_recheck_v1",
+  "automatic_fine_tuning": false,
+  "effectiveness_evidence_required": true,
+  "objective": {
+    "initial_cash": "100",
+    "target_net_return": "0.10",
+    "target_terminal_cash": "110",
+    "basis": "single_continuous_settled_account",
+    "deadline": null,
+    "force_trades": false,
+    "automatic_fine_tuning": false
+  },
+  "reference_run": "runs/qwen3_8b_team_discovery_frozen_expanded_v5",
+  "reference_report_sha256": "4b0347e49568f26368427b8e07ee5787a8389f8dec6d67c46d55167e25dcae41",
+  "old_development_report": "data/processed/team_rsi_cohort_20260920_v2/report.json",
+  "old_development_report_sha256": "cd5aaf3c88639ea63135c701a2d7567a1050dade3f1e62d371230c4c9e64e7c4",
+  "consumed_registry": "runs/team_method_memory_comparison_v1/consumed_development.json",
+  "consumed_registry_sha256": "bafac2a8a3aaa0e780a6d55a44eaaa08a8485bda099464f1f8810f687bcac8ec",
+  "initialized_from": "2024-09-01T00:00:00Z",
+  "resolution_before": "2025-05-01T00:00:00Z",
+  "observation_age_hours": 168,
+  "related_group_exclusions": {
+    "team:fantasy_nfl_season_2024": "NFL 2024 season family already evaluated.",
+    "team:native_market_506589": "NFL 2024 season family already evaluated.",
+    "team:native_market_506898": "NFL 2024 season family already evaluated."
+  },
+  "constant_probabilities": [
+    0.1,
+    0.2,
+    0.3,
+    0.5
+  ],
+  "constant_latency_seconds": 60,
+  "low_price_threshold": 0.15,
+  "supplemental_scope_review": "Previously boundary-purged, proven nonpolitical events only. Chess Olympiad differs from the 2024 individual world championship; Joker sequel opening differs from prior film events; 2025 NHL champion differs from old NFL/soccer events. No outcome-value, price or return selection. Old cohorts and sealed test remain unchanged."
+}

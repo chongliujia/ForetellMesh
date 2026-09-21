@@ -1,0 +1,31 @@
+{
+  "kind": "team_exploration_v1",
+  "final_test_opened": false,
+  "model": "Qwen/Qwen3-8B-Base",
+  "model_revision": "49e3418fbbbca6ecbdf9608b4d22e5a407081db4",
+  "price_store": "data/processed/team_market_trade_store_20260920_v1",
+  "price_store_report_sha256": "8784f3d58fc46bedb0f74f9050830e9fabfbd2acf44a24aaeb1eb6855b47c59b",
+  "price_read_before": "2025-02-01T00:00:00Z",
+  "seed": 20260920,
+  "max_context_tokens": 8192,
+  "max_new_tokens": 384,
+  "sampling": null,
+  "execution_policy": {
+    "initial_cash": "100",
+    "max_trade_usd": "2",
+    "max_event_usd": "5",
+    "max_portfolio_usd": "20",
+    "min_trade_usd": "1",
+    "min_edge": "0.03",
+    "entry_price_premium": "0.01",
+    "fee_fraction": "0.01",
+    "max_quote_age_seconds": 10800,
+    "fill_window_seconds": 3600
+  },
+  "cohort": "data/processed/team_rsi_cohort_20260920_v2",
+  "max_scoring_tokens": 2048,
+  "cohort_report_sha256": "cd5aaf3c88639ea63135c701a2d7567a1050dade3f1e62d371230c4c9e64e7c4",
+  "run_name": "qwen3_8b_team_exploration_frozen_v1",
+  "automatic_fine_tuning": false,
+  "effectiveness_evidence_required": true
+}

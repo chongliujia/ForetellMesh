@@ -1,0 +1,36 @@
+{
+  "adapter": "0x6a9d222616c90fca5754cd1333cfd9b7fb6a4f74",
+  "review_document": "docs/pma_training_expansion.md",
+  "review_id": "pma_uma_6a9d_direct_ctf_rules_v1",
+  "reviewed_properties": [
+    "immutable_initialized_ancillary",
+    "append_only_creator_updates",
+    "no_proxy_delegatecall_or_selfdestruct",
+    "reject_reset_paused_or_emergency_flagged_state",
+    "direct_ctf_payout_and_normal_question_resolved_same_receipt"
+  ],
+  "runtime_sha256": "d0ad88e0b6e81f0619279f011e0460ec6ee225507e82e0513031aac633512c8f",
+  "schema_version": "1",
+  "source_page_sha256": "9bb3173baef75668ed0e4190ca2b485795a62a0b6165772ddd6a6c56a75d6f89",
+  "source_sha256": {
+    "lib/openzeppelin-contracts/contracts/security/ReentrancyGuard.sol": "346f9b3df7ba2242e958e974c4f974d58a699a27147fedd8de453ef383001696",
+    "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": "94f23e4af51a18c2269b355b8c7cf4db8003d075c9c541019eb8dcf4122864d5",
+    "lib/solmate/src/tokens/ERC20.sol": "a3a7e839f42762ef24623581542a916e838f3c7c0bef647963d1fdad0f9d208a",
+    "lib/solmate/src/utils/SafeTransferLib.sol": "85056ad3600b04e40167d89978eae2a92dd34d1316e74987b4a7dcd65c2b65d9",
+    "settings.json": "db2f5ff2d842150f35dc153344d064cf5ea87ea813c2d45b0db8a01aeaed899c",
+    "src/UmaCtfAdapter.sol": "4890fc32a8bf2363ebf8dea5141b6101aeafb20384031df412b92be1e5a9f631",
+    "src/interfaces/IAddressWhitelist.sol": "752e72b833c52c747fa8a97ec16ff73973bc423e6f1bd50b5b91ad9ffed4bacb",
+    "src/interfaces/IAuth.sol": "cff4b167ae383d02a7ab99495f7eb209d14cf2cedd00d7f10c89c53fbe1582d3",
+    "src/interfaces/IConditionalTokens.sol": "fda54ba852345dbd9e5664cbffed529aa1805fc44c8f37c65366b5f9c5926dbb",
+    "src/interfaces/IFinder.sol": "92849beb41d1254c4e2551e7b2bbf78988f2559af4226d8f00738428ef171283",
+    "src/interfaces/IOptimisticOracleV2.sol": "e25f6e626e2114b1051a8a90a30fd8deeca5aee58673bfdafee9ca0a3e6f444f",
+    "src/interfaces/IOptimisticRequester.sol": "f853074cf3918b0cffe563b7d283aa2435922c8eee080687b8a1bc8c8779b38d",
+    "src/interfaces/IUmaCtfAdapter.sol": "72ea95a5795cda7aa43b8e162a9be878262ce6819333a3af5eecf90c91400971",
+    "src/libraries/AncillaryDataLib.sol": "9f569fa2cfd978503507241e311c5779c51fe37f3e097d6b0a1cfcac5413d3eb",
+    "src/libraries/TransferHelper.sol": "d69d6f26f9db17b89c46e4f3638fd74fe2c994c10bdaa6d981b4b527e3ac3588",
+    "src/mixins/Auth.sol": "03b1e40b3e3939fe1d464c4f986a0db36f812c471e3923d023336c8fed2e24c8",
+    "src/mixins/BulletinBoard.sol": "7d96017fc93aa766f47d3a689c3daa5afd57cfcd3ae6a89d15bdcb1a3cb1224e"
+  },
+  "source_url": "https://polygonscan.com/address/0x6A9D222616C90FcA5754cd1333cFD9b7fb6a4F74#code",
+  "trust_model": "polygonscan_source_verification_plus_single_public_rpc"
+}

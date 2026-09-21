@@ -1,0 +1,9 @@
+{
+  "kind": "team_market_discovery_v1",
+  "seed": 20260920,
+  "limit": 128,
+  "created_from": "2023-01-01T00:00:00Z",
+  "created_before": "2025-01-01T00:00:00Z",
+  "catalog_report_sha256": "81c3a8b09569a41d20feebf1ece49d9e79fca18c04be0d1af21a89326e6eaaff",
+  "membership_sha256": "a19ff805837471fd701433c6c1fd67aaaae6ca1e4a17d5461d219a32b1d1c24e"
+}
